@@ -5,12 +5,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
 
 var app = express();
+
+// 连接数据库
+mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
+    if(err)
+        console.log("数据库连接失败，可能是服务未开启！");
+    else
+        console.log("数据库连接成功！");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views/page'));

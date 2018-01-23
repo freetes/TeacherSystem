@@ -66,12 +66,13 @@ const GraduateClassSchema = new Schema({
 });
 
 //数据模型
-const Models = {};
-Models.UserModel = mongoose.model('User', UserSchema);
-Models.NormalClassModel = mongoose.model('NormalClass', NormalClassSchema);
-Models.DesignClassModel = mongoose.model('DesignClass', DesignClassSchema);
-Models.TrainClassModel = mongoose.model('TrainClass', TrainClassSchema);
-Models.ProduceClassModel = mongoose.model('ProduceClass', ProduceClassSchema);
-Models.GraduateClassModel = mongoose.model('GraduateClass', GraduateClassSchema);
+const Models = {
+  UserModel: mongoose.model('User', UserSchema),
+  NormalClassModel: mongoose.model('NormalClass', NormalClassSchema),
+  DesignClassModel: mongoose.model('DesignClass', DesignClassSchema),
+  TrainClassModel: mongoose.model('TrainClass', TrainClassSchema),
+  ProduceClassModel: mongoose.model('ProduceClass', ProduceClassSchema),
+  GraduateClassModel: mongoose.model('GraduateClass', GraduateClassSchema)
+};
 
 module.exports = Models;
