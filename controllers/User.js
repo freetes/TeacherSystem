@@ -1,6 +1,7 @@
 // 处理用户
+const User = {
 
-const User = {};
 
+};
 
 module.exports = User;
