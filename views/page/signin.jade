@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  link(rel="stylesheet", href="/css/signin.css")
+
+  body(style="background-color:#F5F5F5")
+    include ../public/navi
+    .container
+      .row.mainDiv
+        .col-md-8.col-sm-0
+        .col-md-4.col-xs-12
+          h3= title
+          br
+          form.form-horizontal(action='/signin', method='POST')
+            .input-group
+              .input-group-addon
+                span.glyphicon.glyphicon-user(aria-hidden="true")
+              input.form-control(type='text', name='username', placeholder="教师工号")
+            br
+            .input-group
+              .input-group-addon
+                span.glyphicon.glyphicon-lock(aria-hidden="true")
+              input.form-control(type='password', name='userpassword', placeholder="密码")
+
+            .col-md-12.col-xs-12.text-right(style="color:red")= message
+            br
+            .form-group
+              .col-md-12.col-xs-12
+                button.btn.btn-primary.btn-block 提交
+          
