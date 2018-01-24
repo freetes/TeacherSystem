@@ -7,7 +7,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var index = require('./routes/index');
+var home = require('./routes/home');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
 
@@ -38,7 +38,7 @@ app.use(session({
 }))
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/', home);
 app.use('/users', users);
 app.use('/admin', admin);
 

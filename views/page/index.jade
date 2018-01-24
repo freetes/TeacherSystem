@@ -1,13 +1,21 @@
 extends ../layout
-
+//- 主页
 block content
   //- 单独的css
-    link(rel='stylesheet', href='/css/style.css')
-  link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='/css/normal.css')
+  link(rel='stylesheet', href='/css/normal.css')
 
   body
-    h1 #{title}
-    p Welcome to #{title}
+    include ../public/navi
+    
+    .container
+      .row
+        h1 #{title}
+        p Welcome to #{title}
+        p 欢迎 #{user.name}
+        p 预发工资 #{user.pay}
+        a.btn.btn-danger(href="/signin") 注销
+
 
     //- 单独的js
       script(src="")

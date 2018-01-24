@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// 用户数据模式
+// 用户数据表
 const UserSchema = new Schema({
   id: String,
   name: String,
@@ -9,9 +9,26 @@ const UserSchema = new Schema({
   pay: Number
 });
 
-// 普通课程
+// // 课程项目表
+// const NormalClassSchema = new Schema({
+//   id: String,   // 工号
+//   name: String, // 课程名
+//   kind: Number,  
+//   faculty: String,
+//   class: String,
+//   studentAmount: Number,
+//   standardHours: Number,
+//   theoryHours: Number,
+//   experimentHours: Number,
+//   week: Number,
+//   unitHours: Number,
+//   finalHours: Number
+// });
+
+// 普通课程模式
 const NormalClassSchema = new Schema({
   id: String,   // 工号
+  kind: Number,   
   name: String, // 课程名
   faculty: String,
   class: String,
@@ -19,11 +36,13 @@ const NormalClassSchema = new Schema({
   standardHours: Number,
   theoryHours: Number,
   experimentHours: Number,
+  week: Number,
+  unitHours: Number,
   finalHours: Number
 });
-// 课程设计
+// 课程设计模式
 const DesignClassSchema = new Schema({
-  id: String,   // 工号
+  id: String,   // 教师工号
   name: String, // 课程名：课程设计
   faculty: String,
   class: String,
@@ -32,7 +51,7 @@ const DesignClassSchema = new Schema({
   experimentHours: Number,
   finalHours: Number
 });
-// 科研训练
+// 科研训练模式
 const TrainClassSchema = new Schema({
   id: String,   // 工号
   name: String, // 课程名：科研训练
@@ -42,7 +61,7 @@ const TrainClassSchema = new Schema({
   unitHours: Number,
   finalHours: Number
 });
-// 生产实习
+// 生产实习模式
 const ProduceClassSchema = new Schema({
   id: String,   // 工号
   name: String, // 课程名：生产实习
@@ -53,7 +72,7 @@ const ProduceClassSchema = new Schema({
   unitHours: Number,
   finalHours: Number
 });
-// 毕业实习
+// 毕业实习模式
 const GraduateClassSchema = new Schema({
   id: String,   // 工号
   name: String, // 课程名：毕业实习
@@ -69,10 +88,10 @@ const GraduateClassSchema = new Schema({
 const Models = {
   UserModel: mongoose.model('User', UserSchema),
   NormalClassModel: mongoose.model('NormalClass', NormalClassSchema),
-  DesignClassModel: mongoose.model('DesignClass', DesignClassSchema),
-  TrainClassModel: mongoose.model('TrainClass', TrainClassSchema),
-  ProduceClassModel: mongoose.model('ProduceClass', ProduceClassSchema),
-  GraduateClassModel: mongoose.model('GraduateClass', GraduateClassSchema)
+  DesignClassSchema: mongoose.model('DesignClass', DesignClassSchema),
+  TrainClassSchema: mongoose.model('TrainClass', TrainClassSchema),
+  ProduceClassSchema: mongoose.model('ProduceClass', ProduceClassSchema),
+  GraduateClassSchema: mongoose.model('GraduateClass', GraduateClassSchema)
 };
 
 module.exports = Models;

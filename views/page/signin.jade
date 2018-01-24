@@ -1,5 +1,5 @@
 extends ../layout
-
+//- 登录界面
 block content
   link(rel="stylesheet", href="/css/normal.css")
 
@@ -7,21 +7,21 @@ block content
     include ../public/navi
     
     .container
-      .row.mainDiv
-        .col-md-8.col-sm-0
-        .col-md-4.col-xs-12
+      .row
+        .col-xs-0.col-md-8
+        .col-xs-12.col-md-4
           h3 登陆界面
           br
           form.form-horizontal(action='/signin', method='POST')
             .input-group
               .input-group-addon
                 span.glyphicon.glyphicon-user(aria-hidden="true")
-              input.form-control(type='text', name='username', placeholder="教师工号")
+              input.form-control(type='text', name='id', placeholder="教师工号")
             br
             .input-group
               .input-group-addon
                 span.glyphicon.glyphicon-lock(aria-hidden="true")
-              input.form-control(type='password', name='userpassword', placeholder="密码")
+              input.form-control(type='password', name='password', placeholder="密码")
 
             .col-md-12.col-xs-12.text-right(style="color:red")= message
             br
