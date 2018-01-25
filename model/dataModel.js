@@ -28,6 +28,7 @@ const UserSchema = new Schema({
 // 普通课程模式
 const NormalClassSchema = new Schema({
   id: String,   // 工号
+  semester: String, 
   name: String, // 课程名
   faculty: String,
   class: String,
@@ -40,6 +41,7 @@ const NormalClassSchema = new Schema({
 // 课程设计模式
 const DesignClassSchema = new Schema({
   id: String,   // 教师工号
+  semester: String, 
   name: String, // 课程名：课程设计
   faculty: String,
   class: String,
@@ -51,6 +53,7 @@ const DesignClassSchema = new Schema({
 // 科研训练模式
 const TrainClassSchema = new Schema({
   id: String,   // 工号
+  semester: String, 
   name: String, // 课程名：科研训练
   faculty: String,
   class: String,
@@ -61,6 +64,7 @@ const TrainClassSchema = new Schema({
 // 生产实习模式
 const ProduceClassSchema = new Schema({
   id: String,   // 工号
+  semester: String, 
   name: String, // 课程名：生产实习
   faculty: String,
   class: String,
@@ -72,6 +76,7 @@ const ProduceClassSchema = new Schema({
 // 毕业实习模式
 const GraduateClassSchema = new Schema({
   id: String,   // 工号
+  semester: String, 
   name: String, // 课程名：毕业实习
   faculty: String,
   class: String,

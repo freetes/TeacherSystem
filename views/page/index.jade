@@ -9,16 +9,173 @@ block content
     include ../public/navi
     
     .container
+      .col-md-12.navbar.navbar-default
+        .container
+          .row
+            .col-md-6
+              h2 当前用户 #{user.name}
+            .col-md-6
+              .row
+                .col-md-12(style="height:20px")
+                .col-md-12
+                  .row
+                    .col-md-9
+                    .col-md-3
+                      a.btn.btn-danger(href="/signin") 注销
       .row
-        h1 #{title}
-        p Welcome to #{title}
-        p 欢迎 #{user.name}
-        p 预发工资 #{user.pay}
-        for item in classes.normalClass
-          p= item.id
-          p= item.name
+        .col-md-8
+          .panel.panel-default
+            .panel-heading(style="background-color:rgb(248,248,248)")
+              span.glyphicon.glyphicon-list-alt
+              span  基础课程信息表
+            .panel-body
+              table.table.table-bordered
+                tr.warninig
+                  td 学期
+                  td 课程名称
+                  td 专业
+                  td 班级
+                  td 学生人数
+                  td 标准学时
+                  td 理论学时
+                  td 实验学时
+                  td 实际学时
+                tr  
+                  for item in classes.normalClass
+                    td= item.semester
+                    td= item.name
+                    td= item.faculty
+                    td= item.class
+                    td= item.studentAmount
+                    td= item.standardHours
+                    td= item.theoryHours
+                    td= item.experimentHours
+                    td= item.finalHours
+          .panel.panel-default
+            .panel-heading(style="background-color:rgb(248,248,248)")
+              span.glyphicon.glyphicon-list-alt
+              span  课程设计课程信息表
+            .panel-body
+              table.table.table-bordered
+                tr.warninig
+                  td 学期
+                  td 课程名称
+                  td 专业
+                  td 班级
+                  td 学生人数
+                  td 周数
+                  td 实验学时
+                  td 实际学时
+                tr  
+                  for item in classes.normalClass
+                    td= item.semester
+                    td= item.name
+                    td= item.faculty
+                    td= item.class
+                    td= item.studentAmount
+                    td= item.week
+                    td= item.experimentHours
+                    td= item.finalHours
+          .panel.panel-default
+            .panel-heading(style="background-color:rgb(248,248,248)")
+              span.glyphicon.glyphicon-list-alt
+              span  科研训练课程信息表
+            .panel-body
+              table.table.table-bordered
+                tr.warninig
+                  td 学期
+                  td 课程名称
+                  td 专业
+                  td 班级
+                  td 学生人数
+                  td 单位学时
+                  td 实际学时
+                tr  
+                  for item in classes.normalClass
+                    td= item.semester
+                    td= item.name
+                    td= item.faculty
+                    td= item.class
+                    td= item.studentAmount
+                    td= item.unitHours
+                    td= item.finalHours
+          .panel.panel-default
+            .panel-heading(style="background-color:rgb(248,248,248)")
+              span.glyphicon.glyphicon-list-alt
+              span  生产实习课程信息表
+            .panel-body
+              table.table.table-bordered
+                tr.warninig
+                  td 学期
+                  td 课程名称
+                  td 专业
+                  td 班级
+                  td 学生人数
+                  td 周数
+                  td 单位学时
+                  td 实际学时
+                tr  
+                  for item in classes.normalClass
+                    td= item.semester
+                    td= item.name
+                    td= item.faculty
+                    td= item.class
+                    td= item.studentAmount
+                    td= item.week
+                    td= item.experimentHours
+                    td= item.finalHours
+          .panel.panel-default
+            .panel-heading(style="background-color:rgb(248,248,248)")
+              span.glyphicon.glyphicon-list-alt
+              span  毕业实习课程信息表
+            .panel-body
+              table.table.table-bordered
+                tr.warninig
+                  td 学期
+                  td 课程名称
+                  td 专业
+                  td 班级
+                  td 学生人数
+                  td 周数
+                  td 单位学时
+                  td 实际学时
+                tr  
+                  for item in classes.normalClass
+                    td= item.semester
+                    td= item.name
+                    td= item.faculty
+                    td= item.class
+                    td= item.studentAmount
+                    td= item.week
+                    td= item.experimentHours
+                    td= item.finalHours
+        .col-md-4
+          .panel.panel-default
+            .panel-heading(style="background-color:rgb(248,248,248)")
+              span.glyphicon.glyphicon-user(aria-hidden="true") 
+              span  个人信息
+            .panel-body
+              p 用户姓名：#{user.name}
+              p 用户工号：#{user.id}
+              p 预发工资：#{user.pay}
 
-        a.btn.btn-danger(href="/signin") 注销
+
+        //- for item in classes.normalClass
+         
+        //-   p= item.name
+        //- for item in classes.designClass
+        //-   p= item.id
+        //-   p= item.name
+        //- for item in classes.trainClass
+        //-   p= item.id
+        //-   p= item.name
+        //- for item in classes.produceClass
+        //-   p= item.id
+        //-   p= item.name
+        //- for item in classes.graduateClass
+        //-   p= item.id
+        //-   p= item.name
+
 
 
     //- 单独的js
