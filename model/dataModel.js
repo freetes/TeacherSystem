@@ -9,81 +9,80 @@ const UserSchema = new Schema({
   pay: Number
 });
 
-// // 课程项目表
-// const NormalClassSchema = new Schema({
-//   id: String,   // 工号
-//   name: String, // 课程名
-//   kind: Number,  
-//   faculty: String,
-//   class: String,
-//   studentAmount: Number,
-//   standardHours: Number,
-//   theoryHours: Number,
-//   experimentHours: Number,
-//   week: Number,
-//   unitHours: Number,
-//   finalHours: Number
-// });
-
 // 普通课程模式
 const NormalClassSchema = new Schema({
-  id: String,   // 工号
-  semester: String, 
-  name: String, // 课程名
-  faculty: String,
-  class: String,
-  studentAmount: Number,
-  standardHours: Number,
-  theoryHours: Number,
-  experimentHours: Number,
-  finalHours: Number
+  id: String,               // 工号
+  semester: String,         // 学期
+  name: String,             // 课程名
+  faculty: String,          // 专业
+  class: String,            // 班级
+  studentAmount: Number,    // 人数
+  standardHours: Number,    // 标准学时
+  theoryHours: Number,      // 理论学时
+  experimentHours: Number,  // 实验学时
+  finalHours: Number,       // 实际学时
+  data: String,             // 添加/修改日期
+  point: Number,            // 课程权重
+  isChecked: Boolean        // 是否审核
 });
 // 课程设计模式
 const DesignClassSchema = new Schema({
-  id: String,   // 教师工号
-  semester: String, 
-  name: String, // 课程名：课程设计
+  id: String,               // 工号
+  semester: String,         // 学期
+  name: String,             // 课程名：课程设计
   faculty: String,
   class: String,
   studentAmount: Number,
-  week: Number,
-  experimentHours: Number,
-  finalHours: Number
+  week: Number,             // 周数
+  experimentHours: Number,  // 实验学时
+  finalHours: Number,        // 实际学时
+  data: String,             // 添加/修改日期
+  point: Number,            // 课程权重
+  isChecked: Boolean        // 是否审核
 });
 // 科研训练模式
 const TrainClassSchema = new Schema({
-  id: String,   // 工号
+  id: String,
   semester: String, 
-  name: String, // 课程名：科研训练
+  name: String,
   faculty: String,
   class: String,
   studentAmount: Number,
-  unitHours: Number,
-  finalHours: Number
+  unitHours: Number,        // 单位学时
+  finalHours: Number,       // 实际学时
+  data: String,             // 添加/修改日期
+  point: Number,            // 课程权重
+  isChecked: Boolean        // 是否审核
 });
 // 生产实习模式
 const ProduceClassSchema = new Schema({
-  id: String,   // 工号
+  id: String,
   semester: String, 
-  name: String, // 课程名：生产实习
+  name: String,
   faculty: String,
   class: String,
   studentAmount: Number,
-  week: Number,
-  unitHours: Number,
-  finalHours: Number
+  week: Number,             // 周数
+  unitHours: Number,        // 单位学时
+  finalHours: Number,       // 实际学时
+  data: String,             // 添加/修改日期
+  point: Number,            // 课程权重
+  isChecked: Boolean        // 是否审核
 });
 // 毕业实习模式
 const GraduateClassSchema = new Schema({
-  id: String,   // 工号
+  id: String,
   semester: String, 
-  name: String, // 课程名：毕业实习
+  name: String,
   faculty: String,
   class: String,
   studentAmount: Number,
   week: Number,
   unitHours: Number,
-  finalHours: Number
+  finalHours: Number,
+  data: String,             // 添加/修改日期
+  point: Number,            // 课程权重
+  isChecked: Boolean        // 是否审核
 });
 
 //数据模型

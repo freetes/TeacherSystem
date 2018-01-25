@@ -1,6 +1,22 @@
 const Models = require('../model/dataModel');
 const CtrlDB = require('../model/ctrlDB');
 
+// Models.NormalClassModel({
+//   id: 1001,               // 工号
+//   semester: '2017-2018-2',         // 学期
+//   name: '大学物理2',             // 课程名
+//   faculty: '数计',          // 专业
+//   class: '大类1601-2',            // 班级
+//   studentAmount: 65,    // 人数
+//   standardHours: 10,    // 标准学时
+//   theoryHours: 5,      // 理论学时
+//   experimentHours: 5,  // 实验学时
+//   finalHours: 20,       // 实际学时
+//   data: '2018-1-25 17:25',             // 添加/修改日期
+//   point: 1.0,            // 课程权重
+//   isChecked: false        // 是否审核
+// }).save();
+
 // 处理主页的请求
 const Home = {
   // GET /
