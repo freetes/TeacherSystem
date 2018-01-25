@@ -14,8 +14,13 @@ block content
         p Welcome to #{title}
         p 欢迎 #{user.name}
         p 预发工资 #{user.pay}
+        for item in classes.normalClass
+          p= item.id
+          p= item.name
+
         a.btn.btn-danger(href="/signin") 注销
 
 
     //- 单独的js
       script(src="")
+    //- script(src="/js/homeAjax.js")   

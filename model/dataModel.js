@@ -28,7 +28,6 @@ const UserSchema = new Schema({
 // 普通课程模式
 const NormalClassSchema = new Schema({
   id: String,   // 工号
-  kind: Number,   
   name: String, // 课程名
   faculty: String,
   class: String,
@@ -36,8 +35,6 @@ const NormalClassSchema = new Schema({
   standardHours: Number,
   theoryHours: Number,
   experimentHours: Number,
-  week: Number,
-  unitHours: Number,
   finalHours: Number
 });
 // 课程设计模式

@@ -8,22 +8,14 @@ const Home = {
     if(req.session.userid == undefined || req.session.userid == null)
       return res.redirect(303, '/signin');
     Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
-      const info = CtrlDB.getAllInfoByUserId(user.id);
-      // new Promise(function(resolve, reject){
-      //  info = CtrlDB.getAllInfoByUserId(user.id);        
-      // }).then(function(){
-      //   return res.render('index',{
-      //     title: '主页',
-      //     user: user,
-      //     classes: info
-      //   })
-      // });
-      return res.render('index',{
-            title: '主页',
-            user: user[0],
-            classes: info
+      CtrlDB.getAllInfoByUserId(req.session.userid).then(info=>{
+        return res.render('index',{
+          title: '主页',
+          user: user[0],
+          classes: info
+        });
       });
-    })    
+    })
   },
 
   // GET /signin
