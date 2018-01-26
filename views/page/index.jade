@@ -9,200 +9,233 @@ block content
     include ../public/navi
     
     .container
-      .row.navbar.navbar-default
-        .col-md-10
-          h2 #{user.name}老师，您好！
-        .col-md-2
-          botton.btn.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
-          a.btn.btn-danger(href="/signin") 注销
-                  
+      //- .row.navbar.navbar-default
+      //-   .col-md-10
+      //-     h2 #{user.name}老师，您好！
+      //-   .col-md-2.center-block
+      //-     botton.btn.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
+      //-     a.btn.btn-danger(href="/signin") 注销
+              
       .row
-        .col-md-8
-          .panel.panel-default
-            .panel-heading
-              span.glyphicon.glyphicon-list-alt
-              span  基础课程信息表
-            .panel-body
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 标准学时
-                  td 理论学时
-                  td 实验学时
-                  td 实际学时
-                  td 课程权重
-                  td 是否审核
-                for item in classes.normalClass
-                  tr  
-                    td= item.data
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.standardHours
-                    td= item.theoryHours
-                    td= item.experimentHours
-                    td= item.finalHours
-                    td= item.point
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-          .panel.panel-default
-            .panel-heading
-              span.glyphicon.glyphicon-list-alt
-              span  课程设计课程信息表
-            .panel-body
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 周数
-                  td 实验学时
-                  td 实际学时
-                  td 课程权重
-                  td 是否审核
-                for item in classes.designClass                 
-                  tr
-                    td= item.data
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.week
-                    td= item.experimentHours
-                    td= item.finalHours
-                    td= item.point
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-          .panel.panel-default
-            .panel-heading
-              span.glyphicon.glyphicon-list-alt
-              span  科研训练课程信息表
-            .panel-body
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 单位学时
-                  td 实际学时
-                  td 课程权重
-                  td 是否审核
-                for item in classes.trainClass
-                  tr  
-                    td= item.data
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.unitHours
-                    td= item.finalHours
-                    td= item.point
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-          .panel.panel-default
-            .panel-heading
-              span.glyphicon.glyphicon-list-alt
-              span  生产实习课程信息表
-            .panel-body
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 周数
-                  td 单位学时
-                  td 实际学时
-                  td 课程权重
-                  td 是否审核
-                for item in classes.produceClass
-                  tr  
-                    td= item.data
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.week
-                    td= item.experimentHours
-                    td= item.finalHours
-                    td= item.point
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-          .panel.panel-default
-            .panel-heading
-              span.glyphicon.glyphicon-list-alt
-              span  毕业实习课程信息表
-            .panel-body
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 周数
-                  td 单位学时
-                  td 实际学时
-                  td 课程权重
-                  td 是否审核
-                for item in classes.graduateClass                  
-                  tr  
-                    td= item.data
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.week
-                    td= item.experimentHours
-                    td= item.finalHours
-                    td= item.point
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-
         .col-md-4
-          .panel.panel-default
+          .panel.panel-primary
             .panel-heading
               span.glyphicon.glyphicon-user(aria-hidden="true") 
               span  个人信息
             .panel-body
-              p 用户姓名：#{user.name}
+              h3 #{user.name}老师，您好！
               p 用户工号：#{user.id}
               p 用户密码：
                 span.userPasswd #{user.password}
               p 预发工资：#{user.pay}
 
+              botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
+              botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
+              botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
+              botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
+              a.btn.btn-block.btn-danger(href="/signin") 注销
+
+
+        .col-md-8
+          .mainDiv
+            .panel.panel-primary
+              .panel-heading
+                span.glyphicon.glyphicon-user(aria-hidden="true") 
+                span  公告栏
+              .panel-body
+                p 消息
+          
+          .allClassDiv(style="display: none")
+            .panel.panel-primary
+              .panel-heading
+                span.glyphicon.glyphicon-user(aria-hidden="true") 
+                span  授课总表
+              .panel-body
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 标准学时
+                    td 理论学时
+                    td 实验学时
+                    td 实际学时
+                    td 课程权重
+                    td 是否审核
+                  for item in classes.normalClass
+                    tr  
+                      td= item.data
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.standardHours
+                      td= item.theoryHours
+                      td= item.experimentHours
+                      td= item.finalHours
+                      td= item.point
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 周数
+                    td 实验学时
+                    td 实际学时
+                    td 课程权重
+                    td 是否审核
+                  for item in classes.designClass                 
+                    tr
+                      td= item.data
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.week
+                      td= item.experimentHours
+                      td= item.finalHours
+                      td= item.point
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 单位学时
+                    td 实际学时
+                    td 课程权重
+                    td 是否审核
+                  for item in classes.trainClass
+                    tr  
+                      td= item.data
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.unitHours
+                      td= item.finalHours
+                      td= item.point
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 周数
+                    td 单位学时
+                    td 实际学时
+                    td 课程权重
+                    td 是否审核
+                  for item in classes.produceClass
+                    tr  
+                      td= item.data
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.week
+                      td= item.experimentHours
+                      td= item.finalHours
+                      td= item.point
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 周数
+                    td 单位学时
+                    td 实际学时
+                    td 课程权重
+                    td 是否审核
+                  for item in classes.graduateClass                  
+                    tr  
+                      td= item.data
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.week
+                      td= item.experimentHours
+                      td= item.finalHours
+                      td= item.point
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+
+          .addClassDiv(style="display: none")
+            .panel.panel-primary
+              .panel-heading
+                span.glyphicon.glyphicon-user(aria-hidden="true") 
+                span  课程登记
+              .panel-body
+                h3 #{user.name}老师，您好！
+                p 用户工号：#{user.id}
+                p 用户密码：
+                  span.userPasswd #{user.password}
+                p 预发工资：#{user.pay}
+
+                botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
+                botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
+                botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
+                botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
+                a.btn.btn-block.btn-danger(href="/signin") 注销
+
+          .payCtrlDiv(style="display: none")
+            .panel.panel-primary
+              .panel-heading
+                span.glyphicon.glyphicon-user(aria-hidden="true") 
+                span  工资模块
+              .panel-body
+                h3 #{user.name}老师，您好！
+                p 用户工号：#{user.id}
+                p 用户密码：
+                  span.userPasswd #{user.password}
+                p 预发工资：#{user.pay}
+
+                botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
+                botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
+                botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
+                botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
+                a.btn.btn-block.btn-danger(href="/signin") 注销
+
+
     .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
-      .modal-dialog.modal-lg(role='document')
+      .modal-dialog(role='document')
         .modal-content
           .modal-header
             h4.modal-title 修改密码
@@ -225,4 +258,4 @@ block content
 
     //- 单独的js
       script(src="")
-    script(src="/js/homeAjax.js")   
+    script(src="/js/homeAjax.js")

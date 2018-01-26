@@ -1,7 +1,5 @@
 const Models = require('../model/dataModel');
 
-
-
 const ctrlDB = {
   // 通过id获取所有课程信息
   getAllInfoByUserId: async (id, callback)=>{
