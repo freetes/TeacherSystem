@@ -17,19 +17,19 @@ block content
               span  个人信息
             .panel-body
               h3 #{user.name}老师，您好！
-              p 用户工号：#{user.id}
-              p 用户密码：
+              p 教师工号：#{user.id}
+              p.hidden 用户密码：
                 span.userPasswd #{user.password}
-              p 薪资 #{pay.pay}
               
               botton.btn.btn-block.btn-primary(onclick="mainDivClick()") 首页
-              botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
+              botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资管理
               botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
               botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
               botton.btn.btn-block.btn-default(data-toggle="modal", data-target=".modal") 修改密码
               a.btn.btn-block.btn-default(href="/signin") 注销
 
         .col-md-8
+          //- 主页
           .mainDiv
             .panel.panel-primary
               .panel-heading
@@ -37,7 +37,8 @@ block content
                 span  公告栏
               .panel-body
                 p 消息
-          
+
+          //- 授课查询
           .allClassDiv(style="display: none")
             .panel.panel-primary
               .panel-heading
@@ -189,7 +190,8 @@ block content
                         td Yep
                       -else
                         td Nope
-
+          
+          //- 课程登记
           .addClassDiv(style="display: none")
             .panel.panel-primary
               .panel-heading
@@ -198,8 +200,6 @@ block content
               .panel-body
                 h3 #{user.name}老师，您好！
                 p 用户工号：#{user.id}
-                p 用户密码：
-                  span.userPasswd #{user.password}
                 p 预发工资：#{user.pay}
 
                 botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
@@ -208,23 +208,34 @@ block content
                 botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
                 a.btn.btn-block.btn-danger(href="/signin") 注销
 
+          //- 工资管理
           .payCtrlDiv(style="display: none")
             .panel.panel-primary
               .panel-heading
                 span.glyphicon.glyphicon-user(aria-hidden="true") 
-                span  工资模块
+                span  工资管理
               .panel-body
                 h3 #{user.name}老师，您好！
-                p 用户工号：#{user.id}
-                p 用户密码：
-                  span.userPasswd #{user.password}
-                p 预发工资：#{user.pay}
-
-                botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
-                botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
-                botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
-                botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
-                a.btn.btn-block.btn-danger(href="/signin") 注销
+                -if(pay == undefined)
+                  p 您还未填写过预发工资
+                  .input-group
+                    input.form-control.newPay(type="text", placeholder="请填写你需要的预发工资")
+                    span.input-group-btn
+                      botton.btn.btn-primary(onclick="setNewPay()") 提交
+                -else if(pay.isChecked == 1)
+                  p 您的预发工资为：#{pay.pay} 元
+                  p 已提交审核，不可修改
+                -else if(pay.isChecked == 0)
+                  p 您的预发工资为：#{pay.pay} 元
+                  p 未提交审核，可修改
+                  .input-group
+                    input.form-control.newPay(type="text", placeholder="请填写你需要的预发工资", value="#{pay.pay}")
+                    span.input-group-btn
+                      botton.btn.btn-primary(onclick="changePay()") 修改
+                  botton.btn.btn-primary(onclick="checkPay()") 提交审核
+                -else
+                  p 您的预发工资为：#{pay.pay} 元
+                  p 已通过审核，不可修改
 
     .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
       .modal-dialog(role='document')

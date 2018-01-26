@@ -8,4 +8,10 @@ router.get('/', function(req, res, next) {
 
 router.post('/changePasswd', user.changePasswd);
 
+router.post('/newPay', user.newPay);
+
+router.post('/changePay', user.changePay);
+
+router.post('/checkPay', user.checkPay);
+
 module.exports = router;

@@ -13,7 +13,10 @@ const UserSchema = new Schema({
 const PaySchema = new Schema({
   id: String,
   pay: Number,
-  isChecked: Boolean
+  isChecked: Number
+  // 0 to No submit&check
+  // 1 to Submited but no check
+  // 2 to Submited&checked
 })
 
 // 普通课程模式

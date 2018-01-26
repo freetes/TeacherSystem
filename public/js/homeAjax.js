@@ -8,19 +8,57 @@ const changePasswd = ()=>{
     return $(".changePasswdMessage").text("新密码和原密码相同！");
   // 
   $.post('/users/changePasswd', 
-  {
-    newPasswd: $(".newPasswdInput").val()
-  },
-  result=>{
-    if(result){
-      $(".changePasswdMessage").text("修改成功，请重新登录！");
-      setTimeout(()=>{
-        window.location.reload();
-      }, 500);
+    {
+      newPasswd: $(".newPasswdInput").val()
+    },
+    result=>{
+      if(result){
+        $(".changePasswdMessage").text("修改成功，请重新登录！");
+        setTimeout(()=>{
+          window.location.reload();
+        }, 500);
+      }
     }
-  }
   )
 };
+// 上传新的薪资
+const setNewPay = ()=>{
+
+  $.post('/users/newPay', 
+    {
+      newPay: $(".newPay").val()
+    },
+    result=>{
+      if(result){
+          window.location.reload();
+      }
+    }
+  )
+};
+// 修改薪资
+const changePay = ()=>{
+  $.post('/users/changePay',
+    {
+      newPay: $(".newPay").val()
+    },
+    result=>{
+      if(result){
+          window.location.reload();
+      }
+    }
+  )
+};
+// 提交审核
+const checkPay = ()=>{
+  $.post('/users/checkPay',
+    result=>{
+      if(result){
+          window.location.reload();
+      }
+    }
+  )
+};
+
 
 // 
 const allClassClick = ()=>{
