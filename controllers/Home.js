@@ -17,6 +17,19 @@ const CtrlDB = require('../model/ctrlDB');
 //   isChecked: false        // 是否审核
 // }).save();
 
+// Models.UserModel({
+//   id: 1001,
+//   name: '张一',
+//   password: 1,
+//   level: 0
+// }).save();
+
+// Models.PayModel({
+//   id: 1001,
+//   pay: 3000,
+//   isChecked: false
+// }).save();
+
 // 处理主页的请求
 const Home = {
   // GET /
@@ -28,7 +41,8 @@ const Home = {
         return res.render('index',{
           title: '主页',
           user: user[0],
-          classes: info
+          classes: info.class,
+          pay: info.pay[0]
         });
       });
     })

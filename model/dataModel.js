@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// 用户数据表
+// 用户数据模式
 const UserSchema = new Schema({
   id: String,
   name: String,
   password: String,
-  pay: Number
+  level: Number
 });
+
+// 薪酬数据模式
+const PaySchema = new Schema({
+  id: String,
+  pay: Number,
+  isChecked: Boolean
+})
 
 // 普通课程模式
 const NormalClassSchema = new Schema({
@@ -88,6 +95,7 @@ const GraduateClassSchema = new Schema({
 //数据模型
 const Models = {
   UserModel: mongoose.model('User', UserSchema),
+  PayModel: mongoose.model('Pay', PaySchema),
   NormalClassModel: mongoose.model('NormalClass', NormalClassSchema),
   DesignClassSchema: mongoose.model('DesignClass', DesignClassSchema),
   TrainClassSchema: mongoose.model('TrainClass', TrainClassSchema),

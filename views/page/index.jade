@@ -9,13 +9,6 @@ block content
     include ../public/navi
     
     .container
-      //- .row.navbar.navbar-default
-      //-   .col-md-10
-      //-     h2 #{user.name}老师，您好！
-      //-   .col-md-2.center-block
-      //-     botton.btn.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
-      //-     a.btn.btn-danger(href="/signin") 注销
-              
       .row
         .col-md-4
           .panel.panel-primary
@@ -27,14 +20,14 @@ block content
               p 用户工号：#{user.id}
               p 用户密码：
                 span.userPasswd #{user.password}
-              p 预发工资：#{user.pay}
-
+              p 薪资 #{pay.pay}
+              
+              botton.btn.btn-block.btn-primary(onclick="mainDivClick()") 首页
               botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资预发
               botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
               botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
-              botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
-              a.btn.btn-block.btn-danger(href="/signin") 注销
-
+              botton.btn.btn-block.btn-default(data-toggle="modal", data-target=".modal") 修改密码
+              a.btn.btn-block.btn-default(href="/signin") 注销
 
         .col-md-8
           .mainDiv
@@ -232,7 +225,6 @@ block content
                 botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
                 botton.btn.btn-block.btn-warning(data-toggle="modal", data-target=".modal") 修改密码
                 a.btn.btn-block.btn-danger(href="/signin") 注销
-
 
     .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
       .modal-dialog(role='document')
