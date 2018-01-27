@@ -13,10 +13,8 @@ const ctrlDB = {
         graduateClass: await Models.GraduateClassSchema.find({'id': id})
       }
     };
-    
     return info;
   },
-
 
 };
 
