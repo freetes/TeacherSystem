@@ -15,7 +15,9 @@ const User = {
     Models.PayModel({
       id: req.session.userid,
       pay: req.body.newPay,
-      isChecked: 0
+      isChecked: 0,
+      applySemester: req.body.applySemester,
+      applyDate: req.body.applyDate
     }).save((err, result)=>{
       res.json(true);
     })
@@ -23,7 +25,7 @@ const User = {
 
   // POST /changePay
   changePay: (req, res)=>{
-    Models.PayModel.update({'id': req.session.userid}, {'pay': req.body.newPay}, (err, result)=>{
+    Models.PayModel.update({'id': req.session.userid}, {'pay': req.body.newPay, 'applyDate': req.body.applyDate}, (err, result)=>{
       res.json(true);
     })
   },

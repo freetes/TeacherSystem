@@ -23,10 +23,11 @@ const changePasswd = ()=>{
 };
 // 上传新的薪资
 const setNewPay = ()=>{
-
   $.post('/users/newPay', 
     {
-      newPay: $(".newPay").val()
+      newPay: $(".newPay").val(),
+      applySemester: $(".applySemesterSelect").val(),
+      applyDate: getNewDate()
     },
     result=>{
       if(result){
@@ -39,7 +40,8 @@ const setNewPay = ()=>{
 const changePay = ()=>{
   $.post('/users/changePay',
     {
-      newPay: $(".newPay").val()
+      newPay: $(".newPay").val(),
+      applyDate: getNewDate()
     },
     result=>{
       if(result){
@@ -59,29 +61,25 @@ const checkPay = ()=>{
   )
 };
 
-
-// 
+// 点击事件
 const allClassClick = ()=>{
   if($(".mainDiv").css("display")=='block') $(".mainDiv").slideToggle();
   if($(".addClassDiv").css("display")=='block') $(".addClassDiv").slideToggle();
   if($(".payCtrlDiv").css("display")=='block') $(".payCtrlDiv").slideToggle();
   if($(".allClassDiv").css("display")=='none') $(".allClassDiv").slideToggle();
 };
-
 const addClassClick = ()=>{
   if($(".mainDiv").css("display")=='block') $(".mainDiv").slideToggle();
   if($(".addClassDiv").css("display")=='none') $(".addClassDiv").slideToggle();
   if($(".payCtrlDiv").css("display")=='block') $(".payCtrlDiv").slideToggle();
   if($(".allClassDiv").css("display")=='block') $(".allClassDiv").slideToggle();
 };
-
 const mainDivClick = ()=>{
   if($(".mainDiv").css("display")=='none') $(".mainDiv").slideToggle();
   if($(".addClassDiv").css("display")=='block') $(".addClassDiv").slideToggle();
   if($(".payCtrlDiv").css("display")=='block') $(".payCtrlDiv").slideToggle();
   if($(".allClassDiv").css("display")=='block') $(".allClassDiv").slideToggle();
 };
-
 const payDivClick = ()=>{
   if($(".mainDiv").css("display")=='block') $(".mainDiv").slideToggle();
   if($(".addClassDiv").css("display")=='block') $(".addClassDiv").slideToggle();
@@ -89,3 +87,6 @@ const payDivClick = ()=>{
   if($(".allClassDiv").css("display")=='block') $(".allClassDiv").slideToggle();
 };
 
+const getNewDate = ()=>{
+  return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
+}
