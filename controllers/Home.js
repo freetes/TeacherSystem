@@ -18,10 +18,10 @@ const CtrlDB = require('../model/ctrlDB');
 // }).save();
 
 // Models.UserModel({
-//   id: 1001,
-//   name: '张一',
+//   id: 1000,
+//   name: '刘翔',
 //   password: 1,
-//   level: 0
+//   level: 1
 // }).save();
 
 // Models.PayModel({

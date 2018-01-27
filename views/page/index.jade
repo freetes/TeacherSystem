@@ -1,21 +1,16 @@
 extends ../layout
 //- 主页
 block content
-  //- 单独的css
+
+  -if(user.level == 0)
     link(rel='stylesheet', href='/css/normal.css')
-  link(rel='stylesheet', href='/css/normal.css')
+    include ../page/user
+    script(src="/js/homeByUser.js")
 
-  body
-    include ../public/navi
-    
-    -if(user.level == 0)
-      include ../page/user
-      script(src="/js/homeByUser.js")
+  -else if(user.level == 1)
+    link(rel='stylesheet', href='/css/secretaryPage.css')  
+    include ../page/secretary
 
-    -else if(user.level == 1)
-      include ../page/secretary
-
-    -else
-      include ../page/admin
-
-
+  -else
+    link(rel='stylesheet', href='/css/adminPage.css')
+    include ../page/admin
