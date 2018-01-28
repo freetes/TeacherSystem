@@ -6,7 +6,7 @@ const User = {
   changePasswd: (req, res)=>{
     Models.UserModel.update({'id': req.session.userid}, (err, result)=>{
       delete req.session.userid;
-      res.json(true);
+      return res.json(true);
     })
   },
 
@@ -19,21 +19,21 @@ const User = {
       applySemester: req.body.applySemester,
       applyDate: req.body.applyDate
     }).save((err, result)=>{
-      res.json(true);
+      return res.json(true);
     })
   },
 
   // POST /changePay
   changePay: (req, res)=>{
     Models.PayModel.update({'id': req.session.userid}, {'pay': req.body.newPay, 'applyDate': req.body.applyDate}, (err, result)=>{
-      res.json(true);
+      return res.json(true);
     })
   },
   
   // POST /checkPay
   checkPay: (req, res)=>{
     Models.PayModel.update({'id': req.session.userid}, {'isChecked': 1}, (err, result)=>{
-      res.json(true);
+      return res.json(true);
     })
   },
 };

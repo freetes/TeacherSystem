@@ -23,32 +23,34 @@ const changePasswd = ()=>{
 };
 // 上传新的薪资
 const setNewPay = ()=>{
-  $.post('/users/newPay', 
-    {
-      newPay: $(".newPay").val(),
-      applySemester: $(".applySemesterSelect").val(),
-      applyDate: getNewDate()
-    },
-    result=>{
-      if(result){
-          window.location.reload();
+  if($(".newPay").val() != '' && $(".applySemesterSelect").val() != '')
+    $.post('/users/newPay', 
+      {
+        newPay: $(".newPay").val(),
+        applySemester: $(".applySemesterSelect").val(),
+        applyDate: getNewDate()
+      },
+      result=>{
+        if(result){
+            window.location.reload();
+        }
       }
-    }
-  )
+    )
 };
 // 修改薪资
 const changePay = ()=>{
-  $.post('/users/changePay',
-    {
-      newPay: $(".newPay").val(),
-      applyDate: getNewDate()
-    },
-    result=>{
-      if(result){
-          window.location.reload();
+  if($(".newPay").val() != '')
+    $.post('/users/changePay',
+      {
+        newPay: $(".newPay").val(),
+        applyDate: getNewDate()
+      },
+      result=>{
+        if(result){
+            window.location.reload();
+        }
       }
-    }
-  )
+    )
 };
 // 提交审核
 const checkPay = ()=>{
@@ -57,34 +59,37 @@ const checkPay = ()=>{
       if(result){
           window.location.reload();
       }
+      else{
+        
+      }
     }
   )
 };
 
 // 点击事件
 const allClassClick = ()=>{
-  if($(".mainDiv").css("display")=='block') $(".mainDiv").slideToggle();
-  if($(".addClassDiv").css("display")=='block') $(".addClassDiv").slideToggle();
-  if($(".payCtrlDiv").css("display")=='block') $(".payCtrlDiv").slideToggle();
+  $(".mainDiv").css("display", "none");
+  $(".addClassDiv").css("display", "none");
+  $(".payCtrlDiv").css("display", "none");
   if($(".allClassDiv").css("display")=='none') $(".allClassDiv").slideToggle();
 };
 const addClassClick = ()=>{
-  if($(".mainDiv").css("display")=='block') $(".mainDiv").slideToggle();
+  $(".mainDiv").css("display", "none");
+  $(".payCtrlDiv").css("display", "none");
+  $(".allClassDiv").css("display", "none");
   if($(".addClassDiv").css("display")=='none') $(".addClassDiv").slideToggle();
-  if($(".payCtrlDiv").css("display")=='block') $(".payCtrlDiv").slideToggle();
-  if($(".allClassDiv").css("display")=='block') $(".allClassDiv").slideToggle();
 };
 const mainDivClick = ()=>{
+  $(".allClassDiv").css("display", "none");
+  $(".addClassDiv").css("display", "none");
+  $(".payCtrlDiv").css("display", "none");
   if($(".mainDiv").css("display")=='none') $(".mainDiv").slideToggle();
-  if($(".addClassDiv").css("display")=='block') $(".addClassDiv").slideToggle();
-  if($(".payCtrlDiv").css("display")=='block') $(".payCtrlDiv").slideToggle();
-  if($(".allClassDiv").css("display")=='block') $(".allClassDiv").slideToggle();
 };
 const payDivClick = ()=>{
-  if($(".mainDiv").css("display")=='block') $(".mainDiv").slideToggle();
-  if($(".addClassDiv").css("display")=='block') $(".addClassDiv").slideToggle();
+  $(".allClassDiv").css("display", "none");
+  $(".mainDiv").css("display", "none");
+  $(".addClassDiv").css("display", "none");
   if($(".payCtrlDiv").css("display")=='none') $(".payCtrlDiv").slideToggle();
-  if($(".allClassDiv").css("display")=='block') $(".allClassDiv").slideToggle();
 };
 
 const getNewDate = ()=>{
