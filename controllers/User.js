@@ -2,14 +2,6 @@ const Models = require('../model/dataModel');
 
 // 处理用户
 const User = {
-  // POST /changePasswd
-  changePasswd: (req, res)=>{
-    Models.UserModel.update({'id': req.session.userid}, (err, result)=>{
-      delete req.session.userid;
-      return res.json(true);
-    })
-  },
-
   // POST /newPay
   newPay: (req, res)=>{
     Models.PayModel({

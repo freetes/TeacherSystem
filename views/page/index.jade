@@ -10,7 +10,10 @@ block content
   -else if(user.level == 1)
     link(rel='stylesheet', href='/css/secretaryPage.css')  
     include secretary
+    script(src="/js/homeBySecretary.js")
 
   -else
     link(rel='stylesheet', href='/css/adminPage.css')
     include admin
+
+  script(src="/js/publicAPI.js")

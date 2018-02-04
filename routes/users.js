@@ -3,8 +3,6 @@ const user = require('../controllers/User');
 
 /* GET users listing. */
 
-router.post('/changePasswd', user.changePasswd);
-
 router.post('/newPay', user.newPay);
 
 router.post('/changePay', user.changePay);
