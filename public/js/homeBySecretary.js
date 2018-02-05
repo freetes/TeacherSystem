@@ -21,7 +21,16 @@ $(".navbar-nav").first().children().click(function(){
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[3].style.display = "block"
 	}
-
 })
 
 
+function getAllInfo(){
+	$.post('/api/secretary/getAllInfo',
+		{
+			
+		},
+		info=>{
+			console.log(info)
+		}
+	)
+}

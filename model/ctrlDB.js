@@ -1,8 +1,8 @@
 const Models = require('../model/dataModel');
 
 const ctrlDB = {
-  // 通过id获取所有课程信息
-  getAllInfoByUserId: async (id, callback)=>{
+  // 通过id获取信息
+  getAllInfoByUserId: async id=>{
     let info = {
       pay: await Models.PayModel.find({'id': id}),
       class: {
@@ -15,7 +15,14 @@ const ctrlDB = {
     };
     return info;
   },
-
+  // 教学秘书专用
+  getAllInfoForSecretary: async id=>{
+    let info = {
+      user: await Models.UserModel.find({'level': 0}),
+      pay: await Models.PayModel.find(),
+    }
+    return info
+  }
 };
 
 module.exports = ctrlDB;
