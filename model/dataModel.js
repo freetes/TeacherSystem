@@ -21,6 +21,9 @@ const PaySchema = new Schema({
   applyDate: String
 })
 
+// 公告数据模式
+const 
+
 // 普通课程模式
 const NormalClassSchema = new Schema({
   id: String,               // 工号
