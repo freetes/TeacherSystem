@@ -22,7 +22,7 @@ const PaySchema = new Schema({
 })
 
 // 公告数据模式
-const 
+// const 
 
 // 普通课程模式
 const NormalClassSchema = new Schema({
