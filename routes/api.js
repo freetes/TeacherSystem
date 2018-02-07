@@ -7,4 +7,6 @@ router.post('/confirmPasswd', api.confirmPasswd);
 
 router.post('/secretary/getAllInfo', api.Secretary.getAllInfo);
 
+router.post('/secretary/passRequest', api.Secretary.passRequest);
+
 module.exports = router;

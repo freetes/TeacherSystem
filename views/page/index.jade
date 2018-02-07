@@ -5,11 +5,15 @@ block content
   -if(user.level == 0)  
     link(rel='stylesheet', href='/css/normal.css')
     include user
+    include ../public/changePasswdModal
+    include ../public/alertInfoModal
     script(src="/js/homeByUser.js")
 
   -else if(user.level == 1)
     link(rel='stylesheet', href='/css/secretaryPage.css')  
     include secretary
+    include ../public/changePasswdModal
+    include ../public/alertInfoModal
     script(src="/js/homeBySecretary.js")
 
   -else

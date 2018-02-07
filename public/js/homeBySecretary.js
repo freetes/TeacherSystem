@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	$(".navbar-nav").first().children().first().click()
+	getAllInfo()
 })
 
 // 顶部导航栏点击事件
@@ -23,6 +24,23 @@ $(".navbar-nav").first().children().click(function(){
 	}
 })
 
+function passRequest(value){
+	$.post('/api/secretary/passRequest',
+		{
+			id: value
+		},
+		result=>{
+			if(result){
+				$(".alertMessage").text("通过审核以成功！");
+				$("#alertInfoModal").modal();
+			}
+			else{
+				$(".alertMessage").text("出错了！");
+				$("#alertInfoModal").modal();
+			}
+		}
+	)
+}
 
 function getAllInfo(){
 	$.post('/api/secretary/getAllInfo',
@@ -30,6 +48,7 @@ function getAllInfo(){
 			
 		},
 		info=>{
+				
 			const users = info.user;
 			let trs1="";
 			for(let item of users){
@@ -41,7 +60,7 @@ function getAllInfo(){
 			let trs2="";
 			for(let item of pay){
 				if(item.isChecked==1){
-					trs2+=`<tr><td>${item.id}</td><td>${item.pay}</td><td>${item.isChecked}</td><td><button>待确认</button></td><td>${item.applySemester}</td><td>${item.applyDate}</td></tr>`
+					trs2+=`<tr><td>${item.id}</td><td>${item.pay}</td><td>${item.isChecked}</td><td><button class="btn btn-default" value="${item._id}" onclick="passRequest(this.value)">待确认</button></td><td>${item.applySemester}</td><td>${item.applyDate}</td></tr>`
 				}
 				else if(item.isChecked==2){
 					trs2+=`<tr><td>${item.id}</td><td>${item.pay}</td><td>${item.isChecked}</td><td>已确认</td><td>${item.applySemester}</td><td>${item.applyDate}</td></tr>`	
@@ -54,5 +73,3 @@ function getAllInfo(){
 		}
 	)
 }
-
-

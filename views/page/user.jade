@@ -20,7 +20,7 @@ body
             botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资管理
             botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
             botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
-            botton.btn.btn-block.btn-default(data-toggle="modal", data-target=".modal") 修改密码
+            botton.btn.btn-block.btn-default(data-toggle="modal", data-target="#changePasswdModal") 修改密码
             a.btn.btn-block.btn-default(href="/signin") 退出
 
       .col-md-8
@@ -245,5 +245,3 @@ body
               -else
                 p 您的预发工资为：#{pay.pay} 元
                 p 已通过审核，不可修改
-
-  include ../public/changePasswd

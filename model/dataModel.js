@@ -19,7 +19,7 @@ const PaySchema = new Schema({
   // 2 to Submited&checked
   applySemester: String,
   applyDate: String
-})
+});
 
 // 公告数据模式
 // const 
