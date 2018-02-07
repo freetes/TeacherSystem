@@ -42,7 +42,7 @@ const Home = {
           title: '主页',
           user: user[0],
           classes: info.class,
-          pay: info.pay[0]
+          pay: info.pay
         });
       });
     })
