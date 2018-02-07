@@ -52,24 +52,26 @@ function getAllInfo(){
 			$("#payInfoTable").html("");
 			const users = info.user;
 			let trs1="";
-			for(let item of users){
-				trs1+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td></tr>`
-			}
-			$("#userInfoTable").append(trs1);
-
 			const pay = info.pay;
 			let trs2="";
-			for(let item of pay){
-				if(item.isChecked==1){
-					trs2+=`<tr><td>${item.id}</td><td>${item.pay}</td><td>${item.isChecked}</td><td><button class="btn btn-default" value="${item._id}" onclick="passRequest(this.value)">待确认</button></td><td>${item.applySemester}</td><td>${item.applyDate}</td></tr>`
-				}
-				else if(item.isChecked==2){
-					trs2+=`<tr><td>${item.id}</td><td>${item.pay}</td><td>${item.isChecked}</td><td>已确认</td><td>${item.applySemester}</td><td>${item.applyDate}</td></tr>`	
-				}
-				else{
-					trs2+=`<tr><td>${item.id}</td><td>${item.pay}</td><td>${item.isChecked}</td><td>未上传</td><td>${item.applySemester}</td><td>${item.applyDate}</td></tr>`	
+			for(let item of users){
+				trs1+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td></tr>`
+				for(let item2 of pay){
+					if(item.id==item2.id){
+						if(item2.isChecked==1){
+							trs2+=`<tr><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>${item2.isChecked}</td><td><button class="btn btn-default" value="${item2._id}" onclick="passRequest(this.value)">待确认</button></td><td>${item2.applySemester}</td><td>${item2.applyDate}</td></tr>`
+						}
+						else if(item2.isChecked==2){
+							trs2+=`<tr><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>${item2.isChecked}</td><td>已确认</td><td>${item2.applySemester}</td><td>${item2.applyDate}</td></tr>`	
+						}
+						else{
+							trs2+=`<tr><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>${item2.isChecked}</td><td>未上传</td><td>${item2.applySemester}</td><td>${item2.applyDate}</td></tr>`	
+						}
+					}
+					
 				}
 			}
+			$("#userInfoTable").append(trs1);
 			$("#payInfoTable").append(trs2);
 		}
 	)
