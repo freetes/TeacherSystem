@@ -48,7 +48,8 @@ function getAllInfo(){
 			
 		},
 		info=>{
-				
+			$("#userInfoTable").html("");
+			$("#payInfoTable").html("");
 			const users = info.user;
 			let trs1="";
 			for(let item of users){
