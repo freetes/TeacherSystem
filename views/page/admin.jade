@@ -5,6 +5,21 @@ body
   .container-fluid
     .row
       .col-md-3
-        p #{user.name}
+        h3 我系 #{user.name} 呀~
+        h4 这里有很多按钮：
+
         a.btn.btn-danger(href="/signin") 退出
       
+      .col-md-9
+        .col-md-5
+          h5 新增用户
+          
+          input.form-control.newUserId(type="text", placeholder="教师工号")
+          input.form-control.newUserName(type="text", placeholder="教师姓名")
+          input.form-control.newUserPassword(type="text", placeholder="密码")
+          select.form-control.newUserLevel
+            option 普通
+            option 秘书
+            option 管理员
+            
+          botton.btn.btn-primary.btn-block(onclick="addUser()") 录入

@@ -207,7 +207,7 @@ body
         .payCtrlDiv(style="display: none")
           .panel.panel-primary
             .panel-heading
-              span.glyphicon.glyphicon-user(aria-hidden="true") 
+              span.glyphicon.glyphicon-user(aria-hidden="true")
               span  工资管理
             .panel-body
               h3 #{user.name}老师，您好！
@@ -226,7 +226,7 @@ body
                   -}
                 
                 -if(result == true)
-                  p 当前学期的预发工资已填写
+                  p 当前学期 #{nowPay.applySemester} 的预发工资为：
                   -if(nowPay.isChecked == 0)
                     .input-group
                       span.input-group-addon 预发工资
@@ -248,7 +248,6 @@ body
                     span.input-group-addon 学期
                     input.form-control.applySemesterSelect(type="text", value="#{nowSemester}", readonly)
                     
-                  
                     //- script.
                     //-   for(let i=new Date().getFullYear() + 2; i>=new Date().getFullYear() - 1; i--)
                     //-     for(let j=2; j>=1; j--)
@@ -273,7 +272,7 @@ body
                         td #{item.applyDate}
                         td #{item.pay}
                         -if(item.isChecked == 0)
-                          td 尚未提交
+                          td 未提交
                         -else if(item.isChecked == 1)
                           td 等待审核
                         -else

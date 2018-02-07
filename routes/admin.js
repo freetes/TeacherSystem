@@ -1,7 +1,7 @@
 const router = require('express').Router();
-// const admin = require('../controllers/Admin');
+const admin = require('../controllers/Admin');
 
 /* GET home page. */
-// router.get('/', home.Hello);
+router.post('/addUser', admin.addUser);
 
 module.exports = router;

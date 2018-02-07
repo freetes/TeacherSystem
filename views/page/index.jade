@@ -2,7 +2,7 @@ extends ../layout
 //- 主页
 block content
 
-  -if(user.level == 0)  
+  -if(user.level == 0)
     link(rel='stylesheet', href='/css/normal.css')
     include user
     include ../public/changePasswdModal
@@ -19,5 +19,7 @@ block content
   -else
     link(rel='stylesheet', href='/css/adminPage.css')
     include admin
+    include ../public/alertInfoModal
+    script(src="/js/homeByAdmin.js")
 
   script(src="/js/publicAPI.js")
