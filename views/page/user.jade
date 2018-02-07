@@ -215,48 +215,66 @@ body
                 p 您未填写过工资
               -else
                 -let result = false
+                -let nowPay
                 -let nowSemester = new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2`
 
                 -for(let item of pay)
                   -if(item.applySemester == nowSemester){
+                    -nowPay = item
                     -result = true
                     -break
                   -}
                 
                 -if(result == true)
                   p 当前学期的预发工资已填写
+                  -if(nowPay.isChecked == 0)
+                    .input-group
+                      span.input-group-addon 预发工资
+                      input.form-control.newPay(type="text", placeholder="请填写预发工资", value="#{nowPay.pay}")
+                      span.input-group-btn
+                        botton.btn.btn-primary(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
+                        botton.btn.btn-default(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
+                  -else if(nowPay.isChecked == 1)
+                    p 您的预发工资为：#{nowPay.pay}元
+                    p 提交日期为：#{nowPay.applyDate}
+                    p 已提交审核，不可修改
+                  -else
+                    p 您的预发工资为：#{nowPay.pay} 元
+                    p 提交日期为：#{nowPay.applyDate}
+                    p 审核已通过
                 -else
                   p 您还未填写当前学期的预发工资，请先设置下您想要的预发工资：
-                  .form-inline
-                    .form-group
-                      label(for="") 学期：
-                      select.form-control.applySemesterSelect
-                      script.
-                        for(let i=new Date().getFullYear() + 2; i>=new Date().getFullYear() - 1; i--)
-                          for(let j=2; j>=1; j--)
-                            $(".applySemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
-
-                    .form-group
-                      label(for="") 预发工资：         
+                  .input-group
+                    span.input-group-addon 学期
+                    input.form-control.applySemesterSelect(type="text", value="#{nowSemester}", readonly)
+                    
+                  
+                    //- script.
+                    //-   for(let i=new Date().getFullYear() + 2; i>=new Date().getFullYear() - 1; i--)
+                    //-     for(let j=2; j>=1; j--)
+                    //-       $(".applySemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
+                  br
+                  .input-group
+                      span.input-group-addon 预发工资
                       input.form-control.newPay(type="text", placeholder="请填写预发工资")
-                    botton.btn.btn-primary(onclick="setNewPay()") 提交
-                
+                      span.input-group-btn
+                        botton.btn.btn-default(type="botton", onclick="setNewPay()") 提交
+                      
+                br
+                //- 工资项目表
                 table.table.table-bordered
-                  tr: td 申请学期
-                      td 申请日期
-                      td 申请工资
-                      td 审核状态
+                  tr: th 申请学期
+                      th 申请日期
+                      th 申请工资
+                      th 审核状态
                       
                   each item in pay
                     tr: td #{item.applySemester}
                         td #{item.applyDate}
                         td #{item.pay}
                         -if(item.isChecked == 0)
-                          td 未提交审核
+                          td 尚未提交
                         -else if(item.isChecked == 1)
                           td 等待审核
                         -else
                           td 已通过审核
-
-                //- p 您的预发工资为：#{pay.pay} 元
-                //- p 已通过审核，不可修改

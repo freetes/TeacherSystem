@@ -17,14 +17,16 @@ const User = {
 
   // POST /changePay
   changePay: (req, res)=>{
-    Models.PayModel.update({'id': req.session.userid}, {'pay': req.body.newPay, 'applyDate': req.body.applyDate}, (err, result)=>{
+    Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'pay': req.body.newPay, 'applyDate': req.body.applyDate}, (err, result)=>{
+      if(err) return res.json(false);
       return res.json(true);
     })
   },
   
   // POST /checkPay
   checkPay: (req, res)=>{
-    Models.PayModel.update({'id': req.session.userid}, {'isChecked': 1}, (err, result)=>{
+    Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 1}, (err, result)=>{
+      if(err) return res.json(false);
       return res.json(true);
     })
   },

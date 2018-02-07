@@ -9,35 +9,60 @@ const setNewPay = ()=>{
       },
       result=>{
         if(result){
-            window.location.reload();
+          $(".alertMessage").text("上传成功！");
+          $("#alertInfoModal").modal();
+          setTimeout(function(){
+            location.reload()
+          }, 2000);
+        }
+        else{
+          $(".alertMessage").text("出错了！");
+          $("#alertInfoModal").modal();
         }
       }
     )
 };
 // 修改薪资
-const changePay = ()=>{
+function changePay(value){
   if($(".newPay").val() != '')
     $.post('/users/changePay',
       {
+        id: value,
         newPay: $(".newPay").val(),
         applyDate: getNewDate()
       },
       result=>{
         if(result){
-            window.location.reload();
+          $(".alertMessage").text("修改成功！");
+          $("#alertInfoModal").modal(); 
+          setTimeout(function(){
+            location.reload()
+          }, 2000);
+        }
+        else{
+          $(".alertMessage").text("出错了！");
+          $("#alertInfoModal").modal();
         }
       }
     )
 };
 // 提交审核
-const checkPay = ()=>{
+function checkPay(value){
   $.post('/users/checkPay',
+    {
+      id: value,
+    },
     result=>{
       if(result){
-          window.location.reload();
+        $(".alertMessage").text("提交成功！");
+        $("#alertInfoModal").modal();
+        setTimeout(function(){
+          location.reload()
+        }, 2000);
       }
       else{
-        
+        $(".alertMessage").text("出错了！");
+        $("#alertInfoModal").modal();
       }
     }
   )
