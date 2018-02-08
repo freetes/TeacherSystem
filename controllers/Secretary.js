@@ -47,6 +47,26 @@ const Secretary = {
           })
         })
     })
+  },
+  // POST /secretary/sendMessage
+  sendMessage: (req, res)=>{
+    if(req.session.userid == undefined || req.session.userid == null)
+      return res.json(false);
+    Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
+        if(user[0].level == 0) return res.json(false);
+        else
+          Models.NoticeModel({
+            sender: req.session.userid,
+            receiver: req.body.receiver,
+            message: req.body.message,
+            date: req.body.date,
+            level: req.body.level
+          }).save((err, result)=>{
+            if(err) return res.json(false)
+            return res.json(true)
+          })
+      })
+    
   }
 };
 

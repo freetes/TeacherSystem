@@ -24,7 +24,7 @@ const Api = {
   getMessage: (req, res)=>{
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
-    Models.NoticeModel.find({'receiver': req.session.userid||'all'}, (err, messages)=>{
+    Models.NoticeModel.find({$or: [{'receiver': req.session.userid}, {'receiver': 'all'}] }, (err, messages)=>{
       return res.json(messages);
     })
   },

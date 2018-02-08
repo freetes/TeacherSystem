@@ -97,3 +97,9 @@ const payDivClick = ()=>{
 const getNewDate = ()=>{
   return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 }
+
+function a(){
+  getMessage().then(message=>{
+    console.log(message)
+  })
+}

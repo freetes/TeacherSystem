@@ -24,6 +24,31 @@ $(".navbar-nav").first().children().click(function(){
 	}
 })
 
+$(".sendMessageReceiver").change(function(){
+	
+})
+// 发布公告
+function sendMessage(){
+	$.post('/secretary/sendMessage',
+		{
+			message: $(".sendMessageMessage").val(),
+			receiver: $(".sendMessageReceiver").val(),
+			level: $(".sendMessageLevel").val(),
+			date: getNewDate()
+		},
+		result=>{
+			if(result){
+				$(".alertMessage").text("发布公告成功！");
+				$("#alertInfoModal").modal();
+			}
+			else{
+				$(".alertMessage").text("出错了！");
+				$("#alertInfoModal").modal();
+			}
+		}
+	)
+}
+
 // 驳回按钮点击事件
 function refuseBtn(value){
 	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-default btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`

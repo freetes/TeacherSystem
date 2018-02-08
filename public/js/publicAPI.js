@@ -31,14 +31,15 @@ const changePasswd = ()=>{
 };
 
 // 获取公告
-const getMessage = ()=>{
-  $.post('/api/getMessage', 
+const getMessage = async()=>{
+  let messages = await $.post('/api/getMessage', 
     {
     },
-    messages=>{
-      console.log(messages)
+    message=>{
+      return message
     }
   );
+  return messages
 };
 
 // 获取姓名

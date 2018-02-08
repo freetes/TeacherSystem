@@ -7,4 +7,6 @@ router.post('/passRequest', secretary.passRequest);
 
 router.post('/refuseRequest', secretary.refuseRequest);
 
+router.post('/sendMessage', secretary.sendMessage);
+
 module.exports = router;
