@@ -24,56 +24,14 @@ $(".navbar-nav").first().children().click(function(){
 	}
 })
 
-function passRequest(value){
-	$.post('/api/secretary/passRequest',
-		{
-			id: value
-		},
-		result=>{
-			if(result){
-				$(".alertMessage").text("通过审核以成功！");
-				$("#alertInfoModal").modal();
-			}
-			else{
-				$(".alertMessage").text("出错了！");
-				$("#alertInfoModal").modal();
-			}
-			getAllInfo();
-		}
-	)
-}
-
-function refuseRequest(value){
-	if($(".refuseInput").val()==''){
-		$(".alertMessage").html("请输入驳回信息！");
-		return $("#alertInfoModal").modal();
-	}
-	$.post('/api/secretary/refuseRequest',
-		{
-			id: value,
-			message: $(".refuseInput").val(),
-			date: getNewDate()
-		},
-		result=>{
-			if(result){
-				$(".alertMessage").html("驳回成功！");
-				$("#alertInfoModal").modal();
-			}
-			else{
-				$(".alertMessage").html("出错了！");
-				$("#alertInfoModal").modal();
-			}
-			getAllInfo();
-		}
-	)
-}
-
+// 驳回按钮点击事件
 function refuseBtn(value){
 	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-default btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`
 	$(".alertMessage").html(refuseHtml);
 	$("#alertInfoModal").modal();
 }
 
+// POST /api/secretary/getAllInfo
 function getAllInfo(){
 	$.post('/api/secretary/getAllInfo',
 		{
@@ -114,6 +72,52 @@ function displayInfo(info){
 	}
 	$("#userInfoTable").append(userTrs);
 	$("#payInfoTable").append(payTrs);
+}
+
+// POST /api/secretary/passRequest
+function passRequest(value){
+	$.post('/api/secretary/passRequest',
+		{
+			id: value
+		},
+		result=>{
+			if(result){
+				$(".alertMessage").text("通过审核以成功！");
+				$("#alertInfoModal").modal();
+			}
+			else{
+				$(".alertMessage").text("出错了！");
+				$("#alertInfoModal").modal();
+			}
+			getAllInfo();
+		}
+	)
+}
+
+// POST /api/secretary/refuseRequest
+function refuseRequest(value){
+	if($(".refuseInput").val()==''){
+		$(".alertMessage").html("请输入驳回信息！");
+		return $("#alertInfoModal").modal();
+	}
+	$.post('/api/secretary/refuseRequest',
+		{
+			id: value,
+			message: $(".refuseInput").val(),
+			date: getNewDate()
+		},
+		result=>{
+			if(result){
+				$(".alertMessage").html("驳回成功！");
+				$("#alertInfoModal").modal();
+			}
+			else{
+				$(".alertMessage").html("出错了！");
+				$("#alertInfoModal").modal();
+			}
+			getAllInfo();
+		}
+	)
 }
 
 const getNewDate = ()=>{
