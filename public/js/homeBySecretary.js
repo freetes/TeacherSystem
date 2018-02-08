@@ -38,6 +38,26 @@ function passRequest(value){
 				$(".alertMessage").text("出错了！");
 				$("#alertInfoModal").modal();
 			}
+			getAllInfo();
+		}
+	)
+}
+
+function refuseRequest(value){
+	$.post('/api/secretary/refuseRequest',
+		{
+			id: value
+		},
+		result=>{
+			if(result){
+				$("#passBtn").className("通过审核以成功！");
+				$("#alertInfoModal").modal();
+			}
+			else{
+				$(".alertMessage").text("出错了！");
+				$("#alertInfoModal").modal();
+			}
+			getAllInfo();
 		}
 	)
 }
@@ -59,13 +79,13 @@ function getAllInfo(){
 				for(let item2 of pay){
 					if(item.id==item2.id){
 						if(item2.isChecked==1){
-							trs2+=`<tr><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>${item2.isChecked}</td><td><button class="btn btn-default" value="${item2._id}" onclick="passRequest(this.value)">待确认</button></td><td>${item2.applySemester}</td><td>${item2.applyDate}</td></tr>`
+							trs2+=`<tr><td>${item2.applySemester}</td><td>${item2.applyDate}</td><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td><button class="btn btn-default show" id="passBtn" value="${item2._id}" onclick="passRequest(this.value)">通过</button><input type="text" class="form-control hidden" id="input"><button class="btn btn-default show" value="${item2._id}" onclick="refuseRequest(this.value)">驳回</button></td></tr>`
 						}
 						else if(item2.isChecked==2){
-							trs2+=`<tr><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>${item2.isChecked}</td><td>已确认</td><td>${item2.applySemester}</td><td>${item2.applyDate}</td></tr>`	
+							trs2+=`<tr><td>${item2.applySemester}</td><td>${item2.applyDate}</td><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>已确认</td></tr>`	
 						}
 						else{
-							trs2+=`<tr><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>${item2.isChecked}</td><td>未上传</td><td>${item2.applySemester}</td><td>${item2.applyDate}</td></tr>`	
+							trs2+=`<tr><td>${item2.applySemester}</td><td>${item2.applyDate}</td><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>未上传</td></tr>`	
 						}
 					}
 					
