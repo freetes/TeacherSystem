@@ -51,7 +51,8 @@ function refuseRequest(value){
 	$.post('/api/secretary/refuseRequest',
 		{
 			id: value,
-			message: $(".refuseInput").val()
+			message: $(".refuseInput").val(),
+			date: getNewDate()
 		},
 		result=>{
 			if(result){
@@ -113,4 +114,8 @@ function displayInfo(info){
 	}
 	$("#userInfoTable").append(userTrs);
 	$("#payInfoTable").append(payTrs);
+}
+
+const getNewDate = ()=>{
+  return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 }

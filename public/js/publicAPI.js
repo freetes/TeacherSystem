@@ -28,7 +28,6 @@ const changePasswd = ()=>{
       }
     }
   );
-  
 };
 
 // 获取公告
@@ -40,7 +39,7 @@ const getMessage = ()=>{
       console.log(messages)
     }
   );
-}
+};
 
 // 获取姓名
 const getName = (id)=>{
@@ -52,4 +51,4 @@ const getName = (id)=>{
       console.log(name)
     }
   );
-}
+};

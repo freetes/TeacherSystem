@@ -71,7 +71,9 @@ const Api = {
             Models.NoticeModel({
               sender: req.session.userid,
               receiver: result.id,
-              message: req.body.message
+              message: req.body.message,
+              date: req.body.date,
+              level: 'warning'
             }).save((err, resul)=>{
               if(err) return res.json(false)
               return res.json(true)
