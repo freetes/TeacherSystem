@@ -28,6 +28,12 @@ const Api = {
       return res.json(messages);
     })
   },
+  // POST /getName
+  getName: (req, res)=>{
+    Models.UserModel.findOne({'id': req.body.id}, (err, user)=>{
+      return res.json(user.name);
+    })
+  },
   // 教学秘书API
   Secretary: {
     // POST /secretary/getAllInfo

@@ -37,7 +37,19 @@ const getMessage = ()=>{
     {
     },
     messages=>{
-      // console.log(messages)
+      console.log(messages)
+    }
+  );
+}
+
+// 获取姓名
+const getName = (id)=>{
+  $.post('/api/getName', 
+    {
+      id: id
+    },
+    name=>{
+      console.log(name)
     }
   );
 }
