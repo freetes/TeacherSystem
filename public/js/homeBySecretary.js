@@ -31,9 +31,9 @@ function refuseBtn(value){
 	$("#alertInfoModal").modal();
 }
 
-// POST /api/secretary/getAllInfo
+// POST /secretary/getAllInfo
 function getAllInfo(){
-	$.post('/api/secretary/getAllInfo',
+	$.post('/secretary/getAllInfo',
 		{
 			
 		},
@@ -74,9 +74,9 @@ function displayInfo(info){
 	$("#payInfoTable").append(payTrs);
 }
 
-// POST /api/secretary/passRequest
+// POST /secretary/passRequest
 function passRequest(value){
-	$.post('/api/secretary/passRequest',
+	$.post('/secretary/passRequest',
 		{
 			id: value
 		},
@@ -94,13 +94,13 @@ function passRequest(value){
 	)
 }
 
-// POST /api/secretary/refuseRequest
+// POST /secretary/refuseRequest
 function refuseRequest(value){
 	if($(".refuseInput").val()==''){
 		$(".alertMessage").html("请输入驳回信息！");
 		return $("#alertInfoModal").modal();
 	}
-	$.post('/api/secretary/refuseRequest',
+	$.post('/secretary/refuseRequest',
 		{
 			id: value,
 			message: $(".refuseInput").val(),

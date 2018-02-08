@@ -28,10 +28,10 @@ const NoticeSchema = new Schema({
   message: String,
   date: String,
   level: String
-  // 0 to default
-  // 1 to primary
-  // 2 to warning
-  // 3 to danger
+  //  default
+  //  primary
+  //  warning
+  //  danger
 });
 
 // 普通课程模式

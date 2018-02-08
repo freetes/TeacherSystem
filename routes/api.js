@@ -9,10 +9,4 @@ router.post('/getMessage', api.getMessage);
 
 router.post('/getName', api.getName);
 
-router.post('/secretary/getAllInfo', api.Secretary.getAllInfo);
-
-router.post('/secretary/passRequest', api.Secretary.passRequest);
-
-router.post('/secretary/refuseRequest', api.Secretary.refuseRequest);
-
 module.exports = router;
