@@ -20,6 +20,14 @@ const Api = {
       return users.length==0?res.json(false):res.json(true);
     })
   },
+  // POST /getMessage
+  getMessage: (req, res)=>{
+    if(req.session.userid == undefined || req.session.userid == null)
+      return res.json(false);
+    Models.NoticeModel.find({'receiver': req.session.userid||'all'}, (err, messages)=>{
+      return res.json(messages);
+    })
+  },
   // 教学秘书API
   Secretary: {
     // POST /secretary/getAllInfo
@@ -43,6 +51,25 @@ const Api = {
         else
           Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 2}, (err, result)=>{
             return res.json(true)
+          })
+      })
+    },
+    // POST /secretary/refuseRequest
+    refuseRequest: (req, res)=>{
+      if(req.session.userid == undefined || req.session.userid == null)
+        return res.json(false);
+      Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
+        if(user[0].level == 0) return res.json(false);
+        else
+          Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 0}, {new: true}, (err, result)=>{
+            Models.NoticeModel({
+              sender: req.session.userid,
+              receiver: result.id,
+              message: req.body.message
+            }).save((err, resul)=>{
+              if(err) return res.json(false)
+              return res.json(true)
+            })
           })
       })
     }

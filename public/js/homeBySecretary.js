@@ -44,22 +44,33 @@ function passRequest(value){
 }
 
 function refuseRequest(value){
+	if($(".refuseInput").val()==''){
+		$(".alertMessage").html("请输入驳回信息！");
+		return $("#alertInfoModal").modal();
+	}
 	$.post('/api/secretary/refuseRequest',
 		{
-			id: value
+			id: value,
+			message: $(".refuseInput").val()
 		},
 		result=>{
 			if(result){
-				$("#passBtn").className("通过审核以成功！");
+				$(".alertMessage").html("驳回成功！");
 				$("#alertInfoModal").modal();
 			}
 			else{
-				$(".alertMessage").text("出错了！");
+				$(".alertMessage").html("出错了！");
 				$("#alertInfoModal").modal();
 			}
 			getAllInfo();
 		}
 	)
+}
+
+function refuseBtn(value){
+	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-default btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`
+	$(".alertMessage").html(refuseHtml);
+	$("#alertInfoModal").modal();
 }
 
 function getAllInfo(){
@@ -68,31 +79,38 @@ function getAllInfo(){
 			
 		},
 		info=>{
-			$("#userInfoTable").html("");
-			$("#payInfoTable").html("");
-			const users = info.user;
-			let trs1="";
-			const pay = info.pay;
-			let trs2="";
-			for(let item of users){
-				trs1+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td></tr>`
-				for(let item2 of pay){
-					if(item.id==item2.id){
-						if(item2.isChecked==1){
-							trs2+=`<tr><td>${item2.applySemester}</td><td>${item2.applyDate}</td><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td><button class="btn btn-default show" id="passBtn" value="${item2._id}" onclick="passRequest(this.value)">通过</button><input type="text" class="form-control hidden" id="input"><button class="btn btn-default show" value="${item2._id}" onclick="refuseRequest(this.value)">驳回</button></td></tr>`
-						}
-						else if(item2.isChecked==2){
-							trs2+=`<tr><td>${item2.applySemester}</td><td>${item2.applyDate}</td><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>已确认</td></tr>`	
-						}
-						else{
-							trs2+=`<tr><td>${item2.applySemester}</td><td>${item2.applyDate}</td><td>${item.name}</td><td>${item2.id}</td><td>${item2.pay}</td><td>未上传</td></tr>`	
-						}
-					}
-					
-				}
-			}
-			$("#userInfoTable").append(trs1);
-			$("#payInfoTable").append(trs2);
+			displayInfo(info)
 		}
 	)
+}
+
+function displayInfo(info){
+	$("#userInfoTable").html("");
+	$("#payInfoTable").html("");
+	const users = info.user;
+	let userTrs="";
+	const pay = info.pay;
+	let payTrs="";
+	for(let item of users){
+		userTrs+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td></tr>`
+		for(let payItem of pay){
+			if(item.id==payItem.id){
+				if(payItem.isChecked==1){
+					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td>
+					<td>
+					<button class="btn btn-default" value="${payItem._id}" onclick="passRequest(this.value)">通过</button>
+					<button class="btn btn-default" value="${payItem._id}" onclick="refuseBtn(this.value)">驳回</button>
+					</td></tr>`
+				}
+				else if(payItem.isChecked==2){
+					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>已确认</td></tr>`	
+				}
+				else{
+					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>未上传</td></tr>`	
+				}
+			}
+		}
+	}
+	$("#userInfoTable").append(userTrs);
+	$("#payInfoTable").append(payTrs);
 }

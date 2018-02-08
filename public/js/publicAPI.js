@@ -28,6 +28,16 @@ const changePasswd = ()=>{
       }
     }
   );
-    
   
 };
+
+// 获取公告
+const getMessage = ()=>{
+  $.post('/api/getMessage', 
+    {
+    },
+    messages=>{
+      // console.log(messages)
+    }
+  );
+}

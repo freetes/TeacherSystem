@@ -22,7 +22,12 @@ const PaySchema = new Schema({
 });
 
 // 公告数据模式
-//const  
+const NoticeSchema = new Schema({
+  sender: String,
+  receiver: String,
+  message: String,
+  date: String
+});
 
 // 普通课程模式
 const NormalClassSchema = new Schema({
@@ -104,6 +109,7 @@ const GraduateClassSchema = new Schema({
 const Models = {
   UserModel: mongoose.model('User', UserSchema),
   PayModel: mongoose.model('Pay', PaySchema),
+  NoticeModel: mongoose.model('Notice', NoticeSchema),
   NormalClassModel: mongoose.model('NormalClass', NormalClassSchema),
   DesignClassSchema: mongoose.model('DesignClass', DesignClassSchema),
   TrainClassSchema: mongoose.model('TrainClass', TrainClassSchema),
