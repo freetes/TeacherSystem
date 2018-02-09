@@ -31,7 +31,7 @@ const changePasswd = ()=>{
 };
 
 // 获取公告
-const getMessage = async()=>{
+const getMessage = async ()=>{
   let messages = await $.post('/api/getMessage', 
     {
     },
@@ -43,13 +43,14 @@ const getMessage = async()=>{
 };
 
 // 获取姓名
-const getName = (id)=>{
-  $.post('/api/getName', 
+const getName = async id=>{
+  let name = await $.post('/api/getName', 
     {
       id: id
     },
     name=>{
-      console.log(name)
+      return name
     }
   );
+  return name
 };

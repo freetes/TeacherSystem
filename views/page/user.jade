@@ -31,8 +31,11 @@ body
               span.glyphicon.glyphicon-user(aria-hidden="true") 
               span  公告栏
             .panel-body
-              p 消息
-
+              .myMessageBox.container-fluid
+                h4 我的通知
+              hr
+              .allMessageBox.container-fluid
+                h4 全体公告
         //- 授课查询
         .allClassDiv(style="display: none")
           .panel.panel-primary
@@ -252,7 +255,7 @@ body
                   -else if(nowPay.isChecked == 1)
                     p 您的预发工资为：#{nowPay.pay}元
                     p 提交日期为：#{nowPay.applyDate}
-                    p 已提交审核，不可修改
+                    p 已提交，不可修改，请等待审核
                   -else
                     p 您的预发工资为：#{nowPay.pay} 元
                     p 提交日期为：#{nowPay.applyDate}
@@ -274,13 +277,14 @@ body
                       span.input-group-btn
                         botton.btn.btn-default(type="botton", onclick="setNewPay()") 提交
                       
-                br
+                hr
+                h4 工资项目表:
                 //- 工资项目表
                 table.table.table-bordered
                   tr: th 申请学期
                       th 申请日期
                       th 申请工资
-                      th 审核状态
+                      th 状态
                       
                   each item in pay
                     tr: td #{item.applySemester}

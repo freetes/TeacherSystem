@@ -24,15 +24,19 @@ $(".navbar-nav").first().children().click(function(){
 	}
 })
 
-$(".sendMessageReceiver").change(function(){
-	
+$(".sendMessageReceiverSelect").change(function(){
+	if(this.value=='one'){
+		$(".sendMessageReceiverInput").slideToggle()
+	}
+	else
+		$(".sendMessageReceiverInput").css("display", 'none')
 })
 // 发布公告
 function sendMessage(){
 	$.post('/secretary/sendMessage',
 		{
-			message: $(".sendMessageMessage").val(),
-			receiver: $(".sendMessageReceiver").val(),
+			message: $(".sendMessageContent").val(),
+			receiver: $(".sendMessageReceiverSelect").val()=='all'?'all':$(".sendMessageReceiverInput").val(),
 			level: $(".sendMessageLevel").val(),
 			date: getNewDate()
 		},
@@ -51,7 +55,7 @@ function sendMessage(){
 
 // 驳回按钮点击事件
 function refuseBtn(value){
-	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-default btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`
+	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-warning btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`
 	$(".alertMessage").html(refuseHtml);
 	$("#alertInfoModal").modal();
 }
@@ -82,15 +86,15 @@ function displayInfo(info){
 				if(payItem.isChecked==1){
 					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td>
 					<td>
-					<button class="btn btn-default" value="${payItem._id}" onclick="passRequest(this.value)">通过</button>
-					<button class="btn btn-default" value="${payItem._id}" onclick="refuseBtn(this.value)">驳回</button>
+					<button class="btn btn-primary" value="${payItem._id}" onclick="passRequest(this.value)">通过</button>
+					<button class="btn btn-warning" value="${payItem._id}" onclick="refuseBtn(this.value)">驳回</button>
 					</td></tr>`
 				}
 				else if(payItem.isChecked==2){
-					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>已确认</td></tr>`	
+					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>已通过审核</td></tr>`	
 				}
 				else{
-					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>未上传</td></tr>`	
+					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>未提交</td></tr>`	
 				}
 			}
 		}

@@ -22,8 +22,14 @@ block content
               .input-group-addon
                 span.glyphicon.glyphicon-lock(aria-hidden="true")
               input.form-control(type='password', name='password', placeholder="密码")
+            br
+            .input-group
+              .input-group-addon
+                span.glyphicon.glyphicon-asterisk(aria-hidden="true")  #{verifyCodeExpression} 结果为
+              input.form-control(type='text', name='verifyCode', placeholder="验证码")
 
             .col-md-12.col-xs-12.text-right(style="color:red")= message
+            
             br
             .form-group
               .col-md-12.col-xs-12

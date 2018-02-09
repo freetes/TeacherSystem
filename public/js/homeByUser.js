@@ -1,5 +1,8 @@
+$(document).ready(function(){
+  getAllMessages()
+})
 // 上传新的薪资
-const setNewPay = ()=>{
+function setNewPay(){
   if($(".newPay").val() != '' && $(".applySemesterSelect").val() != '')
     $.post('/users/newPay', 
       {
@@ -98,8 +101,37 @@ const getNewDate = ()=>{
   return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 }
 
-function a(){
+function getAllMessages(){
   getMessage().then(message=>{
-    console.log(message)
+    for(let item of message){
+      getName(item.sender).then(name=>{
+        if(item.receiver == 'all'){
+          $(".allMessageBox").append(`
+            <div class="col-md-12 bg-${item.level}">
+              <div class="col-md-9 bg-${item.level}">
+                <h4>${item.message}</h4>
+              </div>
+              <div class="col-md-3 bg-${item.level}">
+                <p class="text-right">${item.date}</p>
+                <p class="text-right">from ${name}</p>
+              </div>
+            </div>
+            `)
+        }
+        else{
+          $(".myMessageBox").append(`
+          <div class="col-md-12 bg-${item.level}">
+            <div class="col-md-9">
+              <h4>${item.message}</h4>
+            </div>
+            <div class="col-md-3">
+              <p class="text-right">${item.date}</p>
+              <p class="text-right">from ${name}</p>
+            </div>
+          </div>
+          `)
+        }
+      })
+    }
   })
 }
