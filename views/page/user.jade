@@ -13,8 +13,6 @@ body
           .panel-body
             h3 #{user.name}老师，您好！
             p 教师工号：#{user.id}
-            p.hidden 用户密码：
-              span.userPasswd #{user.password}
             
             botton.btn.btn-block.btn-primary(onclick="mainDivClick()") 首页
             botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资管理
@@ -28,7 +26,7 @@ body
         .mainDiv
           .panel.panel-primary
             .panel-heading
-              span.glyphicon.glyphicon-user(aria-hidden="true") 
+              span.glyphicon.glyphicon-bullhorn(aria-hidden="true") 
               span  公告栏
             .panel-body
               .myMessageBox.container-fluid
@@ -36,11 +34,12 @@ body
               hr
               .allMessageBox.container-fluid
                 h4 全体公告
+                        
         //- 授课查询
         .allClassDiv(style="display: none")
           .panel.panel-primary
             .panel-heading
-              span.glyphicon.glyphicon-user(aria-hidden="true") 
+              span.glyphicon.glyphicon-list(aria-hidden="true") 
               span  授课总表
             .panel-body
               table.table.table-bordered
@@ -193,7 +192,7 @@ body
         .addClassDiv(style="display: none")
           .panel.panel-primary
             .panel-heading
-              span.glyphicon.glyphicon-user(aria-hidden="true") 
+              span.glyphicon.glyphicon-list(aria-hidden="true") 
               span  课程登记
             .panel-body
               h3 #{user.name}老师，您好！
@@ -210,7 +209,7 @@ body
         .payCtrlDiv(style="display: none")
           .panel.panel-primary
             .panel-heading
-              span.glyphicon.glyphicon-user(aria-hidden="true")
+              span.glyphicon.glyphicon-list(aria-hidden="true")
               span  工资管理
             .panel-body
               h3 #{user.name}老师，您好！

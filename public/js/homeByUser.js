@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function(){
   getAllMessages()
 })
 // 上传新的薪资
@@ -71,6 +71,54 @@ function checkPay(value){
   )
 };
 
+function getAllMessages(){
+  getMessage().then(message=>{
+    message.forEach((item, i) => {
+      getName(item.sender).then(name=>{
+        if(item.receiver == 'all'){
+          $(".allMessageBox").append(`
+            <div class="col-md-12 bg-${item.level}">
+              <div class="col-md-9">
+                <h4>${item.message}</h4>
+              </div>
+              <div class="col-md-3">
+                <p class="text-right">${item.date}</p>
+                <p class="text-right">from ${name}</p>
+              </div>
+            </div>
+          `)
+        }
+        else{
+          $(".myMessageBox").append(`
+            <div class="col-md-12 bg-${item.level}">
+              <div class="col-md-9">
+                <h4>${item.message}</h4>
+              </div>
+              <div class="col-md-3">
+                <p class="text-right">${item.date}</p>
+                <p class="text-right">from ${name}</p>
+              </div>
+            </div>
+          `)
+        }
+        if(i == message.length-1){
+          if($(".myMessageBox").find('div').length == 0){
+            $(".myMessageBox").append(`<p>无通知</p>`)
+          }
+          if($(".allMessageBox").find('div').length == 0){
+            $(".allMessageBox").append(`<p>无通知</p>`)
+          }
+        }
+      })
+    });
+    
+  })
+}
+
+const getNewDate = ()=>{
+  return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
+}
+
 // 点击事件
 const allClassClick = ()=>{
   $(".mainDiv").css("display", "none");
@@ -96,42 +144,3 @@ const payDivClick = ()=>{
   $(".addClassDiv").css("display", "none");
   if($(".payCtrlDiv").css("display")=='none') $(".payCtrlDiv").slideToggle();
 };
-
-const getNewDate = ()=>{
-  return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
-}
-
-function getAllMessages(){
-  getMessage().then(message=>{
-    for(let item of message){
-      getName(item.sender).then(name=>{
-        if(item.receiver == 'all'){
-          $(".allMessageBox").append(`
-            <div class="col-md-12 bg-${item.level}">
-              <div class="col-md-9 bg-${item.level}">
-                <h4>${item.message}</h4>
-              </div>
-              <div class="col-md-3 bg-${item.level}">
-                <p class="text-right">${item.date}</p>
-                <p class="text-right">from ${name}</p>
-              </div>
-            </div>
-            `)
-        }
-        else{
-          $(".myMessageBox").append(`
-          <div class="col-md-12 bg-${item.level}">
-            <div class="col-md-9">
-              <h4>${item.message}</h4>
-            </div>
-            <div class="col-md-3">
-              <p class="text-right">${item.date}</p>
-              <p class="text-right">from ${name}</p>
-            </div>
-          </div>
-          `)
-        }
-      })
-    }
-  })
-}

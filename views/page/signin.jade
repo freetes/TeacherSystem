@@ -6,11 +6,12 @@ block content
   body
     include ../public/navi
     
-    .container
+    .container(style="background-color: white")
       .row
         .col-xs-0.col-md-8
+          img.img-responsive(src="/img/loginBg.jpg")
         .col-xs-12.col-md-4
-          h3 登陆界面
+          h3 用户登录
           br
           form.form-horizontal(action='/signin', method='POST')
             .input-group
@@ -23,9 +24,11 @@ block content
                 span.glyphicon.glyphicon-lock(aria-hidden="true")
               input.form-control(type='password', name='password', placeholder="密码")
             br
-            .input-group
+            .input-group.verifyPopoverHelp(data-toggle="popover", data-trigger="focus", data-placement="top", data-content="例如：(叁 加 柒) 结果为 10")
               .input-group-addon
-                span.glyphicon.glyphicon-asterisk(aria-hidden="true")  #{verifyCodeExpression} 结果为
+                span.glyphicon.glyphicon-asterisk(aria-hidden="true")
+              .input-group-addon
+                span #{verifyCodeExpression} 结果为
               input.form-control(type='text', name='verifyCode', placeholder="验证码")
 
             .col-md-12.col-xs-12.text-right(style="color:red")= message
@@ -33,5 +36,13 @@ block content
             br
             .form-group
               .col-md-12.col-xs-12
-                button.btn.btn-primary.btn-block 提交
-          
+                button.btn.btn-primary.btn-block 登录
+    
+    script.
+      $(".verifyPopoverHelp").mouseenter(function(){
+        $(".verifyPopoverHelp").popover('show')
+      })
+
+      $(".verifyPopoverHelp").mouseleave(function(){
+        $(".verifyPopoverHelp").popover('hide')
+      })
