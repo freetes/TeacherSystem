@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+// var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -29,7 +29,8 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+// 日志
+// app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -39,6 +40,14 @@ app.use(session({
   secret: 'freetes'
 }))
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 日志 test
+// app.use(function(req, res, next) {
+//   console.log(`ip: ${(req.headers['x-forwarded-for'] || '').split(',')[0] || req.ip}`)
+//   console.log(req.body)
+//   next();
+// });
+
 
 app.use('/', home);
 app.use('/users', users);

@@ -29,11 +29,11 @@ body
               span.glyphicon.glyphicon-bullhorn(aria-hidden="true") 
               span  公告栏
             .panel-body
-              .myMessageBox.container-fluid
-                h4 我的通知
-              hr
               .allMessageBox.container-fluid
-                h4 全体公告
+                h4 学院公告
+              hr
+              .myMessageBox.container-fluid
+                h4 我的消息
                         
         //- 授课查询
         .allClassDiv(style="display: none")
@@ -53,8 +53,8 @@ body
                   td 标准学时
                   td 理论学时
                   td 实验学时
+                  td 合班系数
                   td 实际学时
-                  td 课程权重
                   td 是否审核
                 each item in classes.normalClass
                   tr  
@@ -67,8 +67,8 @@ body
                     td= item.standardHours
                     td= item.theoryHours
                     td= item.experimentHours
-                    td= item.finalHours
                     td= item.point
+                    td= item.finalHours
                     -if(item.isChecked == true)
                       td Yep
                     -else
@@ -83,8 +83,8 @@ body
                   td 学生人数
                   td 周数
                   td 实验学时
+                  td 合班系数
                   td 实际学时
-                  td 课程权重
                   td 是否审核
                 each item in classes.designClass                 
                   tr
@@ -96,8 +96,8 @@ body
                     td= item.studentAmount
                     td= item.week
                     td= item.experimentHours
-                    td= item.finalHours
                     td= item.point
+                    td= item.finalHours
                     -if(item.isChecked == true)
                       td Yep
                     -else
@@ -111,8 +111,8 @@ body
                   td 班级
                   td 学生人数
                   td 单位学时
+                  td 合班系数
                   td 实际学时
-                  td 课程权重
                   td 是否审核
                 each item in classes.trainClass
                   tr  
@@ -123,8 +123,8 @@ body
                     td= item.class
                     td= item.studentAmount
                     td= item.unitHours
-                    td= item.finalHours
                     td= item.point
+                    td= item.finalHours
                     -if(item.isChecked == true)
                       td Yep
                     -else
@@ -139,8 +139,8 @@ body
                   td 学生人数
                   td 周数
                   td 单位学时
+                  td 合班系数
                   td 实际学时
-                  td 课程权重
                   td 是否审核
                 each item in classes.produceClass
                   tr  
@@ -152,8 +152,8 @@ body
                     td= item.studentAmount
                     td= item.week
                     td= item.experimentHours
-                    td= item.finalHours
                     td= item.point
+                    td= item.finalHours
                     -if(item.isChecked == true)
                       td Yep
                     -else
@@ -168,8 +168,8 @@ body
                   td 学生人数
                   td 周数
                   td 单位学时
+                  td 合班系数
                   td 实际学时
-                  td 课程权重
                   td 是否审核
                 each item in classes.graduateClass                  
                   tr  
@@ -181,8 +181,8 @@ body
                     td= item.studentAmount
                     td= item.week
                     td= item.experimentHours
-                    td= item.finalHours
                     td= item.point
+                    td= item.finalHours
                     -if(item.isChecked == true)
                       td Yep
                     -else
