@@ -73,45 +73,27 @@ function checkPay(value){
 
 function getAllMessages(){
   getMessage().then(message=>{
-    message.forEach((item, i) => {
-      getName(item.sender).then(name=>{
-        if(item.receiver == 'all'){
-          $(".allMessageBox").append(`
-            <div class="col-md-12 bg-${item.level}">
-              <div class="col-md-9">
-                <h4>${item.message}</h4>
-              </div>
-              <div class="col-md-3">
-                <p class="text-right">${item.date}</p>
-                <p class="text-right">from ${name}</p>
-              </div>
-            </div>
-          `)
-        }
-        else{
-          $(".myMessageBox").append(`
-            <div class="col-md-12 bg-${item.level}">
-              <div class="col-md-9">
-                <h4>${item.message}</h4>
-              </div>
-              <div class="col-md-3">
-                <p class="text-right">${item.date}</p>
-                <p class="text-right">from ${name}</p>
-              </div>
-            </div>
-          `)
-        }
-        if(i == message.length-1){
-          if($(".myMessageBox").find('div').length == 0){
-            $(".myMessageBox").append(`<p>无通知</p>`)
-          }
-          if($(".allMessageBox").find('div').length == 0){
-            $(".allMessageBox").append(`<p>无通知</p>`)
-          }
-        }
-      })
-    });
-    
+    message.sort((a, b)=>new Date(b.date)-new Date(a.date))
+    for(let item of message){
+      let messageHtml = `
+        <div class="col-md-12 bg-${item.level}">
+          <div class="col-md-9">
+            <h4>${item.message}</h4>
+          </div>
+          <div class="col-md-3">
+            <p class="text-right">${item.date}</p>
+            <p class="text-right">${item.sender}</p>
+          </div>
+        </div>
+      `
+      item.receiver == 'all'?$(".allMessageBox").append(messageHtml):$(".myMessageBox").append(messageHtml)
+    }
+    if($(".myMessageBox").find('div').length == 0){
+      $(".myMessageBox").append(`<p>无通知</p>`)
+    }
+    if($(".allMessageBox").find('div').length == 0){
+      $(".allMessageBox").append(`<p>无通知</p>`)
+    }
   })
 }
 

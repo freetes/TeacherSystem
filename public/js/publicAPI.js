@@ -31,25 +31,33 @@ const changePasswd = ()=>{
 };
 
 // 获取公告
-const getMessage = async ()=>{
-  let messages = await $.post('/api/getMessage', 
-    {
-    },
-    message=>{
-      return message
+const getMessage =async ()=>{
+  let m
+  await $.get('/api/getMessage', 
+    messages=>{
+      m=messages
     }
   );
-  return messages
+  await changeMessage(m).then(changeMessages=>m=changeMessages)
+  return m
 };
+
+const changeMessage = async changeMessages=>{
+  for(let item of changeMessages){
+    await getName(item.sender).then(name=>item.sender=name)
+  }
+  return changeMessages
+}
 
 // 获取姓名
 const getName = async id=>{
-  let name = await $.post('/api/getName', 
+  let name
+  await $.post('/api/getName', 
     {
       id: id
     },
-    name=>{
-      return name
+    n=>{
+      name = n
     }
   );
   return name

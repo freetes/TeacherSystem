@@ -5,7 +5,7 @@ router.post('/changePasswd', api.changePasswd);
 
 router.post('/confirmPasswd', api.confirmPasswd);
 
-router.post('/getMessage', api.getMessage);
+router.get('/getMessage', api.getMessage);
 
 router.post('/getName', api.getName);
 

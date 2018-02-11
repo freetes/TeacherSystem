@@ -20,8 +20,9 @@ const Api = {
       return users.length==0?res.json(false):res.json(true);
     })
   },
-  // POST /getMessage
+  // GET /getMessage
   getMessage: (req, res)=>{
+    if(!isAjax(req)) return res.json('Do not do it!')
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
     Models.NoticeModel.find({$or: [{'receiver': req.session.userid}, {'receiver': 'all'}] }, (err, messages)=>{
@@ -36,5 +37,12 @@ const Api = {
   },
   
 };
+
+function isAjax(req) {
+  if (req.headers['x-requested-with'] && req.headers['x-requested-with'].toLowerCase() == 'xmlhttprequest')
+    return true
+  else 
+    return false
+}
 
 module.exports = Api;
