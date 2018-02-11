@@ -144,3 +144,43 @@ const payDivClick = ()=>{
   $(".addClassDiv").css("display", "none");
   if($(".payCtrlDiv").css("display")=='none') $(".payCtrlDiv").slideToggle();
 };
+
+
+//选择课程
+$(".chooseClass").change(function(){
+	if(this.value=='0'){
+    $(".chooseClassType1").css("display", 'none')
+    $(".chooseClassType2").css("display", 'none')
+    $(".chooseClassType5").css("display", 'none')
+		$(".chooseClassType4").css("display", 'block')
+		$(".chooseClassType3").css("display", 'block')
+  }
+  else if(this.value=='usual'){
+		$(".chooseClassType1").css("display", 'block')
+		$(".chooseClassType2").css("display", 'block')
+    $(".chooseClassType3").css("display", 'block')
+    $(".chooseClassType4").css("display", 'none')
+    $(".chooseClassType5").css("display", 'none')
+  }
+  else if(this.value=='design'){
+    $(".chooseClassType1").css("display", 'none')
+    $(".chooseClassType2").css("display", 'none')
+    $(".chooseClassType5").css("display", 'none')
+		$(".chooseClassType4").css("display", 'block')
+		$(".chooseClassType3").css("display", 'block')
+  }
+  else if(this.value=='research'){
+    $(".chooseClassType1").css("display", 'none')
+    $(".chooseClassType2").css("display", 'none')
+    $(".chooseClassType3").css("display", 'none')
+    $(".chooseClassType4").css("display", 'none')
+		$(".chooseClassType5").css("display", 'block')
+  }
+  else{
+    $(".chooseClassType1").css("display", 'none')
+    $(".chooseClassType2").css("display", 'none')
+    $(".chooseClassType3").css("display", 'none')
+		$(".chooseClassType4").css("display", 'block')
+		$(".chooseClassType5").css("display", 'block')
+  }
+})
