@@ -32,14 +32,14 @@ const changePasswd = ()=>{
 
 // 获取公告
 const getMessage =async ()=>{
-  let m
+  let messages
   await $.get('/api/getMessage', 
-    messages=>{
-      m=messages
+    m=>{
+      messages = m
     }
   );
-  await changeMessage(m).then(changeMessages=>m=changeMessages)
-  return m
+  await changeMessage(messages).then(changeMessages=>messages=changeMessages)
+  return messages
 };
 
 const changeMessage = async changeMessages=>{

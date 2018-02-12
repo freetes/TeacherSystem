@@ -195,61 +195,59 @@ body
               span.glyphicon.glyphicon-list(aria-hidden="true") 
               span  课程登记
             .panel-body
-              .container
-                .row
-                  form.form-horizontal
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 登记日期
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 教学学期
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 课程名称
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 课程分类
-                      select.col-md-10.form-control.chooseClass
-                        option(value="0") 请选择
-                        option(value="usual") 普通课程模式
-                        option(value="design") 课程设计模式
-                        option(value="research") 科研训练模式
-                        option(value="produce") 生产实习模式
-                        option(value="graduPractice") 毕业实习模式
-                      input.col-md-10.form-control.chooseClassType1(type="text", placeholder="请输入标准学时", style="display: none")     
-                      input.col-md-10.form-control.chooseClassType2(type="text", placeholder="请输入理论学时", style="display: none")     
-                      input.col-md-10.form-control.chooseClassType3(type="text", placeholder="请输入实验学时", style="display: none")     
-                      input.col-md-10.form-control.chooseClassType4(type="text", placeholder="请输入周数", style="display: none")     
-                      input.col-md-10.form-control.chooseClassType5(type="text", placeholder="请输入单位学时", style="display: none")     
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 教授专业
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 教授班级
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 学生人数
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 合班系数
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 实际学时
-                      input.col-md-10.form-control
-                    br
-                    .input-group.input-group.col-md-7
-                      .input-group-addon 是否审核
-                      input.col-md-10.form-control 
-                    br
-                    button.btn.btn-primary.col-md-7 录入
+              form.form-horizontal
+                .input-group
+                  span.input-group-addon 登记日期
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 教学学期
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 课程名称
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 课程分类
+                  select.form-control.chooseClass
+                    option(value="0") 请选择
+                    option(value="usual") 普通课程模式
+                    option(value="design") 课程设计模式
+                    option(value="research") 科研训练模式
+                    option(value="produce") 生产实习模式
+                    option(value="graduPractice") 毕业实习模式
+                  input.form-control.chooseClassType1(type="text", placeholder="请输入标准学时", style="display: none")     
+                  input.form-control.chooseClassType2(type="text", placeholder="请输入理论学时", style="display: none")     
+                  input.form-control.chooseClassType3(type="text", placeholder="请输入实验学时", style="display: none")     
+                  input.form-control.chooseClassType4(type="text", placeholder="请输入周数", style="display: none")     
+                  input.form-control.chooseClassType5(type="text", placeholder="请输入单位学时", style="display: none")     
+                br
+                .input-group
+                  spanspan.input-group-addon 教授专业
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 教授班级
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 学生人数
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 合班系数
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 实际学时
+                  input.form-control
+                br
+                .input-group
+                  span.input-group-addon 是否审核
+                  input.form-control 
+                br
+                button.btn.btn-primary.btn-block 录入
               
 
         //- 工资管理
