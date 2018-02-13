@@ -22,6 +22,11 @@ $(".navbar-nav").first().children().click(function(){
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[3].style.display = "block"
 	}
+	else if(this.innerText.includes("课程管理")){
+		$(".container-fluid").css("display", "none")
+		$(".container-fluid")[0].style.display = "block"
+		$(".container-fluid")[4].style.display = "block"
+	}
 })
 
 $(".sendMessageReceiverSelect").change(function(){
