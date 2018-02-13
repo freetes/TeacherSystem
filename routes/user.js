@@ -9,4 +9,6 @@ router.post('/changePay', user.changePay);
 
 router.post('/checkPay', user.checkPay);
 
+router.post('/newClass', user.newClass);
+
 module.exports = router;

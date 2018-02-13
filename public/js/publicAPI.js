@@ -37,16 +37,16 @@ const getMessage =async ()=>{
     m=>{
       messages = m
     }
-  );
+  )
   await changeMessage(messages).then(changeMessages=>messages=changeMessages)
   return messages
-};
+}
 
-const changeMessage = async changeMessages=>{
-  for(let item of changeMessages){
+const changeMessage = async messages=>{
+  for(let item of messages){
     await getName(item.sender).then(name=>item.sender=name)
   }
-  return changeMessages
+  return messages
 }
 
 // 获取姓名

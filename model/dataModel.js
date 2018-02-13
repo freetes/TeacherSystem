@@ -46,7 +46,7 @@ const NormalClassSchema = new Schema({
   theoryHours: Number,      // 理论学时
   experimentHours: Number,  // 实验学时
   finalHours: Number,       // 实际学时
-  data: String,             // 添加/修改日期
+  date: String,             // 添加/修改日期
   point: Number,            // 课程权重
   isChecked: Boolean        // 是否审核
 });
@@ -61,7 +61,7 @@ const DesignClassSchema = new Schema({
   week: Number,             // 周数
   experimentHours: Number,  // 实验学时
   finalHours: Number,        // 实际学时
-  data: String,             // 添加/修改日期
+  date: String,             // 添加/修改日期
   point: Number,            // 课程权重
   isChecked: Boolean        // 是否审核
 });
@@ -75,7 +75,7 @@ const TrainClassSchema = new Schema({
   studentAmount: Number,
   unitHours: Number,        // 单位学时
   finalHours: Number,       // 实际学时
-  data: String,             // 添加/修改日期
+  date: String,             // 添加/修改日期
   point: Number,            // 课程权重
   isChecked: Boolean        // 是否审核
 });
@@ -90,7 +90,7 @@ const ProduceClassSchema = new Schema({
   week: Number,             // 周数
   unitHours: Number,        // 单位学时
   finalHours: Number,       // 实际学时
-  data: String,             // 添加/修改日期
+  date: String,             // 添加/修改日期
   point: Number,            // 课程权重
   isChecked: Boolean        // 是否审核
 });
@@ -105,7 +105,7 @@ const GraduateClassSchema = new Schema({
   week: Number,
   unitHours: Number,
   finalHours: Number,
-  data: String,             // 添加/修改日期
+  date: String,             // 添加/修改日期
   point: Number,            // 课程权重
   isChecked: Boolean        // 是否审核
 });

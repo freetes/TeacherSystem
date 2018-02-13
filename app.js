@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var home = require('./routes/home');
-var users = require('./routes/users');
+var user = require('./routes/user');
 var secretary = require('./routes/secretary');
 var admin = require('./routes/admin');
 var api = require('./routes/api');
@@ -50,8 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', home);
-app.use('/users', users);
-app.use('/users', users);
+app.use('/user', user);
 app.use('/secretary', secretary);
 app.use('/api', api);
 

@@ -7,7 +7,6 @@ body
         .navbar-header
           img.navbar-brand(src='/img/logo.png', style="height: 100px")
           h3.navbar-text(style="color: white; line-height:100px; text-align:left;margin:0")= title
-  br
   
   .container
     .row
@@ -64,7 +63,7 @@ body
                   td 是否审核
                 each item in classes.normalClass
                   tr  
-                    td= item.data
+                    td= item.date
                     td= item.semester
                     td= item.name
                     td= item.faculty
@@ -198,10 +197,10 @@ body
         .addClassDiv(style="display: none")
           .panel.panel-primary
             .panel-heading
-              span.glyphicon.glyphicon-list(aria-hidden="true") 
+              span.glyphicon.glyphicon-list(aria-hidden="true")
               span  课程登记
             .panel-body
-              form.form-horizontal
+              form.addNewClassForm(method="POST", action="/user/newClass")
                 .input-group
                   span.input-group-addon 登记日期
                   input.form-control.classDateInput(type="text", name="date", readonly)
@@ -229,76 +228,38 @@ body
                 br
                 .input-group
                   span.input-group-addon 课程名称
-                  input.form-control(type="text", name="className")
+                  input.form-control.publicInput(type="text", name="name")
                 .input-group
                   span.input-group-addon 专业
-                  input.form-control(type="text", name="classFaculty")
+                  input.form-control.publicInput(type="text", name="faculty")
                 .input-group
                   span.input-group-addon 班级
-                  input.form-control(type="text", name="classClass")
+                  input.form-control.publicInput(type="text", name="class")
                 .input-group
                   span.input-group-addon 学生人数
-                  input.form-control(type="text", name="classStudentAmount")
+                  input.form-control.publicInput(type="text", name="studentAmount")
                 br
-                .normalClass.classesInputGroup
+                .classesInputGroup
                   .input-group
                     span.input-group-addon 标准学时
-                    input.form-control(type="text", name="standardHours")
+                    input.form-control(type='text', name='standardHours')
                   .input-group
                     span.input-group-addon 理论学时
-                    input.form-control(type="text", name="theoryHours")
+                    input.form-control(type='text', name='theoryHours')
                   .input-group
                     span.input-group-addon 实验学时
-                    input.form-control(type="text", name="experimentHours")
+                    input.form-control(type='text', name='experimentHours')
                   .input-group
                     span.input-group-addon 合班系数
-                    input.form-control(type="text", name="point")
+                    input.form-control(type='text', name='point')
                   .input-group
                     span.input-group-addon 实际学时
-                    input.form-control(type="text", name="finalHours")
+                    input.form-control(type='text', name='finalHours')
+
+              br
+              p.addNewClassMessage
+              button.btn.btn-primary.btn-block(onclick="addNewClass()") 录入
                 
-                .designClass.classesInputGroup(style="display: none")
-                  .input-group
-                    span.input-group-addon 周数
-                    input.form-control(type="text", name="week")
-                  .input-group
-                    span.input-group-addon 实验学时
-                    input.form-control(type="text", name="experimentHours")
-                  .input-group
-                    span.input-group-addon 合班系数
-                    input.form-control(type="text", name="point")
-                  .input-group
-                    span.input-group-addon 实际学时
-                    input.form-control(type="text", name="finalHours")
-                
-                .trainClass.classesInputGroup(style="display: none")
-                  .input-group
-                    span.input-group-addon 单位学时
-                    input.form-control(type="text", name="unitHours")
-                  .input-group
-                    span.input-group-addon 合班系数
-                    input.form-control(type="text", name="point")
-                  .input-group
-                    span.input-group-addon 实际学时
-                    input.form-control(type="text", name="finalHours")
-                
-                .otherClass.classesInputGroup(style="display: none")
-                  .input-group
-                    span.input-group-addon 周数
-                    input.form-control(type="text", name="week")
-                  .input-group
-                    span.input-group-addon 单位学时
-                    input.form-control(type="text", name="unitHours")
-                  .input-group
-                    span.input-group-addon 合班系数
-                    input.form-control(type="text", name="point")
-                  .input-group
-                    span.input-group-addon 实际学时
-                    input.form-control(type="text", name="finalHours")
-                
-                br
-                button.btn.btn-primary.btn-block 录入
-              
               //- form.form-horizontal
                 .form-group
                   label.col-md-2.control-label 登记日期

@@ -10,16 +10,15 @@ block content
           .navbar-header
             img.navbar-brand(src='/img/logo.png', style="height: 100px")
             h3.navbar-text(style="color: white; line-height:100px; text-align:left;margin:0")= title
-    br
     
     .container(style="background-color: white")
       .row
-        .col-xs-0.col-md-8
+        .col-md-8.hidden-xs
           img.img-responsive(src="/img/loginBg.jpg")
         .col-xs-12.col-md-4
           h3 用户登录
           br
-          form.form-horizontal(action='/signin', method='POST')
+          form(action='/signin', method='POST')
             .input-group
               .input-group-addon
                 span.glyphicon.glyphicon-user(aria-hidden="true")
@@ -45,10 +44,9 @@ block content
                 button.btn.btn-primary.btn-block 登录
     
     script.
-      $(".verifyPopoverHelp").mouseenter(function(){
+      $(".verifyPopoverHelp").hover(function(){
         $(".verifyPopoverHelp").popover('show')
-      })
-
-      $(".verifyPopoverHelp").mouseleave(function(){
+      }, function(){
         $(".verifyPopoverHelp").popover('hide')
       })
+

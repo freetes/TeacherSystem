@@ -30,6 +30,40 @@ const User = {
       return res.json(true);
     })
   },
+
+  // POST /newClass
+  newClass: (req, res)=>{
+    req.body.id = req.session.userid
+    req.body.isChecked = false
+    switch(req.body.classKind){
+      case 'normal':
+      delete req.body.classKind
+      Models.NormalClassModel(req.body).save((err, result)=>{
+        return res.redirect(303, '/')
+      }); break;
+      case 'design':
+      delete req.body.classKind
+      Models.DesignClassSchema(req.body).save((err, result)=>{
+        return res.redirect(303, '/')
+      }); break;
+      case 'train':
+      delete req.body.classKind
+      Models.TrainClassSchema(req.body).save((err, result)=>{
+        return res.redirect(303, '/')
+      }); break;
+      case 'produce':
+      delete req.body.classKind
+      Models.ProduceClassSchema(req.body).save((err, result)=>{
+        return res.redirect(303, '/')
+      }); break;
+      case 'graduate':
+      delete req.body.classKind
+      Models.GraduateClassSchema(req.body).save((err, result)=>{
+        return res.redirect(303, '/')
+      }); break;
+      default: break;
+    }
+  },
 };
 
 module.exports = User;
