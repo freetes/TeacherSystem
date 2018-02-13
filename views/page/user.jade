@@ -1,7 +1,13 @@
 //- 普通用户
 
 body
-  include ../public/navi
+  nav.navbar.navbar-default
+    .container-fluid(style="background-color: #1295D8;height: 100px;background-image: url('/img/background.png')")
+      .container
+        .navbar-header
+          img.navbar-brand(src='/img/logo.png', style="height: 100px")
+          h3.navbar-text(style="color: white; line-height:100px; text-align:left;margin:0")= title
+  br
   
   .container
     .row
@@ -22,7 +28,7 @@ body
             a.btn.btn-block.btn-default(href="/signin") 退出
 
       .col-md-8
-        //- 主页
+        //- 首页
         .mainDiv
           .panel.panel-primary
             .panel-heading
@@ -198,58 +204,221 @@ body
               form.form-horizontal
                 .input-group
                   span.input-group-addon 登记日期
-                  input.form-control
-                br
+                  input.form-control.classDateInput(type="text", name="date", readonly)
+                  script.
+                    $(".classDateInput").val(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`)
                 .input-group
                   span.input-group-addon 教学学期
-                  input.form-control
+                  select.form-control.classSemesterSelect(name="semester")
+                  script.
+                      for(let i=new Date().getFullYear() + 1; i>=new Date().getFullYear() - 1; i--)
+                        for(let j=2; j>=1; j--){
+                          if(new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2` == `${i-1}-${i}-${j}`)
+                            $(".classSemesterSelect").append(`<option selected>${i-1}-${i}-${j}</option>`)
+                          else
+                            $(".classSemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
+                        }
+                .input-group
+                  span.input-group-addon 课程类别
+                  select.form-control.classKindSelect(name="classKind")
+                    option(value="normal") 普通课程
+                    option(value="design") 课程设计
+                    option(value="train") 科研训练
+                    option(value="produce") 生产实习
+                    option(value="graduate") 毕业实习
                 br
                 .input-group
                   span.input-group-addon 课程名称
-                  input.form-control
-                br
+                  input.form-control(type="text", name="className")
                 .input-group
-                  span.input-group-addon 课程分类
-                  select.form-control.chooseClass
-                    option(value="0") 请选择
-                    option(value="usual") 普通课程模式
-                    option(value="design") 课程设计模式
-                    option(value="research") 科研训练模式
-                    option(value="produce") 生产实习模式
-                    option(value="graduPractice") 毕业实习模式
-                  input.form-control.chooseClassType1(type="text", placeholder="请输入标准学时", style="display: none")     
-                  input.form-control.chooseClassType2(type="text", placeholder="请输入理论学时", style="display: none")     
-                  input.form-control.chooseClassType3(type="text", placeholder="请输入实验学时", style="display: none")     
-                  input.form-control.chooseClassType4(type="text", placeholder="请输入周数", style="display: none")     
-                  input.form-control.chooseClassType5(type="text", placeholder="请输入单位学时", style="display: none")     
-                br
+                  span.input-group-addon 专业
+                  input.form-control(type="text", name="classFaculty")
                 .input-group
-                  spanspan.input-group-addon 教授专业
-                  input.form-control
-                br
-                .input-group
-                  span.input-group-addon 教授班级
-                  input.form-control
-                br
+                  span.input-group-addon 班级
+                  input.form-control(type="text", name="classClass")
                 .input-group
                   span.input-group-addon 学生人数
-                  input.form-control
+                  input.form-control(type="text", name="classStudentAmount")
                 br
-                .input-group
-                  span.input-group-addon 合班系数
-                  input.form-control
-                br
-                .input-group
-                  span.input-group-addon 实际学时
-                  input.form-control
-                br
-                .input-group
-                  span.input-group-addon 是否审核
-                  input.form-control 
+                .normalClass.classesInputGroup
+                  .input-group
+                    span.input-group-addon 标准学时
+                    input.form-control(type="text", name="standardHours")
+                  .input-group
+                    span.input-group-addon 理论学时
+                    input.form-control(type="text", name="theoryHours")
+                  .input-group
+                    span.input-group-addon 实验学时
+                    input.form-control(type="text", name="experimentHours")
+                  .input-group
+                    span.input-group-addon 合班系数
+                    input.form-control(type="text", name="point")
+                  .input-group
+                    span.input-group-addon 实际学时
+                    input.form-control(type="text", name="finalHours")
+                
+                .designClass.classesInputGroup(style="display: none")
+                  .input-group
+                    span.input-group-addon 周数
+                    input.form-control(type="text", name="week")
+                  .input-group
+                    span.input-group-addon 实验学时
+                    input.form-control(type="text", name="experimentHours")
+                  .input-group
+                    span.input-group-addon 合班系数
+                    input.form-control(type="text", name="point")
+                  .input-group
+                    span.input-group-addon 实际学时
+                    input.form-control(type="text", name="finalHours")
+                
+                .trainClass.classesInputGroup(style="display: none")
+                  .input-group
+                    span.input-group-addon 单位学时
+                    input.form-control(type="text", name="unitHours")
+                  .input-group
+                    span.input-group-addon 合班系数
+                    input.form-control(type="text", name="point")
+                  .input-group
+                    span.input-group-addon 实际学时
+                    input.form-control(type="text", name="finalHours")
+                
+                .otherClass.classesInputGroup(style="display: none")
+                  .input-group
+                    span.input-group-addon 周数
+                    input.form-control(type="text", name="week")
+                  .input-group
+                    span.input-group-addon 单位学时
+                    input.form-control(type="text", name="unitHours")
+                  .input-group
+                    span.input-group-addon 合班系数
+                    input.form-control(type="text", name="point")
+                  .input-group
+                    span.input-group-addon 实际学时
+                    input.form-control(type="text", name="finalHours")
+                
                 br
                 button.btn.btn-primary.btn-block 录入
               
-
+              //- form.form-horizontal
+                .form-group
+                  label.col-md-2.control-label 登记日期
+                  .col-md-10
+                    input.form-control.classDateInput(type="text", name="date", readonly)
+                    script.
+                      $(".classDateInput").val(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`)
+                .form-group
+                  label.col-md-2.control-label 教学学期
+                  .col-md-10
+                    select.form-control.classSemesterSelect(name="semester")
+                    script.
+                        for(let i=new Date().getFullYear() + 1; i>=new Date().getFullYear() - 1; i--)
+                          for(let j=2; j>=1; j--){
+                            if(new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2` == `${i-1}-${i}-${j}`)
+                              $(".classSemesterSelect").append(`<option selected>${i-1}-${i}-${j}</option>`)
+                            else
+                              $(".classSemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
+                          }
+                .form-group
+                  label.col-md-2.control-label 课程类别
+                  .col-md-10
+                    select.form-control.classKindSelect(name="classKind")
+                      option(value="normal") 普通课程
+                      option(value="design") 课程设计
+                      option(value="train") 科研训练
+                      option(value="produce") 生产实习
+                      option(value="graduate") 毕业实习
+                .form-group
+                  label.col-md-2.control-label 课程名称
+                  .col-md-10
+                    input.form-control(type="text", name="className")
+                .form-group
+                  label.col-md-2.control-label 专业
+                  .col-md-10
+                    input.form-control(type="text", name="classFaculty")
+                .form-group
+                  label.col-md-2.control-label 班级
+                  .col-md-10
+                    input.form-control(type="text", name="classClass")
+                .form-group
+                  label.col-md-2.control-label 学生人数
+                  .col-md-10
+                    input.form-control(type="text", name="classStudentAmount")
+                
+                .normalClass.classesInputGroup
+                  .form-group
+                    label.col-md-2.control-label 标准学时
+                    .col-md-10
+                      input.form-control(type="text", name="standardHours")
+                  .form-group
+                    label.col-md-2.control-label 理论学时
+                    .col-md-10
+                      input.form-control(type="text", name="theoryHours")
+                  .form-group
+                    label.col-md-2.control-label 实验学时
+                    .col-md-10
+                      input.form-control(type="text", name="experimentHours")
+                  .form-group
+                    label.col-md-2.control-label 合班系数
+                    .col-md-10
+                      input.form-control(type="text", name="point")
+                  .form-group
+                    label.col-md-2.control-label 实际学时
+                    .col-md-10
+                      input.form-control(type="text", name="finalHours")
+                
+                .designClass.classesInputGroup(style="display: none")
+                  .form-group
+                    label.col-md-2.control-label 周数
+                    .col-md-10
+                      input.form-control(type="text", name="week")
+                  .form-group
+                    label.col-md-2.control-label 实验学时
+                    .col-md-10
+                      input.form-control(type="text", name="experimentHours")
+                  .form-group
+                    label.col-md-2.control-label 合班系数
+                    .col-md-10
+                      input.form-control(type="text", name="point")
+                  .form-group
+                    label.col-md-2.control-label 实际学时
+                    .col-md-10
+                      input.form-control(type="text", name="finalHours")
+                
+                .trainClass.classesInputGroup(style="display: none")
+                  .form-group
+                    label.col-md-2.control-label 单位学时
+                    .col-md-10
+                      input.form-control(type="text", name="unitHours")
+                  .form-group
+                    label.col-md-2.control-label 合班系数
+                    .col-md-10
+                      input.form-control(type="text", name="point")
+                  .form-group
+                    label.col-md-2.control-label 实际学时
+                    .col-md-10
+                      input.form-control(type="text", name="finalHours")
+                
+                .otherClass.classesInputGroup(style="display: none")
+                  .form-group
+                    label.col-md-2.control-label 周数
+                    .col-md-10
+                      input.form-control(type="text", name="week")
+                  .form-group
+                    label.col-md-2.control-label 单位学时
+                    .col-md-10
+                      input.form-control(type="text", name="unitHours")
+                  .form-group
+                    label.col-md-2.control-label 合班系数
+                    .col-md-10
+                      input.form-control(type="text", name="point")
+                  .form-group
+                    label.col-md-2.control-label 实际学时
+                    .col-md-10
+                      input.form-control(type="text", name="finalHours")
+                
+                br
+                button.btn.btn-primary.btn-block 录入
+        
         //- 工资管理
         .payCtrlDiv(style="display: none")
           .panel.panel-primary
@@ -258,12 +427,11 @@ body
               span  工资管理
             .panel-body
               h3 #{user.name}老师，您好！
-              -if(pay.length==0)
+              -if(pay.length == 0)
                 p 您未填写过工资
                 .input-group
                   span.input-group-addon 学期
                   select.form-control.applySemesterSelect
-                  
                   script.
                     for(let i=new Date().getFullYear() + 2; i>=new Date().getFullYear() - 1; i--)
                       for(let j=2; j>=1; j--)
@@ -309,7 +477,6 @@ body
                   .input-group
                     span.input-group-addon 学期
                     input.form-control.applySemesterSelect(type="text", value="#{nowSemester}", readonly)
-                    
                     //- script.
                     //-   for(let i=new Date().getFullYear() + 2; i>=new Date().getFullYear() - 1; i--)
                     //-     for(let j=2; j>=1; j--)

@@ -4,7 +4,13 @@ block content
   link(rel="stylesheet", href="/css/normal.css")
 
   body
-    include ../public/navi
+    nav.navbar.navbar-default
+      .container-fluid(style="background-color: #1295D8;height: 100px;background-image: url('/img/background.png')")
+        .container
+          .navbar-header
+            img.navbar-brand(src='/img/logo.png', style="height: 100px")
+            h3.navbar-text(style="color: white; line-height:100px; text-align:left;margin:0")= title
+    br
     
     .container(style="background-color: white")
       .row

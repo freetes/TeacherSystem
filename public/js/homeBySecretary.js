@@ -80,7 +80,7 @@ function displayInfo(info){
 	const pay = info.pay;
 	let payTrs="";
 	for(let item of users){
-		userTrs+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td></tr>`
+		userTrs+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td><td><botton class="btn btn-primary" value="${item._id}">修改</botton><botton class="btn btn-danger" value="${item._id}">删除</botton></td></tr>`
 		for(let payItem of pay){
 			if(item.id==payItem.id){
 				if(payItem.isChecked==1){
@@ -137,11 +137,11 @@ function refuseRequest(value){
 		},
 		result=>{
 			if(result){
-				$(".alertMessage").html("驳回成功！");
+				$(".alertMessage").text("驳回成功！");
 				$("#alertInfoModal").modal();
 			}
 			else{
-				$(".alertMessage").html("出错了！");
+				$(".alertMessage").text("出错了！");
 				$("#alertInfoModal").modal();
 			}
 			getAllInfo();
