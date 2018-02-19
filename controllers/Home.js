@@ -28,7 +28,8 @@ const Home = {
             user: user,
             users: info.users,
             pays: info.pays,
-            message: info.message
+            message: info.message,
+            classes: info.class
           });
         });
       }

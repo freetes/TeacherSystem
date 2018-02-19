@@ -35,3 +35,10 @@ const changePasswd = ()=>{
     );
   }
 };
+
+// 
+const updateAlertModal = (title='', context='')=>{
+  $(".modal-title").html(title)
+  $(".alertMessage").html(context)
+  $("#alertInfoModal").modal('show')
+}

@@ -9,4 +9,6 @@ router.post('/sendMessage', secretary.sendMessage);
 
 router.post('/addNewUser', secretary.addNewUser);
 
+router.post('/changeUser', secretary.changeUser);
+
 module.exports = router;

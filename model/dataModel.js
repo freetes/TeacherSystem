@@ -9,6 +9,8 @@ const UserSchema = new Schema({
   level: Number
 });
 
+// 离职老师数据模式
+
 // 薪酬数据模式
 const PaySchema = new Schema({
   id: String,

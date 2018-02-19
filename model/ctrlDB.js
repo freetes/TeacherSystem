@@ -21,7 +21,14 @@ const ctrlDB = {
     let info = {
       users: await Models.UserModel.find({'level': 0}),
       pays: await Models.PayModel.find(),
-      message: await Models.NoticeModel.find({'receiver': 'all'})
+      message: await Models.NoticeModel.find({'receiver': 'all'}),
+      class: {
+        normalClass: await Models.NormalClassModel.find(),
+        designClass: await Models.DesignClassSchema.find(),
+        trainClass: await Models.TrainClassSchema.find(),
+        produceClass: await Models.ProduceClassSchema.find(),
+        graduateClass: await Models.GraduateClassSchema.find()
+      }
     }
     return info
   },

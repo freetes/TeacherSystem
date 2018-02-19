@@ -71,6 +71,32 @@ const Secretary = {
       return res.json(true)
     })
   },
+  // POST /secretary/changeUser
+  changeUser: (req,res)=>{
+    Models.UserModel.findByIdAndUpdate(
+      {_id: req.body._id},
+      {
+        id: req.body.id,
+        name: req.body.name,
+        password: req.body.password
+      },
+      (err, result)=>{
+        if(err) return res.json(false)
+        return res.json(true)
+      }
+    )
+  },
+  // POST /secretary/deleteUser
+  deleteUser: (req,res)=>{
+    Models.UserModel.findByIdAndRemove(
+      {_id: req.body._id},
+      (err, result)=>{
+        if(err) return res.json(false)
+        
+        return res.json(true)
+      }
+    )
+  },
 };
 
 module.exports = Secretary;

@@ -9,16 +9,12 @@ function setNewPay(){
       },
       result=>{
         if(result){
-          $(".alertMessage").text("上传成功！");
-          $("#alertInfoModal").modal();
-          setTimeout(function(){
-            location.reload()
-          }, 2000);
+          updateAlertModal('通知信息', '上传成功！')
         }
         else{
-          $(".alertMessage").text("出错了！");
-          $("#alertInfoModal").modal();
+          updateAlertModal('通知信息', '上传失败！')
         }
+        location.reload()
       }
     )
 };
@@ -33,16 +29,12 @@ function changePay(value){
       },
       result=>{
         if(result){
-          $(".alertMessage").text("修改成功！");
-          $("#alertInfoModal").modal(); 
-          setTimeout(function(){
-            location.reload()
-          }, 2000);
+          updateAlertModal('通知信息', '修改成功！')
         }
         else{
-          $(".alertMessage").text("出错了！");
-          $("#alertInfoModal").modal();
+          updateAlertModal('通知信息', '修改失败！')
         }
+        location.reload()
       }
     )
 };
@@ -54,16 +46,12 @@ function checkPay(value){
     },
     result=>{
       if(result){
-        $(".alertMessage").text("提交成功！");
-        $("#alertInfoModal").modal();
-        setTimeout(function(){
-          location.reload()
-        }, 2000);
+        updateAlertModal('通知信息', '通过审核成功！')
       }
       else{
-        $(".alertMessage").text("出错了！");
-        $("#alertInfoModal").modal();
+        updateAlertModal('通知信息', '通过审核失败！')
       }
+      location.reload()
     }
   )
 }

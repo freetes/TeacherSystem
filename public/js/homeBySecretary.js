@@ -46,12 +46,10 @@ function sendMessage(){
 		},
 		result=>{
 			if(result){
-				$(".alertMessage").text("发布公告成功！");
-				$("#alertInfoModal").modal();
+				updateAlertModal('通知信息', '发布公告成功！')
 			}
 			else{
-				$(".alertMessage").text("出错了！");
-				$("#alertInfoModal").modal();
+				updateAlertModal('通知信息', '发布公告失败！')
 			}
 			location.reload()
 		}
@@ -61,8 +59,7 @@ function sendMessage(){
 // 驳回按钮点击事件
 function refuseBtn(value){
 	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-warning btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`
-	$(".alertMessage").html(refuseHtml);
-	$("#alertInfoModal").modal();
+	updateAlertModal('驳回', refuseHtml);
 }
 
 function addNewUserModal() {
@@ -72,8 +69,7 @@ function addNewUserModal() {
 		<input type="password" class="form-control newUserPasswdInput" name="password" placeholder="请输入密码"><br>
 		<botton class="btn btn-primary btn-block" onclick="addNewUser()">新增</botton>
 		`
-	$(".alertMessage").html(addNewUserHtml);
-	$("#alertInfoModal").modal();
+	updateAlertModal('新增老师', addNewUserHtml)
 }
 
 function addNewUser(){
@@ -92,12 +88,80 @@ function addNewUser(){
 	)
 }
 
-function changeUserBtn(node) {
-	console.log(node)
+function changeUserBtn(node){
+	const changeUserHtml = `
+		<div class="row">
+		<div class="form-group">
+			<label class="control-label col-sm-3">工号</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control changeUserIdInput" name="id" placeholder="" value="${node.parentNode.parentNode.children[0].innerText}">
+			</div>
+		</div>
+		<br>
+		<div class="form-group">
+			<label class="control-label col-sm-3">姓名</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control changeUserNameInput" name="name" placeholder="" value="${node.parentNode.parentNode.children[1].innerText}">
+			</div>
+		</div>
+		<br>
+		<div class="form-group">
+			<label class="control-label col-sm-3">密码</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control changeUserPasswdInput" name="password" placeholder="" value="${node.parentNode.parentNode.children[2].innerText}">
+			</div>
+		</div>
+		<br>	
+		<div class="col-sm-offset-3 col-sm-9">
+			<botton value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="changeUser(this)">修改</botton>
+		</div>
+		</div>
+	`
+	updateAlertModal('修改用户', changeUserHtml)
 }
 
-function deleteUserBtn(node) {
-	console.log(node)
+function changeUser(node){
+	$.post('secretary/changeUser',
+		{
+			_id: node.getAttribute('value'),
+			id: $(".changeUserIdInput").val(),
+			name: $(".changeUserNameInput").val(),
+			password: $(".changeUserPasswdInput").val()
+		},
+		result=>{
+			if(result){
+				updateAlertModal('通知信息', '修改成功！')
+			}
+			else{
+				updateAlertModal('通知信息', '修改失败！')
+			}
+			location.reload(500)
+		}
+	)
+}
+
+function deleteUserBtn(node){
+	const deleteUserHtml = `
+		<botton value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="deleteUser(this)">确定修改</botton>
+	`
+	updateAlertModal('删除用户', deleteUserHtml)
+}
+
+function deleteUser(node){
+	$.post('secretary/deleteUser',
+		{
+			_id: node.getAttribute('value')
+		},
+		result=>{
+			if(result){
+				updateAlertModal('通知信息', '删除成功！')
+			}
+			else{
+				updateAlertModal('通知信息', '删除失败！')
+			}
+			location.reload(500)
+		}
+	)
 }
 
 // POST /secretary/passRequest
@@ -108,12 +172,10 @@ function passRequest(value){
 		},
 		result=>{
 			if(result){
-				$(".alertMessage").text("通过审核以成功！");
-				$("#alertInfoModal").modal();
+				updateAlertModal('通知信息', '通过审核成功！')
 			}
 			else{
-				$(".alertMessage").text("出错了！");
-				$("#alertInfoModal").modal();
+				updateAlertModal('通知信息', '通过审核失败！')				
 			}
 			location.reload()
 		}
@@ -134,12 +196,10 @@ function refuseRequest(value){
 		},
 		result=>{
 			if(result){
-				$(".alertMessage").text("驳回成功！");
-				$("#alertInfoModal").modal();
+				updateAlertModal('通知信息', '驳回成功！')				
 			}
 			else{
-				$(".alertMessage").text("出错了！");
-				$("#alertInfoModal").modal();
+				updateAlertModal('通知信息', '驳回失败！')				
 			}
 			location.reload()
 		}
