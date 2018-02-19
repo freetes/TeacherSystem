@@ -3,18 +3,6 @@ const CtrlDB = require('../model/ctrlDB');
 
 // 秘书专用
 const Secretary = {
-  // POST /secretary/getAllInfo
-  getAllInfo: (req, res)=>{
-    if(req.session.userid == undefined || req.session.userid == null)
-      return res.json(false);
-    Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
-      if(user[0].level == 0) return res.json(false);
-      else
-        CtrlDB.getAllInfoForSecretary(req.session.userid).then(info=>{
-          return res.json(info)
-        })
-    })
-  },
   // POST /secretary/passRequest
   passRequest: (req, res)=>{
     if(req.session.userid == undefined || req.session.userid == null)
@@ -31,12 +19,13 @@ const Secretary = {
   refuseRequest: (req, res)=>{
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
-    Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
-      if(user[0].level == 0) return res.json(false);
+    Models.UserModel.findOne({'id': req.session.userid}, (err, user)=>{
+      if(user.level == 0) return res.json(false);
       else
         Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 0}, {new: true}, (err, result)=>{
           Models.NoticeModel({
-            sender: req.session.userid,
+            senderId: req.session.userid,
+            senderName: user.name,
             receiver: result.id,
             message: req.body.message,
             date: req.body.date,
@@ -52,11 +41,12 @@ const Secretary = {
   sendMessage: (req, res)=>{
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
-    Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
-        if(user[0].level == 0) return res.json(false);
+    Models.UserModel.findOne({'id': req.session.userid}, (err, user)=>{
+        if(user.level == 0) return res.json(false);
         else
           Models.NoticeModel({
-            sender: req.session.userid,
+            senderId: req.session.userid,
+            senderName: user.name,
             receiver: req.body.receiver,
             message: req.body.message,
             date: req.body.date,
@@ -67,7 +57,20 @@ const Secretary = {
           })
       })
     
-  }
+  },
+  // POST /secretary/addNewUser
+  addNewUser: (req, res)=>{
+    if(req.session.userid == undefined || req.session.userid == null)
+      return res.json(false);
+    Models.UserModel({
+      id: req.body.id,
+      name: req.body.name,
+      password: req.body.password,
+      level: 0
+    }).save(result=>{
+      return res.json(true)
+    })
+  },
 };
 
 module.exports = Secretary;

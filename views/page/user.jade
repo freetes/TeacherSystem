@@ -10,7 +10,7 @@ body
   
   .container
     .row
-      .col-md-4
+      .col-md-3
         .panel.panel-primary
           .panel-heading
             span.glyphicon.glyphicon-user(aria-hidden="true") 
@@ -26,7 +26,7 @@ body
             botton.btn.btn-block.btn-default(data-toggle="modal", data-target="#changePasswdModal") 修改密码
             a.btn.btn-block.btn-default(href="/signin") 退出
 
-      .col-md-8
+      .col-md-9
         //- 首页
         .mainDiv
           .panel.panel-primary
@@ -35,10 +35,27 @@ body
               span  公告栏
             .panel-body
               .allMessageBox.container-fluid
+                -message.sort((a, b)=> new Date(b.date)- new Date(a.date))
                 h4 学院公告
+                each item in message
+                  -if(item.receiver == 'all')
+                    .col-md-12(class='bg-#{item.level}', style='border-bottom: 2px white solid')
+                      .col-md-9
+                        h4 #{item.message}
+                      .col-md-3
+                        p.text-right #{item.date}
+                        p.text-right #{item.senderName}
               hr
               .myMessageBox.container-fluid
                 h4 我的消息
+                each item in message
+                  -if(item.receiver!='all')
+                    .col-md-12(class='bg-#{item.level}', style='border-bottom: 2px white solid')
+                      .col-md-9
+                        h4 #{item.message}
+                      .col-md-3
+                        p.text-right #{item.date}
+                        p.text-right #{item.senderName}
                         
         //- 授课查询
         .allClassDiv(style="display: none")
@@ -47,156 +64,175 @@ body
               span.glyphicon.glyphicon-list(aria-hidden="true") 
               span  授课总表
             .panel-body
-              h4.text-center 普通课程类课程信息视图
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 标准学时
-                  td 理论学时
-                  td 实验学时
-                  td 合班系数
-                  td 实际学时
-                  td 是否审核
-                each item in classes.normalClass
-                  tr  
-                    td= item.date
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.standardHours
-                    td= item.theoryHours
-                    td= item.experimentHours
-                    td= item.point
-                    td= item.finalHours
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-              h4.text-center 课程设计类课程信息视图                      
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 周数
-                  td 实验学时
-                  td 合班系数
-                  td 实际学时
-                  td 是否审核
-                each item in classes.designClass                 
-                  tr
-                    td= item.date
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.week
-                    td= item.experimentHours
-                    td= item.point
-                    td= item.finalHours
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-              h4.text-center 科研训练类课程信息视图                      
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 单位学时
-                  td 合班系数
-                  td 实际学时
-                  td 是否审核
-                each item in classes.trainClass
-                  tr  
-                    td= item.date
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.unitHours
-                    td= item.point
-                    td= item.finalHours
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-              h4.text-center 生产实习类课程信息视图                      
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 周数
-                  td 单位学时
-                  td 合班系数
-                  td 实际学时
-                  td 是否审核
-                each item in classes.produceClass
-                  tr  
-                    td= item.date
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.week
-                    td= item.unitHours
-                    td= item.point
-                    td= item.finalHours
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
-              h4.text-center 毕业实习类课程信息视图
-              table.table.table-bordered
-                tr.warning
-                  td 登记时间
-                  td 学期
-                  td 课程名称
-                  td 专业
-                  td 班级
-                  td 学生人数
-                  td 周数
-                  td 单位学时
-                  td 合班系数
-                  td 实际学时
-                  td 是否审核
-                each item in classes.graduateClass                  
-                  tr  
-                    td= item.date
-                    td= item.semester
-                    td= item.name
-                    td= item.faculty
-                    td= item.class
-                    td= item.studentAmount
-                    td= item.week
-                    td= item.experimentHours
-                    td= item.point
-                    td= item.finalHours
-                    -if(item.isChecked == true)
-                      td Yep
-                    -else
-                      td Nope
+              -if(classes.normalClass.length == 0)
+                p.text-center 无普通课程
+              -else
+                h4.text-center 普通课程类课程信息视图
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 标准学时
+                    td 理论学时
+                    td 实验学时
+                    td 合班系数
+                    td 实际学时
+                    td 是否审核
+                  each item in classes.normalClass
+                    tr  
+                      td= item.date
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.standardHours
+                      td= item.theoryHours
+                      td= item.experimentHours
+                      td= item.point
+                      td= item.finalHours
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+              hr
+              -if(classes.designClass.length == 0)
+                p.text-center 无课程设计课程
+              -else
+                h4.text-center 课程设计类课程信息视图                      
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 周数
+                    td 实验学时
+                    td 合班系数
+                    td 实际学时
+                    td 是否审核
+                  each item in classes.designClass                 
+                    tr
+                      td= item.date
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.week
+                      td= item.experimentHours
+                      td= item.point
+                      td= item.finalHours
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+              hr
+              -if(classes.trainClass.length == 0)
+                p.text-center 无科研训练课程
+              -else
+                h4.text-center 科研训练类课程信息视图                      
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 单位学时
+                    td 合班系数
+                    td 实际学时
+                    td 是否审核
+                  each item in classes.trainClass
+                    tr  
+                      td= item.date
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.unitHours
+                      td= item.point
+                      td= item.finalHours
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+              hr
+              -if(classes.produceClass.length == 0)
+                p.text-center 无生产实习课程
+              -else
+                h4.text-center 生产实习类课程信息视图                      
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 周数
+                    td 单位学时
+                    td 合班系数
+                    td 实际学时
+                    td 是否审核
+                  each item in classes.produceClass
+                    tr  
+                      td= item.date
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.week
+                      td= item.unitHours
+                      td= item.point
+                      td= item.finalHours
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
+              hr
+              -if(classes.graduateClass.length == 0)
+                p.text-center 无毕业实习课程
+              -else
+                h4.text-center 毕业实习类课程信息视图
+                table.table.table-bordered
+                  tr.warning
+                    td 登记时间
+                    td 学期
+                    td 课程名称
+                    td 专业
+                    td 班级
+                    td 学生人数
+                    td 周数
+                    td 单位学时
+                    td 合班系数
+                    td 实际学时
+                    td 是否审核
+                  each item in classes.graduateClass                  
+                    tr  
+                      td= item.date
+                      td= item.semester
+                      td= item.name
+                      td= item.faculty
+                      td= item.class
+                      td= item.studentAmount
+                      td= item.week
+                      td= item.experimentHours
+                      td= item.point
+                      td= item.finalHours
+                      -if(item.isChecked == true)
+                        td Yep
+                      -else
+                        td Nope
         
         //- 课程登记
         .addClassDiv(style="display: none")
@@ -399,9 +435,13 @@ body
                   span.input-group-addon 学期
                   select.form-control.applySemesterSelect
                   script.
-                    for(let i=new Date().getFullYear() + 2; i>=new Date().getFullYear() - 1; i--)
-                      for(let j=2; j>=1; j--)
-                        $(".applySemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
+                    for(let i=new Date().getFullYear() + 1; i>=new Date().getFullYear() - 1; i--)
+                        for(let j=2; j>=1; j--){
+                          if(new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2` == `${i-1}-${i}-${j}`)
+                            $(".applySemesterSelect").append(`<option selected>${i-1}-${i}-${j}</option>`)
+                          else
+                            $(".applySemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
+                        }
                 br
                 .input-group
                   span.input-group-addon 预发工资

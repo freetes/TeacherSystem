@@ -1,6 +1,5 @@
-$(document).ready(function(){
+$(function(){
 	$(".navbar-nav").first().children().first().click()
-	getAllInfo()
 })
 
 // 顶部导航栏点击事件
@@ -54,6 +53,7 @@ function sendMessage(){
 				$(".alertMessage").text("出错了！");
 				$("#alertInfoModal").modal();
 			}
+			location.reload()
 		}
 	)
 }
@@ -65,47 +65,39 @@ function refuseBtn(value){
 	$("#alertInfoModal").modal();
 }
 
-// POST /secretary/getAllInfo
-function getAllInfo(){
-	$.post('/secretary/getAllInfo',
+function addNewUserModal() {
+	const addNewUserHtml = `
+		<input type="text" class="form-control newUserIdInput" name="id" placeholder="请输入新老师的工号"><br>
+		<input type="text" class="form-control newUserNameInput" name="name" placeholder="请输入新老师的姓名"><br>
+		<input type="password" class="form-control newUserPasswdInput" name="password" placeholder="请输入密码"><br>
+		<botton class="btn btn-primary btn-block" onclick="addNewUser()">新增</botton>
+		`
+	$(".alertMessage").html(addNewUserHtml);
+	$("#alertInfoModal").modal();
+}
+
+function addNewUser(){
+	if($(".newUserIdInput").val() == undefined || $(".newUserNameInput").val() == undefined || $(".newUserPasswdInput").val() == undefined)
+		return ;
+	$.post('/secretary/addNewUser',
 		{
-			
+			id: $(".newUserIdInput").val(),
+			name: $(".newUserNameInput").val(),
+			password: $(".newUserPasswdInput").val()
 		},
-		info=>{
-			displayInfo(info)
+		result=>{
+			if(result)
+				location.reload()
 		}
 	)
 }
 
-function displayInfo(info){
-	$("#userInfoTable").html("");
-	$("#payInfoTable").html("");
-	const users = info.user;
-	let userTrs="";
-	const pay = info.pay;
-	let payTrs="";
-	for(let item of users){
-		userTrs+=`<tr><td>${item.name}</td><td>${item.id}</td><td>${item.password}</td><td><botton class="btn btn-primary" value="${item._id}">修改</botton><botton class="btn btn-danger" value="${item._id}">删除</botton></td></tr>`
-		for(let payItem of pay){
-			if(item.id==payItem.id){
-				if(payItem.isChecked==1){
-					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td>
-					<td>
-					<button class="btn btn-primary" value="${payItem._id}" onclick="passRequest(this.value)">通过</button>
-					<button class="btn btn-warning" value="${payItem._id}" onclick="refuseBtn(this.value)">驳回</button>
-					</td></tr>`
-				}
-				else if(payItem.isChecked==2){
-					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>已通过审核</td></tr>`	
-				}
-				else{
-					payTrs+=`<tr><td>${payItem.applySemester}</td><td>${payItem.applyDate}</td><td>${item.name}</td><td>${payItem.id}</td><td>${payItem.pay}</td><td>未提交</td></tr>`	
-				}
-			}
-		}
-	}
-	$("#userInfoTable").append(userTrs);
-	$("#payInfoTable").append(payTrs);
+function changeUserBtn(node) {
+	console.log(node)
+}
+
+function deleteUserBtn(node) {
+	console.log(node)
 }
 
 // POST /secretary/passRequest
@@ -123,7 +115,7 @@ function passRequest(value){
 				$(".alertMessage").text("出错了！");
 				$("#alertInfoModal").modal();
 			}
-			getAllInfo();
+			location.reload()
 		}
 	)
 }
@@ -149,7 +141,7 @@ function refuseRequest(value){
 				$(".alertMessage").text("出错了！");
 				$("#alertInfoModal").modal();
 			}
-			getAllInfo();
+			location.reload()
 		}
 	)
 }

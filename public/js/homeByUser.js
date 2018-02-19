@@ -1,6 +1,3 @@
-$(function(){
-  getAllMessages()
-})
 // 上传新的薪资
 function setNewPay(){
   if($(".newPay").val() != '' && $(".applySemesterSelect").val() != '')
@@ -69,32 +66,6 @@ function checkPay(value){
       }
     }
   )
-}
-
-function getAllMessages(){
-  getMessage().then(message=>{
-    message.sort((a, b)=>new Date(b.date)-new Date(a.date))
-    for(let item of message){
-      let messageHtml = `
-        <div class="col-md-12 bg-${item.level}">
-          <div class="col-md-9">
-            <h4>${item.message}</h4>
-          </div>
-          <div class="col-md-3">
-            <p class="text-right">${item.date}</p>
-            <p class="text-right">${item.sender}</p>
-          </div>
-        </div>
-      `
-      item.receiver == 'all'?$(".allMessageBox").append(messageHtml):$(".myMessageBox").append(messageHtml)
-    }
-    if($(".myMessageBox").find('div').length == 0){
-      $(".myMessageBox").append(`<p>无通知</p>`)
-    }
-    if($(".allMessageBox").find('div').length == 0){
-      $(".allMessageBox").append(`<p>无通知</p>`)
-    }
-  })
 }
 
 const getNewDate = ()=>{

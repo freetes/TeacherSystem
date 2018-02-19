@@ -17,22 +17,7 @@ const Api = {
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
     Models.UserModel.find({'id': req.session.userid, 'password': req.body.oldPasswd}, (err, users)=>{
-      return users.length==0?res.json(false):res.json(true);
-    })
-  },
-  // GET /getMessage
-  getMessage: (req, res)=>{
-    if(!isAjax(req)) return res.json('Do not do it!')
-    if(req.session.userid == undefined || req.session.userid == null)
-      return res.json(false);
-    Models.NoticeModel.find({$or: [{'receiver': req.session.userid}, {'receiver': 'all'}] }, (err, messages)=>{
-      return res.json(messages);
-    })
-  },
-  // POST /getName
-  getName: (req, res)=>{
-    Models.UserModel.findOne({'id': req.body.id}, (err, user)=>{
-      return res.json(user.name);
+      return users.length==0 ? res.json(false) : res.json(true);
     })
   },
   

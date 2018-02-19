@@ -23,7 +23,8 @@ const PaySchema = new Schema({
 
 // 公告数据模式
 const NoticeSchema = new Schema({
-  sender: String,
+  senderId: String,
+  senderName: String,
   receiver: String,
   message: String,
   date: String,

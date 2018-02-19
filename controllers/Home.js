@@ -8,14 +8,43 @@ const Home = {
     if(req.session.userid == undefined || req.session.userid == null)
       return res.redirect(303, '/signin');
     Models.UserModel.findOne({'id': req.session.userid}, (err, user)=>{
-      CtrlDB.getAllInfoByUserId(req.session.userid).then(info=>{
-        return res.render('index',{
-          title: '主页',
-          user: user,
-          classes: info.class,
-          pay: info.pay
+      // normal user
+      if(user.level == 0){
+        CtrlDB.getAllInfoForUser(req.session.userid).then(info=>{
+          return res.render('index',{
+            title: '主页',
+            user: user,
+            classes: info.class,
+            pay: info.pay,
+            message: info.message
+          });
         });
-      });
+      }
+      // secretary
+      else if(user.level == 1){
+        CtrlDB.getAllInfoForSecretary(req.session.userid).then(info=>{
+          return res.render('index',{
+            title: '主页',
+            user: user,
+            users: info.users,
+            pays: info.pays,
+            message: info.message
+          });
+        });
+      }
+      // admin
+      else{
+        CtrlDB.getAllInfoForAdmin(req.session.userid).then(info=>{
+          return res.render('index',{
+            title: '主页',
+            user: user,
+            users: info.users,
+            class: info.class,
+            pays: info.pays,
+            message: info.message
+          });
+        });
+      }
     })
   },
 
