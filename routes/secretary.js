@@ -11,4 +11,6 @@ router.post('/addNewUser', secretary.addNewUser);
 
 router.post('/changeUser', secretary.changeUser);
 
+router.post('/resetPassword', secretary.resetPassword);
+
 module.exports = router;

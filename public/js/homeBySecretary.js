@@ -11,7 +11,7 @@ $(".navbar-nav").first().children().click(function(){
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[1].style.display = "block"
 	}
-	else if(this.innerText.includes("用户管理")){
+	else if(this.innerText.includes("教师信息管理")){
 		$(".container-fluid").css("display", "none")
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[2].style.display = "block"
@@ -25,6 +25,18 @@ $(".navbar-nav").first().children().click(function(){
 		$(".container-fluid").css("display", "none")
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[4].style.display = "block"
+	}
+})
+
+// 功能按钮点击事件
+$(".userDiv").find("div.col-md-2").first().find("button").click(function(){
+	if(this.innerText.includes('教师信息一览表')){
+		$(".userDiv").find("div.col-md-10").children()[1].style.display = "none"
+		$(".userDiv").find("div.col-md-10").children()[0].style.display = "block"	
+	}
+	else if(this.innerText.includes('不在岗教师一览表')){
+		$(".userDiv").find("div.col-md-10").children()[0].style.display = "none"
+		$(".userDiv").find("div.col-md-10").children()[1].style.display = "block"
 	}
 })
 
@@ -64,9 +76,21 @@ function refuseBtn(value){
 
 function addNewUserModal() {
 	const addNewUserHtml = `
-		<input type="text" class="form-control newUserIdInput" name="id" placeholder="请输入新老师的工号"><br>
-		<input type="text" class="form-control newUserNameInput" name="name" placeholder="请输入新老师的姓名"><br>
-		<input type="password" class="form-control newUserPasswdInput" name="password" placeholder="请输入密码"><br>
+		<div class="input-group">
+			<span class="input-group-addon">工号</span>
+			<input type="text" class="form-control newUserIdInput" name="id" placeholder="请输入新老师的工号"><br>
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon">姓名</span>
+			<input type="text" class="form-control newUserNameInput" name="name" placeholder="请输入新老师的姓名"><br>
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon">密码</span>
+			<input type="text" class="form-control newUserPasswdInput" name="password" placeholder="请输入密码" value="123456"><br>
+		</div>
+		<br>
 		<botton class="btn btn-primary btn-block" onclick="addNewUser()">新增</botton>
 		`
 	updateAlertModal('新增老师', addNewUserHtml)
@@ -88,34 +112,40 @@ function addNewUser(){
 	)
 }
 
+function resetPassword(node){
+	$.post('/secretary/resetPassword',
+		{_id: node.getAttribute('value')},
+		result=>{
+			if(result){
+				updateAlertModal('通知信息', '重置成功！')
+			}
+			else{
+				updateAlertModal('通知信息', '重置失败！')
+			}
+			location.reload(500)
+		}
+	)
+}
+
 function changeUserBtn(node){
 	const changeUserHtml = `
-		<div class="row">
-		<div class="form-group">
-			<label class="control-label col-sm-3">工号</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control changeUserIdInput" name="id" placeholder="" value="${node.parentNode.parentNode.children[0].innerText}">
-			</div>
+		<div class="input-group">
+			<span class="input-group-addon">工号</span>
+			<input type="text" class="form-control changeUserIdInput" name="id" placeholder="" value="${node.parentNode.parentNode.children[0].innerText}">
 		</div>
 		<br>
-		<div class="form-group">
-			<label class="control-label col-sm-3">姓名</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control changeUserNameInput" name="name" placeholder="" value="${node.parentNode.parentNode.children[1].innerText}">
-			</div>
+		<div class="input-group">
+			<span class="input-group-addon">姓名</span>
+			<input type="text" class="form-control changeUserNameInput" name="name" placeholder="" value="${node.parentNode.parentNode.children[1].innerText}">
 		</div>
 		<br>
-		<div class="form-group">
-			<label class="control-label col-sm-3">密码</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control changeUserPasswdInput" name="password" placeholder="" value="${node.parentNode.parentNode.children[2].innerText}">
-			</div>
+		<div class="input-group">
+			<span class="input-group-addon">密码</span>
+			<input type="text" class="form-control changeUserPasswdInput" name="password" placeholder="" value="${node.parentNode.parentNode.children[2].innerText}">
 		</div>
-		<br>	
-		<div class="col-sm-offset-3 col-sm-9">
-			<botton value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="changeUser(this)">修改</botton>
-		</div>
-		</div>
+		<br>
+		<botton value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="changeUser(this)">修改</botton>
+
 	`
 	updateAlertModal('修改用户', changeUserHtml)
 }

@@ -66,13 +66,14 @@ const Secretary = {
       id: req.body.id,
       name: req.body.name,
       password: req.body.password,
-      level: 0
+      level: 0,
+      isWorking: true
     }).save(result=>{
       return res.json(true)
     })
   },
   // POST /secretary/changeUser
-  changeUser: (req,res)=>{
+  changeUser: (req, res)=>{
     Models.UserModel.findByIdAndUpdate(
       {_id: req.body._id},
       {
@@ -87,12 +88,23 @@ const Secretary = {
     )
   },
   // POST /secretary/deleteUser
-  deleteUser: (req,res)=>{
-    Models.UserModel.findByIdAndRemove(
+  deleteUser: (req, res)=>{
+    Models.UserModel.findByIdAndUpdate(
       {_id: req.body._id},
+      {isWorking: false},
       (err, result)=>{
         if(err) return res.json(false)
-        
+        return res.json(true)
+      }
+    )
+  },
+  // POST /secretary/resetPassword
+  resetPassword: (req, res)=>{
+    Models.UserModel.findByIdAndUpdate(
+      {_id: req.body._id},
+      {password: '123456'},
+      (err, result)=>{
+        if(err) return res.json(false)
         return res.json(true)
       }
     )

@@ -24,7 +24,7 @@ const Home = {
       else if(user.level == 1){
         CtrlDB.getAllInfoForSecretary(req.session.userid).then(info=>{
           return res.render('index',{
-            title: '主页',
+            title: '教学工作量管理系统',
             user: user,
             users: info.users,
             pays: info.pays,
@@ -37,7 +37,7 @@ const Home = {
       else{
         CtrlDB.getAllInfoForAdmin(req.session.userid).then(info=>{
           return res.render('index',{
-            title: '主页',
+            title: '系统管理员主页',
             user: user,
             users: info.users,
             class: info.class,
@@ -52,9 +52,7 @@ const Home = {
   // GET /signin
   signinGet: (req, res)=>{
     req.session.userid = null;
-
     buildVerifyCode(req)
-
     res.render('signin', {
       title: '教师工作量管理系统',
       verifyCodeExpression: req.session.verifyExpression
@@ -72,31 +70,32 @@ const Home = {
       });
     }
     Models.UserModel.find({'id': req.body.id}, (err, user)=>{
-      if(user.length != 0){
-        if(user[0].password == req.body.password){
-          req.session.userid = user[0].id;
-          delete req.session.verifyExpression
-          delete req.session.verifyResult
-          return res.redirect(303, '/');
-        }
-        else{
-          return res.render('signin',{
-            title: '教师工作量管理系统',
-            verifyCodeExpression: req.session.verifyExpression,
-            message: '密码错误，请重新输入！'
-          });
-        }
-      }
-      else{
+      if(user.length == 0)
         return res.render('signin',{
           title: '教师工作量管理系统',
           verifyCodeExpression: req.session.verifyExpression,
           message: '账号不存在，请重新输入！'
         });
-      }
+      if(!user[0].isWorking)
+        return res.render('signin',{
+          title: '教师工作量管理系统',
+          verifyCodeExpression: req.session.verifyExpression,
+          message: '账号已被注销！'
+        });
+      if(user[0].password != req.body.password)
+        return res.render('signin',{
+          title: '教师工作量管理系统',
+          verifyCodeExpression: req.session.verifyExpression,
+          message: '密码错误，请重新输入！'
+        });
+
+      
+      req.session.userid = user[0].id;
+      delete req.session.verifyExpression
+      delete req.session.verifyResult
+      return res.redirect(303, '/');
     });
   },
-
 };
 
 // 生成验证码
@@ -106,7 +105,7 @@ function buildVerifyCode(req){
         x = parseInt(Math.random()*10),
         y = parseInt(Math.random()*10),
         z = parseInt(Math.random()*3)
-  
+
   req.session.verifyExpression = `(${chineseNums[x]} ${chineseSymbol[z]} ${chineseNums[y]})`
   req.session.verifyResult =  z==0?x+y:z==1?x-y:x*y
 }

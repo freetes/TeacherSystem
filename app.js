@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', home);
-app.use('/user', user);
+app.use('/users', user);
 app.use('/secretary', secretary);
 app.use('/api', api);
 

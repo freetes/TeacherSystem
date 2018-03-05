@@ -32,7 +32,7 @@ const ctrlDB = {
     }
     return info
   },
-  // 教学秘书专用
+  // 管理员专用
   getAllInfoForAdmin: async id=>{
     let info = {
       users: await Models.UserModel.find({$or: [{'level': 0}, {'receiver': 1}]}),

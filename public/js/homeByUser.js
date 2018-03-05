@@ -133,58 +133,58 @@ const payDivClick = ()=>{
 $(".classKindSelect").change(function(){
   if(this.value == 'normal'){
     $(".classesInputGroup").html(`<div class="input-group"><span class="input-group-addon">标准学时</span>
-    <input type="text" name="standardHours" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">理论学时</span>
-    <input type="text" name="theoryHours" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">实验学时</span>
-    <input type="text" name="experimentHours" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">合班系数</span>
-    <input type="text" name="point" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">实际学时</span>
-    <input type="text" name="finalHours" class="form-control"/>
-  </div>`)
+        <input type="text" name="standardHours" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">理论学时</span>
+        <input type="text" name="theoryHours" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">实验学时</span>
+        <input type="text" name="experimentHours" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">合班系数</span>
+        <input type="text" name="point" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">实际学时</span>
+        <input type="text" name="finalHours" class="form-control"/>
+      </div>`)
   }
   else if(this.value == 'design'){
     $(".classesInputGroup").html(`<div class="input-group"><span class="input-group-addon">周数</span>
-    <input type="text" name="week" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">实验学时</span>
-    <input type="text" name="experimentHours" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">合班系数</span>
-    <input type="text" name="point" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">实际学时</span>
-    <input type="text" name="finalHours" class="form-control"/>
-  </div>`)
+        <input type="text" name="week" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">实验学时</span>
+        <input type="text" name="experimentHours" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">合班系数</span>
+        <input type="text" name="point" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">实际学时</span>
+        <input type="text" name="finalHours" class="form-control"/>
+      </div>`)
   }
   else if(this.value == 'train'){
     $(".classesInputGroup").html(`<div class="input-group"><span class="input-group-addon">单位学时</span>
-    <input type="text" name="unitHours" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">合班系数</span>
-    <input type="text" name="point" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">实际学时</span>
-    <input type="text" name="finalHours" class="form-control"/>
-  </div>`)
+        <input type="text" name="unitHours" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">合班系数</span>
+        <input type="text" name="point" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">实际学时</span>
+        <input type="text" name="finalHours" class="form-control"/>
+      </div>`)
   }
   else{
     $(".classesInputGroup").html(`<div class="input-group"><span class="input-group-addon">周数</span>
-    <input type="text" name="week" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">单位学时</span>
-    <input type="text" name="unitHours" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">合班系数</span>
-    <input type="text" name="point" class="form-control"/>
-  </div>
-  <div class="input-group"><span class="input-group-addon">实际学时</span>
-    <input type="text" name="finalHours" class="form-control"/>
-  </div>`)
+        <input type="text" name="week" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">单位学时</span>
+        <input type="text" name="unitHours" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">合班系数</span>
+        <input type="text" name="point" class="form-control"/>
+      </div>
+      <div class="input-group"><span class="input-group-addon">实际学时</span>
+        <input type="text" name="finalHours" class="form-control"/>
+      </div>`)
   }
 })

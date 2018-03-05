@@ -6,10 +6,10 @@ const UserSchema = new Schema({
   id: String,
   name: String,
   password: String,
-  level: Number
+  level: Number,
+  kind: String,       // 所属教研室
+  isWorking: Boolean  // is working?
 });
-
-// 离职老师数据模式
 
 // 薪酬数据模式
 const PaySchema = new Schema({
