@@ -70,7 +70,7 @@ function sendMessage(){
 
 // 驳回按钮点击事件
 function refuseBtn(value){
-	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><botton class="btn btn-warning btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</botton>`
+	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><button class="btn btn-warning btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</button>`
 	updateAlertModal('驳回', refuseHtml);
 }
 
@@ -91,7 +91,7 @@ function addNewUserModal() {
 			<input type="text" class="form-control newUserPasswdInput" name="password" placeholder="请输入密码" value="123456"><br>
 		</div>
 		<br>
-		<botton class="btn btn-primary btn-block" onclick="addNewUser()">新增</botton>
+		<button class="btn btn-primary btn-block" onclick="addNewUser()">新增</button>
 		`
 	updateAlertModal('新增老师', addNewUserHtml)
 }
@@ -140,11 +140,16 @@ function changeUserBtn(node){
 		</div>
 		<br>
 		<div class="input-group">
-			<span class="input-group-addon">密码</span>
-			<input type="text" class="form-control changeUserPasswdInput" name="password" placeholder="" value="${node.parentNode.parentNode.children[2].innerText}">
+			<span class="input-group-addon">教研室</span>
+			<input type="text" class="form-control changeUserKindInput" name="password" placeholder="" value="${node.parentNode.parentNode.children[2].innerText}">
 		</div>
 		<br>
-		<botton value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="changeUser(this)">修改</botton>
+		<div class="input-group">
+			<span class="input-group-addon">密码</span>
+			<input type="text" class="form-control changeUserPasswdInput" name="password" placeholder="" value="${node.parentNode.parentNode.children[3].innerText}">
+		</div>
+		<br>
+		<button value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="changeUser(this)">修改</button>
 
 	`
 	updateAlertModal('修改用户', changeUserHtml)
@@ -172,7 +177,7 @@ function changeUser(node){
 
 function deleteUserBtn(node){
 	const deleteUserHtml = `
-		<botton value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="deleteUser(this)">确定修改</botton>
+		<button value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="deleteUser(this)">确定修改</button>
 	`
 	updateAlertModal('删除用户', deleteUserHtml)
 }
@@ -234,6 +239,51 @@ function refuseRequest(value){
 			location.reload()
 		}
 	)
+}
+
+// excel
+$("#excelInput").change(function () {
+	const file = this.files[0]
+	//文件格式不符合
+  if(file.name.split('.').pop()!=='xlsx' && file.name.split('.').pop()!=='xls'){
+		$("#excelInput").val('');
+		updateAlertModal('通知信息', '文件类型错误！')
+    return
+  }
+  const reader = new FileReader();
+  reader.readAsArrayBuffer(file);
+  reader.onload = function(e){
+		const workBook = XLSX.read(e.target.result, {type: 'array'});
+		const data = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]]);
+		let excelTableHtml = ``
+		for(let item of data){
+			if(item['工号'] != undefined){
+				// 不足5位，则在前面补零
+				if(item['工号'].length != 5)
+					item['工号'] = Array(6-item['工号'].length).join('0') + item['工号']
+				excelTableHtml += `<tr><td>${item['工号']}</td><td>${item['姓名']}</td></tr>` 
+			}
+		}
+		excelTableHtml = `<button class="btn btn-block btn-primary" onclick="addNewUsersByExcel($(this).next().find('tbody').find('tr'))">一键导入</button><table class="table table-bordered"><thead><tr><th>工号</th><th>姓名</th></tr></thead><tbody>${excelTableHtml}</tbody></table>`
+		updateAlertModal('新增教师', excelTableHtml)
+	}
+	$("#excelInput").val('');
+})
+
+function addNewUsersByExcel(nodes){
+	for(let item of nodes){
+		$.post('/secretary/addNewUser',
+			{
+				id: $(item).children().first().text(),
+				name: $(item).children().first().next().text(),
+				password: $(item).children().first().text(),
+			},
+			result=>{
+				if(result)
+					$(item).fadeToggle()
+			}
+		)
+	}
 }
 
 const getNewDate = ()=>{

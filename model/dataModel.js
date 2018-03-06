@@ -23,6 +23,15 @@ const PaySchema = new Schema({
   applyDate: String
 });
 
+// 反馈消息模式
+const FeedbackSchema = new Schema({
+  id: String,
+  name: String,
+  date: String,
+  message: String,
+  ip: String
+});
+
 // 公告数据模式
 const NoticeSchema = new Schema({
   senderId: String,
@@ -117,6 +126,7 @@ const GraduateClassSchema = new Schema({
 const Models = {
   UserModel: mongoose.model('User', UserSchema),
   PayModel: mongoose.model('Pay', PaySchema),
+  FeedbackModel: mongoose.model('Feedback', FeedbackSchema),
   NoticeModel: mongoose.model('Notice', NoticeSchema),
   NormalClassModel: mongoose.model('NormalClass', NormalClassSchema),
   DesignClassSchema: mongoose.model('DesignClass', DesignClassSchema),

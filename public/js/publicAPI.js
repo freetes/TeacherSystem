@@ -36,9 +36,24 @@ const changePasswd = ()=>{
   }
 };
 
-// 
 const updateAlertModal = (title='', context='')=>{
-  $(".modal-title").html(title)
-  $(".alertMessage").html(context)
+  $("#alertInfoModal").find(".modal-title").html(title)
+  $("#alertInfoModal").find(".alertMessage").html(context)
   $("#alertInfoModal").modal('show')
+}
+
+// 反馈
+const feedback = value=>{
+  $.post('/api/feedback',
+    {
+      date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+      message: value
+    },
+    result=>{
+      if(result)
+        updateAlertModal('通知信息', '提交反馈成功！')
+      else
+        updateAlertModal('通知信息', '提交反馈失败！')
+    }
+  )
 }

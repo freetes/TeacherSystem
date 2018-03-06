@@ -24,3 +24,22 @@ body
             option 系统管理员
             
           botton.btn.btn-primary.btn-block(onclick="addUser()") 录入
+
+        .col-md-4
+          h5 反馈箱
+          table.table.table-bordered
+            thead
+              tr
+                td 工号
+                td 姓名
+                td IP
+                td 消息
+                td 日期
+            tbody
+              each item in feedback
+                tr
+                  td #{item.id}
+                  td #{item.name}
+                  td #{item.ip}
+                  td #{item.message}
+                  td #{item.date}

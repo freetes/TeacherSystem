@@ -19,11 +19,12 @@ body
             h3 #{user.name}老师，您好！
             p 教师工号：#{user.id}
             
-            botton.btn.btn-block.btn-primary(onclick="mainDivClick()") 首页
-            botton.btn.btn-block.btn-primary(onclick="payDivClick()") 工资管理
-            botton.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
-            botton.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
-            botton.btn.btn-block.btn-default(data-toggle="modal", data-target="#changePasswdModal") 修改密码
+            button.btn.btn-block.btn-primary(onclick="mainDivClick()") 首页
+            button.btn.btn-block.btn-primary(onclick="payDivClick()") 工资管理
+            button.btn.btn-block.btn-primary(onclick="addClassClick()") 课程登记
+            button.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
+            button.btn.btn-block.btn-default(data-toggle="modal", data-target="#changePasswdModal") 修改密码
+            button.btn.btn-block.btn-default(onclick="updateAlertModal('反馈', `<textarea class='form-control' rows='3' placeholder='请输入您的意见' style='resize:none;'></textarea><br><button class='btn btn-block btn-primary' onclick='feedback($(this).siblings().first().val())'>提交</button>`)") 反馈
             a.btn.btn-block.btn-default(href="/signin") 退出
 
       .col-md-9
@@ -447,7 +448,7 @@ body
                   span.input-group-addon 预发工资
                   input.form-control.newPay(type="text", placeholder="请填写预发工资")
                   span.input-group-btn
-                    botton.btn.btn-default(type="botton", onclick="setNewPay()") 提交
+                    button.btn.btn-default(type="button", onclick="setNewPay()") 提交
                   
               -else
                 -let result = false
@@ -468,8 +469,8 @@ body
                       span.input-group-addon 预发工资
                       input.form-control.newPay(type="text", placeholder="请填写预发工资", value="#{nowPay.pay}")
                       span.input-group-btn
-                        botton.btn.btn-primary(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
-                        botton.btn.btn-default(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
+                        button.btn.btn-primary(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
+                        button.btn.btn-default(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
                   -else if(nowPay.isChecked == 1)
                     p 您的预发工资为：#{nowPay.pay}元
                     p 提交日期为：#{nowPay.applyDate}
@@ -492,7 +493,7 @@ body
                       span.input-group-addon 预发工资
                       input.form-control.newPay(type="text", placeholder="请填写预发工资")
                       span.input-group-btn
-                        botton.btn.btn-default(type="botton", onclick="setNewPay()") 提交
+                        button.btn.btn-default(type="button", onclick="setNewPay()") 提交
                       
                 hr
                 h4 工资项目表:

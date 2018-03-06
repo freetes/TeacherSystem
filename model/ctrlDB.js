@@ -44,7 +44,8 @@ const ctrlDB = {
         graduateClass: await Models.GraduateClassSchema.find({'id': id})
       },
       pays: await Models.PayModel.find(),
-      message: await Models.NoticeModel.find()
+      message: await Models.NoticeModel.find(),
+      feedback: await Models.FeedbackModel.find()
     }
     return info
   },

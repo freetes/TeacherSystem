@@ -20,7 +20,23 @@ const Api = {
       return users.length==0 ? res.json(false) : res.json(true);
     })
   },
-  
+  // POST /feedback
+  feedback: (req, res)=>{
+    if(req.session.userid == undefined || req.session.userid == null)
+      return res.json(false);
+    Models.UserModel.findOne({'id': req.session.userid}, (err, user)=>{
+      Models.FeedbackModel({
+        id: user.id,
+        name: user.name,
+        message: req.body.message,
+        date: req.body.date,
+        ip: req.connection.remoteAddress
+      }).save(err=>{
+        if(err) return res.json(false)
+        res.json(true)
+      })
+    })
+  },
 };
 
 function isAjax(req) {

@@ -42,7 +42,8 @@ const Home = {
             users: info.users,
             class: info.class,
             pays: info.pays,
-            message: info.message
+            message: info.message,
+            feedback: info.feedback
           });
         });
       }

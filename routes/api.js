@@ -5,4 +5,6 @@ router.post('/changePasswd', api.changePasswd);
 
 router.post('/confirmPasswd', api.confirmPasswd);
 
+router.post('/feedback', api.feedback);
+
 module.exports = router;
