@@ -6,9 +6,8 @@ const User = {
   newPay: (req, res)=>{
     Models.PayModel({
       id: req.session.userid,
-      lastPay: 0,
-      changePay: 0,
-      pay: req.body.newPay,
+      pay: req.body.pay,
+      reward: req.body.reward,
       isChecked: 0,
       applyMonth: req.body.applyMonth,
       applyDate: req.body.applyDate
@@ -19,7 +18,7 @@ const User = {
 
   // POST /changePay
   changePay: (req, res)=>{
-    Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'pay': req.body.newPay, 'applyDate': req.body.applyDate}, (err, result)=>{
+    Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'pay': req.body.pay, 'reward': req.body.reward , 'applyDate': req.body.applyDate}, (err, result)=>{
       if(err) return res.json(false);
       return res.json(true);
     })

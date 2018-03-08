@@ -251,13 +251,12 @@ $("#excelInput").change(function () {
 		const workBook = XLSX.read(e.target.result, {type: 'array'});
 		const data = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]]);
 
+		console.log(workBook.Sheets[workBook.SheetNames[0]])
 
-		const wopts = { bookType: 'xlsx', bookSST: true, type: 'binary' };
-		var wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-
-		wb.Sheets['Sheet1'] = workBook.Sheets[workBook.SheetNames[0]];
-		saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], { type: "application/octet-stream"}), "这里是下载的文件名" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
-
+		const wopts = { bookType: 'xlsx', bookSST: true, type: 'binary', cellStyles: true }
+		saveAs(new Blob([s2ab(XLSX.write(workBook, wopts))], { type: "application/octet-stream"}), "下载的文件" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
+		
+		document.getElementById("excelTable").innerHTML = XLSX.utils.sheet_to_json(workBook)
 
 		let excelTableHtml = ``
 		for(let item of data){
@@ -275,6 +274,17 @@ $("#excelInput").change(function () {
 })
 
 // 导出相关
+function exportExcelFile(){
+	const wb = XLSX.utils.table_to_book(document.getElementById("excelTable"))
+	// 配置下载的文件格式
+	const wopts = { bookType: 'xlsx', bookSST: true, type: 'binary', cellStyles: true }
+
+	console.log(wb)
+	wb.Sheets[wb.SheetNames[0]].C1.s = { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } };
+	saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], { type: "application/octet-stream"}), "下载的文件" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
+
+}
+
 function s2ab(s) {
 	if (typeof ArrayBuffer !== 'undefined') {
 			var buf = new ArrayBuffer(s.length);

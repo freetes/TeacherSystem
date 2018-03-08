@@ -14,9 +14,16 @@ const UserSchema = new Schema({
 // 薪酬数据模式
 const PaySchema = new Schema({
   id: String,
-  lastPay: Number,
-  changePay: Number,
-  pay: Number,
+  pay: {
+    last: Number,
+    change: Number,
+    final: Number
+  },
+  reward: {
+    last: Number,
+    change: Number,
+    final: Number
+  },
   isChecked: Number,
   // 0 to No submit&check
   // 1 to Submited but no check
