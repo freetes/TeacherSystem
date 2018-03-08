@@ -12,7 +12,7 @@ const Home = {
       if(user.level == 0){
         CtrlDB.getAllInfoForUser(req.session.userid).then(info=>{
           return res.render('index',{
-            title: '主页',
+            title: '教学工作量管理系统',
             user: user,
             classes: info.class,
             pay: info.pay,

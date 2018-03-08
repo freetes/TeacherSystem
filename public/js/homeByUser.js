@@ -1,10 +1,12 @@
 // 上传新的薪资
 function setNewPay(){
-  if($(".newPay").val() != '' && $(".applySemesterSelect").val() != '')
+  if($(".newPay").val() != '' && $(".applyMonthSelect").val() != '')
     $.post('/users/newPay', 
       {
+        lastPay: $(".lastPay").val(),
+        changePay: $(".newPay").val() - $(".lastPay").val(),
         newPay: $(".newPay").val(),
-        applySemester: $(".applySemesterSelect").val(),
+        applyMonth: $(".applyMonthSelect").val(),
         applyDate: getNewDate()
       },
       result=>{
@@ -105,27 +107,19 @@ const addNewClass = ()=>{
   $(".addNewClassForm").submit()
 }
 const allClassClick = ()=>{
-  $(".mainDiv").css("display", "none");
-  $(".addClassDiv").css("display", "none");
-  $(".payCtrlDiv").css("display", "none");
+  $(".homePageDiv").css("display", "none")
   if($(".allClassDiv").css("display")=='none') $(".allClassDiv").slideToggle();
 }
 const addClassClick = ()=>{
-  $(".mainDiv").css("display", "none");
-  $(".payCtrlDiv").css("display", "none");
-  $(".allClassDiv").css("display", "none");
+  $(".homePageDiv").css("display", "none")
   if($(".addClassDiv").css("display")=='none') $(".addClassDiv").slideToggle();
 }
 const mainDivClick = ()=>{
-  $(".allClassDiv").css("display", "none");
-  $(".addClassDiv").css("display", "none");
-  $(".payCtrlDiv").css("display", "none");
+  $(".homePageDiv").css("display", "none")
   if($(".mainDiv").css("display")=='none') $(".mainDiv").slideToggle();
 }
 const payDivClick = ()=>{
-  $(".allClassDiv").css("display", "none");
-  $(".mainDiv").css("display", "none");
-  $(".addClassDiv").css("display", "none");
+  $(".homePageDiv").css("display", "none")
   if($(".payCtrlDiv").css("display")=='none') $(".payCtrlDiv").slideToggle();
 }
 

@@ -6,9 +6,11 @@ const User = {
   newPay: (req, res)=>{
     Models.PayModel({
       id: req.session.userid,
+      lastPay: 0,
+      changePay: 0,
       pay: req.body.newPay,
       isChecked: 0,
-      applySemester: req.body.applySemester,
+      applyMonth: req.body.applyMonth,
       applyDate: req.body.applyDate
     }).save((err, result)=>{
       return res.json(true);

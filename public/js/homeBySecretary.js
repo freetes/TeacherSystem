@@ -68,12 +68,7 @@ function sendMessage(){
 	)
 }
 
-// 驳回按钮点击事件
-function refuseBtn(value){
-	const refuseHtml = `<input class="form-control refuseInput" placeholder="请输入驳回原因"><br><button class="btn btn-warning btn-block" value="${value}" onclick="refuseRequest(this.getAttribute('value'))">驳回</button>`
-	updateAlertModal('驳回', refuseHtml);
-}
-
+// 增加新的教师
 function addNewUserModal() {
 	const addNewUserHtml = `
 		<div class="input-group">
@@ -161,6 +156,7 @@ function changeUser(node){
 			_id: node.getAttribute('value'),
 			id: $(".changeUserIdInput").val(),
 			name: $(".changeUserNameInput").val(),
+			kind: $(".changeUserKindInput").val(),
 			password: $(".changeUserPasswdInput").val()
 		},
 		result=>{
@@ -176,9 +172,7 @@ function changeUser(node){
 }
 
 function deleteUserBtn(node){
-	const deleteUserHtml = `
-		<button value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="deleteUser(this)">确定修改</button>
-	`
+	const deleteUserHtml = `<button value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="deleteUser(this)">确定修改</button>`
 	updateAlertModal('删除用户', deleteUserHtml)
 }
 
@@ -203,7 +197,8 @@ function deleteUser(node){
 function passRequest(value){
 	$.post('/secretary/passRequest',
 		{
-			id: value
+			id: value,
+			applyDate: getNewDate()
 		},
 		result=>{
 			if(result){
@@ -255,6 +250,15 @@ $("#excelInput").change(function () {
   reader.onload = function(e){
 		const workBook = XLSX.read(e.target.result, {type: 'array'});
 		const data = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]]);
+
+
+		const wopts = { bookType: 'xlsx', bookSST: true, type: 'binary' };
+		var wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+
+		wb.Sheets['Sheet1'] = workBook.Sheets[workBook.SheetNames[0]];
+		saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], { type: "application/octet-stream"}), "这里是下载的文件名" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
+
+
 		let excelTableHtml = ``
 		for(let item of data){
 			if(item['工号'] != undefined){
@@ -269,6 +273,30 @@ $("#excelInput").change(function () {
 	}
 	$("#excelInput").val('');
 })
+
+// 导出相关
+function s2ab(s) {
+	if (typeof ArrayBuffer !== 'undefined') {
+			var buf = new ArrayBuffer(s.length);
+			var view = new Uint8Array(buf);
+			for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+			return buf;
+	} else {
+			var buf = new Array(s.length);
+			for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+			return buf;
+	}
+}
+function saveAs(obj, fileName) {//当然可以自定义简单的下载文件实现方式 
+	var tmpa = document.createElement("a");
+	tmpa.download = fileName || "下载";
+	tmpa.href = URL.createObjectURL(obj); //绑定a标签
+	tmpa.click(); //模拟点击实现下载
+	setTimeout(function () { //延时释放
+			URL.revokeObjectURL(obj); //用URL.revokeObjectURL()来释放这个object URL
+	}, 100);
+}
+
 
 function addNewUsersByExcel(nodes){
 	for(let item of nodes){

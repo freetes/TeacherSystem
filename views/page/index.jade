@@ -1,6 +1,7 @@
 extends ../layout
 //- 主页
 block content
+  script(src="/js/publicAPI.js")
 
   -if(user.level == 0)
     link(rel='stylesheet', href='/css/normal.css')
@@ -10,16 +11,21 @@ block content
     script(src="/js/homeByUser.js")
 
   -else if(user.level == 1)
+    script(src="/libs/js-xlsx/dist/xlsx.full.min.js")
+    script(src="/libs/echarts/dist/echarts.min.js")
     link(rel='stylesheet', href='/css/secretaryPage.css')  
     include secretary
     include ../public/changePasswdModal
     include ../public/alertInfoModal
     script(src="/js/homeBySecretary.js")
+    
 
   -else
+    script(src="/libs/js-xlsx/dist/xlsx.full.min.js")
+    script(src="/libs/echarts/dist/echarts.min.js")
     link(rel='stylesheet', href='/css/adminPage.css')
     include admin
     include ../public/alertInfoModal
     script(src="/js/homeByAdmin.js")
 
-  script(src="/js/publicAPI.js")
+  

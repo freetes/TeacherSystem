@@ -10,7 +10,7 @@ const Secretary = {
     Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
       if(user[0].level == 0) return res.json(false);
       else
-        Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 2}, (err, result)=>{
+        Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 2, 'applyDate': req.body.applyDate}, (err, result)=>{
           return res.json(true)
         })
     })
@@ -79,6 +79,7 @@ const Secretary = {
       {
         id: req.body.id,
         name: req.body.name,
+        kind: req.body.kind,
         password: req.body.password
       },
       (err, result)=>{
