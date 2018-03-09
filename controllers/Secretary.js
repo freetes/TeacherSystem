@@ -56,7 +56,6 @@ const Secretary = {
             return res.json(true)
           })
       })
-    
   },
   // POST /secretary/addNewUser
   addNewUser: (req, res)=>{
@@ -66,6 +65,10 @@ const Secretary = {
       id: req.body.id,
       name: req.body.name,
       password: req.body.password,
+      department: {
+        name: req.body.departName !== undefined ? req.body.departName : '未填写',
+        number: req.body.departRank !== undefined ? req.body.departRank : -1
+      },
       level: 0,
       isWorking: true
     }).save(result=>{

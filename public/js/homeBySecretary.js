@@ -63,7 +63,7 @@ function sendMessage(){
 			else{
 				updateAlertModal('通知信息', '发布公告失败！')
 			}
-			location.reload()
+			location.reload(500)
 		}
 	)
 }
@@ -234,94 +234,6 @@ function refuseRequest(value){
 			location.reload()
 		}
 	)
-}
-
-// excel
-$("#excelInput").change(function () {
-	const file = this.files[0]
-	//文件格式不符合
-  if(file.name.split('.').pop()!=='xlsx' && file.name.split('.').pop()!=='xls'){
-		$("#excelInput").val('');
-		updateAlertModal('通知信息', '文件类型错误！')
-    return
-  }
-  const reader = new FileReader();
-  reader.readAsArrayBuffer(file);
-  reader.onload = function(e){
-		const workBook = XLSX.read(e.target.result, {type: 'array'});
-		const data = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]]);
-
-		console.log(workBook.Sheets[workBook.SheetNames[0]])
-
-		const wopts = { bookType: 'xlsx', bookSST: true, type: 'binary', cellStyles: true }
-		saveAs(new Blob([s2ab(XLSX.write(workBook, wopts))], { type: "application/octet-stream"}), "下载的文件" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
-		
-		document.getElementById("excelTable").innerHTML = XLSX.utils.sheet_to_json(workBook)
-
-		let excelTableHtml = ``
-		for(let item of data){
-			if(item['工号'] != undefined){
-				// 不足5位，则在前面补零
-				if(item['工号'].length != 5)
-					item['工号'] = Array(6-item['工号'].length).join('0') + item['工号']
-				excelTableHtml += `<tr><td>${item['工号']}</td><td>${item['姓名']}</td></tr>` 
-			}
-		}
-		excelTableHtml = `<button class="btn btn-block btn-primary" onclick="addNewUsersByExcel($(this).next().find('tbody').find('tr'))">一键导入</button><table class="table table-bordered"><thead><tr><th>工号</th><th>姓名</th></tr></thead><tbody>${excelTableHtml}</tbody></table>`
-		updateAlertModal('新增教师', excelTableHtml)
-	}
-	$("#excelInput").val('');
-})
-
-// 导出相关
-function exportExcelFile(){
-	const wb = XLSX.utils.table_to_book(document.getElementById("excelTable"))
-	// 配置下载的文件格式
-	const wopts = { bookType: 'xlsx', bookSST: true, type: 'binary', cellStyles: true }
-
-	console.log(wb)
-	wb.Sheets[wb.SheetNames[0]].C1.s = { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } };
-	saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], { type: "application/octet-stream"}), "下载的文件" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
-
-}
-
-function s2ab(s) {
-	if (typeof ArrayBuffer !== 'undefined') {
-			var buf = new ArrayBuffer(s.length);
-			var view = new Uint8Array(buf);
-			for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-			return buf;
-	} else {
-			var buf = new Array(s.length);
-			for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
-			return buf;
-	}
-}
-function saveAs(obj, fileName) {//当然可以自定义简单的下载文件实现方式 
-	var tmpa = document.createElement("a");
-	tmpa.download = fileName || "下载";
-	tmpa.href = URL.createObjectURL(obj); //绑定a标签
-	tmpa.click(); //模拟点击实现下载
-	setTimeout(function () { //延时释放
-			URL.revokeObjectURL(obj); //用URL.revokeObjectURL()来释放这个object URL
-	}, 100);
-}
-
-
-function addNewUsersByExcel(nodes){
-	for(let item of nodes){
-		$.post('/secretary/addNewUser',
-			{
-				id: $(item).children().first().text(),
-				name: $(item).children().first().next().text(),
-				password: $(item).children().first().text(),
-			},
-			result=>{
-				if(result)
-					$(item).fadeToggle()
-			}
-		)
-	}
 }
 
 const getNewDate = ()=>{

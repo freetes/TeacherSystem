@@ -8,28 +8,13 @@ const Admin = {
       id: req.body.id,
       name: req.body.name,
       password: req.body.password,
-      level: req.body.level
+      level: req.body.level,
+      isWorking: true
     }).save((err, result)=>{
       if(err) return res.json(false);
       return res.json(true);
     })
   },
-
-  // // POST /changePay
-  // changePay: (req, res)=>{
-  //   Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'pay': req.body.newPay, 'applyDate': req.body.applyDate}, (err, result)=>{
-  //     if(err) return res.json(false);
-  //     return res.json(true);
-  //   })
-  // },
-  
-  // // POST /checkPay
-  // checkPay: (req, res)=>{
-  //   Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 1}, (err, result)=>{
-  //     if(err) return res.json(false);
-  //     return res.json(true);
-  //   })
-  // },
 };
 
 module.exports = Admin;

@@ -1,6 +1,18 @@
 const Models = require('../model/dataModel');
 const CtrlDB = require('../model/ctrlDB');
 
+Models.UserModel.find((err, res)=>{
+  if(res.length == 0){
+    Models.UserModel({
+      id: 'admin',
+      name: 'freetes',
+      password: '1',
+      level: 2,
+      isWorking: true
+    }).save()
+  }
+})
+
 // 处理主页的请求
 const Home = {
   // GET /
@@ -83,19 +95,37 @@ const Home = {
           verifyCodeExpression: req.session.verifyExpression,
           message: '账号已被注销！'
         });
-      if(user[0].password != req.body.password)
+      if(user[0].password !== req.body.password)
         return res.render('signin',{
           title: '教师工作量管理系统',
           verifyCodeExpression: req.session.verifyExpression,
           message: '密码错误，请重新输入！'
         });
 
-      
       req.session.userid = user[0].id;
       delete req.session.verifyExpression
       delete req.session.verifyResult
       return res.redirect(303, '/');
     });
+  },
+
+  // GET /exportdoc
+  exportDoc: (req, res)=>{
+    if(req.session.userid == undefined || req.session.userid == null)
+      return res.redirect(303, '/signin');
+    Models.UserModel.findOne({'id': req.session.userid}, (err, user)=>{
+      // normal user
+      if(user.level == 0){
+        return res.redirect(303, '/signin');
+      }
+      CtrlDB.getInfo2Export(req.session.userid, req.query.y + '-' + req.query.m).then(info=>{
+        return res.render('exportdoc',{
+          title: 'Excel导出页面',
+          users: info.users,
+          pays: info.pays
+        })
+      })
+    })
   },
 };
 

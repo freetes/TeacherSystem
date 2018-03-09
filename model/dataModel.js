@@ -7,7 +7,10 @@ const UserSchema = new Schema({
   name: String,
   password: String,
   level: Number,
-  kind: String,       // 所属教研室
+  department: {       // 所属教研室
+    name: String,
+    number: Number
+  },
   isWorking: Boolean  // is working?
 });
 

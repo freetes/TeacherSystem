@@ -64,10 +64,10 @@ function checkPay(value){
     },
     result=>{
       if(result){
-        updateAlertModal('通知信息', '通过审核成功！')
+        updateAlertModal('通知信息', '提交审核成功！')
       }
       else{
-        updateAlertModal('通知信息', '通过审核失败！')
+        updateAlertModal('通知信息', '提交审核失败！')
       }
       location.reload()
     }

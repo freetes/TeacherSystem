@@ -38,26 +38,34 @@ body
               .allMessageBox.container-fluid
                 -message.sort((a, b)=> new Date(b.date)- new Date(a.date))
                 h4 学院公告
+                -let allMessageIsEmpty = true
                 each item in message
                   -if(item.receiver == 'all')
+                    -allMessageIsEmpty = false
                     .col-md-12(class='bg-#{item.level}', style='border-bottom: 2px white solid')
                       .col-md-9
                         h4 #{item.message}
                       .col-md-3
                         p.text-right #{item.date}
                         p.text-right #{item.senderName}
+                -if(allMessageIsEmpty)
+                  p 无公告
               hr
               .myMessageBox.container-fluid
                 h4 我的消息
+                -let selfMessageIsEmpty = true
                 each item in message
                   -if(item.receiver!='all')
+                    -selfMessageIsEmpty = false
                     .col-md-12(class='bg-#{item.level}', style='border-bottom: 2px white solid')
                       .col-md-9
                         h4 #{item.message}
                       .col-md-3
                         p.text-right #{item.date}
                         p.text-right #{item.senderName}
-        
+                -if(selfMessageIsEmpty)
+                  p 无消息
+          
         //-                  
           //- 授课查询
           .allClassDiv(style="display: none")
@@ -461,10 +469,10 @@ body
                         input.form-control.newReward(type="text", placeholder="请填写预发工资", value="#{nowPay.reward.final}")                    
                     .form-group
                       .col-md-5.col-md-offset-2
-                        button.btn.btn-block.btn-primary(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
+                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
                     .form-group
                       .col-md-5.col-md-offset-2
-                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
+                        button.btn.btn-block.btn-primary(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
 
                 -else if(nowPay.isChecked == 1)
                   p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
@@ -482,8 +490,8 @@ body
                         input.form-control.lastReward(style="display: none", type="text", value="#{nowPay.reward.last}")
                         input.form-control.newReward(type="text", value="#{nowPay.reward.final}")                    
                     .form-group
-                      .col-md-4.col-md-offset-2
-                        button.btn.btn-primary(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
+                      .col-md-5.col-md-offset-2
+                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
 
                 -else
                   p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：

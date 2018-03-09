@@ -9,7 +9,10 @@ body
         hr
         h4 功能按钮：
 
-        a.btn.btn-danger(href="/signin") 退出
+        button.btn.btn-block.btn-primary(onclick="$('#excelInput').click()") 一键导入教师
+        input#excelInput(style="display: none", type="file")
+          
+        a.btn.btn-danger.btn-block(href="/signin") 退出
       
       .col-md-10
         .col-md-3
