@@ -215,8 +215,7 @@ function passRequest(value){
 // POST /secretary/refuseRequest
 function refuseRequest(value){
 	if($(".refuseInput").val()==''){
-		$(".alertMessage").html("请输入驳回信息！");
-		return $("#alertInfoModal").modal();
+		return $(".alertMessage").html("请输入驳回信息！");
 	}
 	$.post('/secretary/refuseRequest',
 		{
