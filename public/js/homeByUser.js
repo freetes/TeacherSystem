@@ -4,14 +4,14 @@ function setNewPay(){
     $.post('/users/newPay', 
       {
         pay: {
-          last: $(".lastPay").val(),
-          change: $(".newPay").val() - $(".lastPay").val(),
-          final: $(".newPay").val(),
+          last: $(".lastPay").val() == ''?0:$(".lastPay").val(),
+          change: $(".newPay").val() == ''?0:$(".newPay").val() - $(".lastPay").val() == ''?0:$(".lastPay").val(),
+          final: $(".newPay").val() == ''?0:$(".newPay").val(),
         },
         reward: {
-          last: $(".lastReward").val(),
-          change: $(".newReward").val() - $(".lastReward").val(),
-          final: $(".newReward").val(),
+          last: $(".lastReward").val() == ''?0:$(".lastReward").val(),
+          change: $(".newReward").val() == ''?0:$(".newReward").val() - $(".lastReward").val() == ''?0:$(".lastReward").val(),
+          final: $(".newReward").val() == ''?0:$(".newReward").val(),
         },
         applyMonth: $(".applyMonthSelect").val(),
         applyDate: getNewDate()
@@ -34,14 +34,14 @@ function changePay(value){
       {
         id: value,
         pay: {
-          last: $(".lastPay").val(),
-          change: $(".newPay").val()-$(".lastPay").val(),
-          final: $(".newPay").val()
+          last: $(".lastPay").val() == ''?0:$(".lastPay").val(),
+          change: $(".newPay").val() == ''?0:$(".newPay").val() - $(".lastPay").val() == ''?0:$(".lastPay").val(),
+          final: $(".newPay").val() == ''?0:$(".newPay").val(),
         },
         reward: {
-          last: $(".lastReward").val(),
-          change: $(".newReward").val()-$(".lastReward").val(),
-          final: $(".newReward").val()
+          last: $(".lastReward").val() == ''?0:$(".lastReward").val(),
+          change: $(".newReward").val() == ''?0:$(".newReward").val() - $(".lastReward").val() == ''?0:$(".lastReward").val(),
+          final: $(".newReward").val() == ''?0:$(".newReward").val(),
         },
         applyDate: getNewDate()
       },
