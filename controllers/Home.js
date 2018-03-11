@@ -122,7 +122,9 @@ const Home = {
         return res.render('exportdoc',{
           title: 'Excel导出页面',
           users: info.users,
-          pays: info.pays
+          pays: info.pays,
+          year: req.query.y,
+          month: req.query.m
         })
       })
     })

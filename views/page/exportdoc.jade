@@ -22,19 +22,19 @@ block content
       h4(style="text-align:center") 武汉轻工大学数计学院 #{`${new Date().getFullYear()}年${new Date().getMonth()+1}月份`} 教师预发工资信息表
       p 快捷操作：
         button.btn.btn-primary(onclick="exportExcelFile()") 导出文件
-        a.btn.btn-primary(href="/") 返回主页
+        a.btn.btn-default(href="/") 返回主页
 
       table.table.table-bordered#excelTable
         thead
           tr
             th 
             th 
-            th.text-center(colspan="8") 2018年三月份二次工资变动通知单
+            th.text-center(colspan="8") #{year}年#{month}月份二次工资变动通知单
         tbody
           tr
             td
             td
-            td.text-center(colspan="6") 部门：（公章）2018年三月除特殊奖励院部预发数
+            td.text-center(colspan="6") 部门：（公章）#{year}年#{month}月除特殊奖励院部预发数
             td
             td
           tr
