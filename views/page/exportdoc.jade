@@ -5,13 +5,19 @@ block content
   script(src="/js/exportdoc.js")
   body
 
-    -let names={}
-    -for(let pay of pays)
-      -if(typeof(names[`${pay.id}`])=='undefined')
-        -for(let user of users)
-          -if(pay.id == user.id)
-            -names[`${pay.id}`] = user.name
+    -pays.sort((a, b)=>a.id-b.id)
+    -for(let i=0;i<pays.length;i++)
+      -pays[i].idNumber = i+1
 
+
+    -for(let pay of pays)
+      -if(typeof(pay.name)=='undefined')
+        -for(let user of users)
+          -if(pay.id == user.id){
+            -pay.name = user.name
+            -pay.number = user.department.number
+          -}
+    -pays.sort((a, b)=>a.number-b.number)
     .container
       h4(style="text-align:center") 武汉轻工大学数计学院 #{`${new Date().getFullYear()}年${new Date().getMonth()+1}月份`} 教师预发工资信息表
       p 快捷操作：
@@ -50,10 +56,10 @@ block content
             td 兼课津贴
           each pay in pays
             tr
-              td 
-              td 
+              td #{pay.idNumber}
+              td #{pay.number}
               td #{pay.id}
-              td #{names[`${pay.id}`]}
+              td #{pay.name}
               td #{pay.pay.last}
               td #{pay.reward.last}
               td #{pay.pay.change}
