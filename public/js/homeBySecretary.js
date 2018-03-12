@@ -235,6 +235,13 @@ function refuseRequest(value){
 	)
 }
 
+$(".sortKind").click(function(){
+	if($(this).val() == 1)
+		$(".sortLink").attr('href',`/exportdoc?y=${new Date().getFullYear()}&m=${new Date().getMonth()+1}&sortby=1`)
+	else
+		$(".sortLink").attr('href',`/exportdoc?y=${new Date().getFullYear()}&m=${new Date().getMonth()+1}&sortby=2`)
+})
+
 const getNewDate = ()=>{
   return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 }

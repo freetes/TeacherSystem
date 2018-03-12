@@ -17,7 +17,7 @@ block content
             -pay.number = user.department.number
           -}
     -}
-    
+
     -if(sortby == 1){
       -pays.sort((a, b)=>a.number-b.number)
     -}
@@ -34,26 +34,26 @@ block content
       table.table.table-bordered#excelTable
         thead
           tr
-            th 
-            th 
+            //- th 
+            //- th 
             th.text-center(colspan="8") #{year}年#{month}月份二次工资变动通知单
           tr
-            td
-            td
+            //- td
+            //- td
             td.text-center(colspan="6") 部门：（公章）#{year}年#{month}月除特殊奖励院部预发数
             td
             td
           tr
-            td
-            td
+            //- td
+            //- td
             td(rowspan="2") 工号
             td(rowspan="2") 姓名
             td(colspan="2") 上月金额
             td(colspan="2") 本月增减变化
             td(colspan="2") 本月金额
           tr
-            td 按工号排序
-            td 按教研室排序
+            //- td 按工号排序
+            //- td 按教研室排序
             td 奖励绩效预发
             td 兼课津贴
             td 奖励绩效预发
@@ -64,8 +64,8 @@ block content
 
           each pay in pays
             tr
-              td #{pay.idNumber}
-              td #{pay.number}
+              //- td #{pay.idNumber}
+              //- td #{pay.number}
               td #{pay.id}
               td #{pay.name}
               td #{pay.pay.last}
