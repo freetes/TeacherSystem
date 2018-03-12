@@ -44,6 +44,15 @@ const FeedbackSchema = new Schema({
   ip: String
 });
 
+// 登录日志模式
+const SigninLogSchema = new Schema({
+  date: String,
+  ip: String,
+  id: String,
+  name: String,
+  result: String
+})
+
 // 公告数据模式
 const NoticeSchema = new Schema({
   senderId: String,
@@ -139,6 +148,7 @@ const Models = {
   UserModel: mongoose.model('User', UserSchema),
   PayModel: mongoose.model('Pay', PaySchema),
   FeedbackModel: mongoose.model('Feedback', FeedbackSchema),
+  SigninLogModel: mongoose.model('SigninLog', SigninLogSchema),
   NoticeModel: mongoose.model('Notice', NoticeSchema),
   NormalClassModel: mongoose.model('NormalClass', NormalClassSchema),
   DesignClassSchema: mongoose.model('DesignClass', DesignClassSchema),

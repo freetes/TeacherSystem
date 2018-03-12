@@ -19,7 +19,7 @@ block content
           -}
     -pays.sort((a, b)=>a.number-b.number)
     .container
-      h4(style="text-align:center") 武汉轻工大学数计学院 #{`${new Date().getFullYear()}年${new Date().getMonth()+1}月份`} 教师预发工资信息表
+      h4(style="text-align:center") 武汉轻工大学数计学院 #{year}年#{month}月份 教师预发工资信息表
       p 快捷操作：
         button.btn.btn-primary(onclick="exportExcelFile()") 导出文件
         a.btn.btn-default(href="/") 返回主页

@@ -55,7 +55,8 @@ const Home = {
             class: info.class,
             pays: info.pays,
             message: info.message,
-            feedback: info.feedback
+            feedback: info.feedback,
+            signinLog: info.signinLog
           });
         });
       }
@@ -83,25 +84,56 @@ const Home = {
       });
     }
     Models.UserModel.find({'id': req.body.id}, (err, user)=>{
-      if(user.length == 0)
+      if(user.length == 0){
+        Models.SigninLogModel({
+          id: req.body.id,
+          name: '',
+          ip: getIP(req),
+          date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+          result: '登录失败，账号不存在！'
+        }).save()
         return res.render('signin',{
           title: '教师工作量管理系统',
           verifyCodeExpression: req.session.verifyExpression,
           message: '账号不存在，请重新输入！'
         });
-      if(!user[0].isWorking)
+      }
+      if(!user[0].isWorking){
+        Models.SigninLogModel({
+          id: user[0].id,
+          name: user[0].name,
+          ip: getIP(req),
+          date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+          result: '登录失败，账号被注销！'
+        }).save()
         return res.render('signin',{
           title: '教师工作量管理系统',
           verifyCodeExpression: req.session.verifyExpression,
           message: '账号已被注销！'
         });
-      if(user[0].password !== req.body.password)
+      }
+      if(user[0].password !== req.body.password){
+        Models.SigninLogModel({
+          id: user[0].id,
+          name: user[0].name,
+          ip: getIP(req),
+          date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+          result: '登录失败，密码错误！'
+        }).save()
         return res.render('signin',{
           title: '教师工作量管理系统',
           verifyCodeExpression: req.session.verifyExpression,
           message: '密码错误，请重新输入！'
         });
+      }
 
+      Models.SigninLogModel({
+        id: user[0].id,
+        name: user[0].name,
+        ip: getIP(req),
+        date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+        result: '登录成功！'
+      }).save()
       req.session.userid = user[0].id;
       delete req.session.verifyExpression
       delete req.session.verifyResult
@@ -142,5 +174,18 @@ function buildVerifyCode(req){
   req.session.verifyExpression = `(${chineseNums[x]} ${chineseSymbol[z]} ${chineseNums[y]})`
   req.session.verifyResult =  z==0?x+y:z==1?x-y:x*y
 }
+
+//获取url请求客户端ip
+function getIP(req) {
+  var ip = req.headers['x-forwarded-for'] ||
+      req.ip ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress || '';
+  if(ip.split(',').length>0){
+      ip = ip.split(',')[0]
+  }
+  return ip;
+};
 
 module.exports = Home;

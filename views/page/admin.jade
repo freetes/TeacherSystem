@@ -46,3 +46,22 @@ body
                   td #{item.ip}
                   td #{item.message}
                   td #{item.date}
+
+        .col-md-4
+          h5 登录日志
+          table.table.table-bordered
+            thead
+              tr
+                td IP
+                td 日期
+                td ID
+                td 姓名
+                td 结果
+            tbody
+              each item in signinLog
+                tr
+                  td #{item.ip}
+                  td #{item.date}
+                  td #{item.id}
+                  td #{item.name}
+                  td #{item.result}

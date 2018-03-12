@@ -45,7 +45,8 @@ const ctrlDB = {
       },
       pays: await Models.PayModel.find(),
       message: await Models.NoticeModel.find(),
-      feedback: await Models.FeedbackModel.find()
+      feedback: await Models.FeedbackModel.find(),
+      signinLog: await Models.SigninLogModel.find()
     }
     return info
   },

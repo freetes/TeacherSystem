@@ -30,7 +30,7 @@ const Api = {
         name: user.name,
         message: req.body.message,
         date: req.body.date,
-        ip: req.connection.remoteAddress
+        ip: getIP(req)
       }).save(err=>{
         if(err) return res.json(false)
         res.json(true)
@@ -45,5 +45,18 @@ function isAjax(req) {
   else 
     return false
 }
+
+//获取url请求客户端ip
+function getIP(req) {
+  var ip = req.headers['x-forwarded-for'] ||
+      req.ip ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress || '';
+  if(ip.split(',').length>0){
+      ip = ip.split(',')[0]
+  }
+  return ip;
+};
 
 module.exports = Api;

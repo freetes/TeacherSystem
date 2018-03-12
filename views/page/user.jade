@@ -49,6 +49,125 @@ body
                 -if(selfMessageIsEmpty)
                   p 无消息
           
+        //- 工资管理
+        .payCtrlDiv.homePageDiv(style="display: none")
+          .panel.panel-primary
+            .panel-heading
+              span.glyphicon.glyphicon-list(aria-hidden="true")
+              span  工资管理
+            .panel-body
+              h3 #{user.name}老师，您好！
+              hr
+              -let result = false
+              -const nowMonth = `${new Date().getFullYear()}-${new Date().getMonth()+1}`
+              -const lastMonth = new Date().getMonth()==0 ? `${new Date().getFullYear()-1}-12` : `${new Date().getFullYear()}-${new Date().getMonth()}`
+
+              -let nowPay
+              -if(pay.length != 0)
+                -for(let item of pay)
+                  -if(item.applyMonth == nowMonth){
+                    -nowPay = item
+                    -result = true
+                  -}
+              //- 已填写当月的
+              -if(result)
+                -if(nowPay.isChecked == 0)
+                  p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
+                    span.text-warning 未提交审核
+                  .form-horizontal
+                    .form-group
+                      label.col-md-2.control-label(for="") 奖励绩效预发(元)
+                      .col-md-5
+                        input.form-control.lastPay(style="display: none", type="text", value="#{nowPay.pay.last}")
+                        input.form-control.newPay(type="text", placeholder="请填写预发工资", value="#{nowPay.pay.final}")
+                    .form-group.hidden
+                      label.col-md-2.control-label(for="") 兼课津贴(元)
+                      .col-md-5
+                        input.form-control.lastReward(style="display: none", type="text", value="#{nowPay.reward.last}")
+                        input.form-control.newReward(type="text", placeholder="请填写预发工资", value="#{nowPay.reward.final}")                    
+                    .form-group
+                      .col-md-5.col-md-offset-2
+                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
+                    .form-group
+                      .col-md-5.col-md-offset-2
+                        button.btn.btn-block.btn-primary(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
+
+                -else if(nowPay.isChecked == 1)
+                  p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
+                    span.text-info 已提交审核，请等待通过
+                  p 最后提交日期为：#{nowPay.applyDate}
+                  .form-horizontal
+                    .form-group
+                      label.col-md-2.control-label(for="") 奖励绩效预发(元)
+                      .col-md-5
+                        input.form-control.lastPay(style="display: none", type="text", value="#{nowPay.pay.last}")
+                        input.form-control.newPay(type="text", value="#{nowPay.pay.final}")
+                    .form-group.hidden
+                      label.col-md-2.control-label(for="") 兼课津贴(元)
+                      .col-md-5
+                        input.form-control.lastReward(style="display: none", type="text", value="#{nowPay.reward.last}")
+                        input.form-control.newReward(type="text", value="#{nowPay.reward.final}")                    
+                    .form-group
+                      .col-md-5.col-md-offset-2
+                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
+
+                -else
+                  p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
+                    span.text-success 审核已通过！
+                  p 您的奖励绩效预发为：#{nowPay.pay.final} 元
+                  p.hidden 您的兼课津贴为：#{nowPay.reward.final} 元
+                  p 提交日期为：#{nowPay.applyDate}
+
+              -else
+                -let lastPay
+                -if(pay.length != 0)
+                  -for(let item of pay)
+                    -if(item.applyMonth == lastMonth){
+                      -lastPay = item
+                    -}
+                p 您还未填写当前月份的预发工资
+                .form-horizontal
+                  .form-group
+                    label.col-md-2.control-label(for="") 月份
+                    .col-md-5
+                      input.form-control.applyMonthSelect(type="text", value="#{nowMonth}", readonly)
+                  .form-group
+                    label.col-md-2.control-label(for="") 奖励绩效预发(元)
+                    .col-md-5
+                      input.form-control.lastPay(style="display: none", type="text", value="#{typeof(lastPay)=='undefined'?0:lastPay.pay.final}")
+                      input.form-control.newPay(type="text", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.pay.final}元`}")
+                  .form-group.hidden
+                    label.col-md-2.control-label(for="") 兼课津贴(元)
+                    .col-md-5
+                        input.form-control.lastReward(style="display: none", type="text", value="#{typeof(lastPay)=='undefined'?0:lastPay.reward.final}")
+                        input.form-control.newReward(type="text", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.reward.final}元`}")
+                  .form-group
+                    .col-md-5.col-md-offset-2
+                      button.btn.btn-block.btn-primary(type="button", onclick="setNewPay()") 添加
+
+              -if(pay.length != 0)
+                hr
+                h4 工资项目表:
+                table.table.table-bordered.table-hover
+                  thead
+                    tr: th 申请日期
+                        th 提交日期
+                        th 奖励绩效预发(元)
+                        th.hidden 兼课津贴(元)
+                        th 状态
+                  tbody
+                    each item in pay
+                      tr: td #{item.applyMonth}
+                          td #{item.applyDate}
+                          td #{item.pay.final}
+                          td.hidden #{item.reward.final}
+                          -if(item.isChecked == 0)
+                            td.text-warning 未提交审核
+                          -else if(item.isChecked == 1)
+                            td.text-info 等待审核
+                          -else
+                            td.text-success 审核通过
+
         //-                  
           //- 授课查询
           .allClassDiv(style="display: none")
@@ -413,125 +532,6 @@ body
                   
                   br
                   button.btn.btn-primary.btn-block 录入
-          
-        //- 工资管理
-        .payCtrlDiv.homePageDiv(style="display: none")
-          .panel.panel-primary
-            .panel-heading
-              span.glyphicon.glyphicon-list(aria-hidden="true")
-              span  工资管理
-            .panel-body
-              h3 #{user.name}老师，您好！
-              hr
-              -let result = false
-              -const nowMonth = `${new Date().getFullYear()}-${new Date().getMonth()+1}`
-              -const lastMonth = new Date().getMonth()==0 ? `${new Date().getFullYear()-1}-12` : `${new Date().getFullYear()}-${new Date().getMonth()}`
-
-              -let nowPay
-              -if(pay.length != 0)
-                -for(let item of pay)
-                  -if(item.applyMonth == nowMonth){
-                    -nowPay = item
-                    -result = true
-                  -}
-              //- 已填写当月的
-              -if(result)
-                -if(nowPay.isChecked == 0)
-                  p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
-                    span.text-warning 未提交审核
-                  .form-horizontal
-                    .form-group
-                      label.col-md-2.control-label(for="") 奖励绩效预发(元)
-                      .col-md-5
-                        input.form-control.lastPay(style="display: none", type="text", value="#{nowPay.pay.last}")
-                        input.form-control.newPay(type="text", placeholder="请填写预发工资", value="#{nowPay.pay.final}")
-                    .form-group.hidden
-                      label.col-md-2.control-label(for="") 兼课津贴(元)
-                      .col-md-5
-                        input.form-control.lastReward(style="display: none", type="text", value="#{nowPay.reward.last}")
-                        input.form-control.newReward(type="text", placeholder="请填写预发工资", value="#{nowPay.reward.final}")                    
-                    .form-group
-                      .col-md-5.col-md-offset-2
-                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
-                    .form-group
-                      .col-md-5.col-md-offset-2
-                        button.btn.btn-block.btn-primary(value="#{nowPay._id}", onclick="checkPay(this.getAttribute('value'))") 提交审核
-
-                -else if(nowPay.isChecked == 1)
-                  p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
-                    span.text-info 已提交审核，请等待通过
-                  p 最后提交日期为：#{nowPay.applyDate}
-                  .form-horizontal
-                    .form-group
-                      label.col-md-2.control-label(for="") 奖励绩效预发(元)
-                      .col-md-5
-                        input.form-control.lastPay(style="display: none", type="text", value="#{nowPay.pay.last}")
-                        input.form-control.newPay(type="text", value="#{nowPay.pay.final}")
-                    .form-group.hidden
-                      label.col-md-2.control-label(for="") 兼课津贴(元)
-                      .col-md-5
-                        input.form-control.lastReward(style="display: none", type="text", value="#{nowPay.reward.last}")
-                        input.form-control.newReward(type="text", value="#{nowPay.reward.final}")                    
-                    .form-group
-                      .col-md-5.col-md-offset-2
-                        button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
-
-                -else
-                  p 当前月份 #{nowPay.applyMonth} 的预发工资状态为：
-                    span.text-success 审核已通过！
-                  p 您的奖励绩效预发为：#{nowPay.pay.final} 元
-                  p.hidden 您的兼课津贴为：#{nowPay.reward.final} 元
-                  p 提交日期为：#{nowPay.applyDate}
-
-              -else
-                -let lastPay
-                -if(pay.length != 0)
-                  -for(let item of pay)
-                    -if(item.applyMonth == lastMonth){
-                      -lastPay = item
-                    -}
-                p 您还未填写当前月份的预发工资
-                .form-horizontal
-                  .form-group
-                    label.col-md-2.control-label(for="") 月份
-                    .col-md-5      
-                      input.form-control.applyMonthSelect(type="text", value="#{nowMonth}", readonly)
-                  .form-group
-                    label.col-md-2.control-label(for="") 奖励绩效预发(元)
-                    .col-md-5      
-                      input.form-control.lastPay(style="display: none", type="text", value="#{typeof(lastPay)=='undefined'?0:lastPay.pay.final}")
-                      input.form-control.newPay(type="text", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.pay.final}元`}")
-                  .form-group.hidden
-                    label.col-md-2.control-label(for="") 兼课津贴(元)
-                    .col-md-5      
-                        input.form-control.lastReward(style="display: none", type="text", value="#{typeof(lastPay)=='undefined'?0:lastPay.reward.final}")
-                        input.form-control.newReward(type="text", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.reward.final}元`}")
-                  .form-group
-                    .col-md-5.col-md-offset-2
-                      button.btn.btn-block.btn-primary(type="button", onclick="setNewPay()") 提交
-
-              -if(pay.length != 0)
-                hr
-                h4 工资项目表:
-                table.table.table-bordered.table-hover
-                  thead
-                    tr: th 申请日期
-                        th 提交日期
-                        th 奖励绩效预发(元)
-                        th.hidden 兼课津贴(元)
-                        th 状态
-                  tbody
-                    each item in pay
-                      tr: td #{item.applyMonth}
-                          td #{item.applyDate}
-                          td #{item.pay.final}
-                          td.hidden #{item.reward.final}
-                          -if(item.isChecked == 0)
-                            td.text-warning 未提交审核
-                          -else if(item.isChecked == 1)
-                            td.text-info 等待审核
-                          -else
-                            td.text-success 审核通过
 
       .col-md-3.col-md-pull-9.col-xs-12
         .panel.panel-primary
