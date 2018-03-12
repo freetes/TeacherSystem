@@ -9,15 +9,22 @@ block content
     -for(let i=0;i<pays.length;i++)
       -pays[i].idNumber = i+1
 
-
-    -for(let pay of pays)
+    -for(let pay of pays){
       -if(typeof(pay.name)=='undefined')
         -for(let user of users)
           -if(pay.id == user.id){
             -pay.name = user.name
             -pay.number = user.department.number
           -}
-    -pays.sort((a, b)=>a.number-b.number)
+    -}
+    
+    -if(sortby == 1){
+      -pays.sort((a, b)=>a.number-b.number)
+    -}
+    -else if(sortby == 2){
+      -pays.sort((a, b)=>a.id-b.id)
+    -}
+
     .container
       h4(style="text-align:center") 武汉轻工大学数计学院 #{year}年#{month}月份 教师预发工资信息表
       p 快捷操作：
@@ -30,7 +37,6 @@ block content
             th 
             th 
             th.text-center(colspan="8") #{year}年#{month}月份二次工资变动通知单
-        tbody
           tr
             td
             td
@@ -54,6 +60,8 @@ block content
             td 兼课津贴
             td 奖励绩效预发
             td 兼课津贴
+        tbody
+
           each pay in pays
             tr
               td #{pay.idNumber}
