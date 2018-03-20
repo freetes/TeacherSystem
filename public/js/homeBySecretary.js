@@ -63,7 +63,7 @@ function sendMessage(){
 			else{
 				updateAlertModal('通知信息', '发布公告失败！')
 			}
-			location.reload(500)
+			location.reload(300)
 		}
 	)
 }
@@ -102,7 +102,7 @@ function addNewUser(){
 		},
 		result=>{
 			if(result)
-				location.reload()
+				location.reload(300)
 		}
 	)
 }
@@ -117,7 +117,7 @@ function resetPassword(node){
 			else{
 				updateAlertModal('通知信息', '重置失败！')
 			}
-			location.reload(500)
+			location.reload(300)
 		}
 	)
 }
@@ -166,7 +166,7 @@ function changeUser(node){
 			else{
 				updateAlertModal('通知信息', '修改失败！')
 			}
-			location.reload(500)
+			location.reload(300)
 		}
 	)
 }
@@ -188,7 +188,7 @@ function deleteUser(node){
 			else{
 				updateAlertModal('通知信息', '删除失败！')
 			}
-			location.reload(500)
+			location.reload(300)
 		}
 	)
 }
@@ -207,7 +207,7 @@ function passRequest(value){
 			else{
 				updateAlertModal('通知信息', '通过审核失败！')				
 			}
-			location.reload()
+			location.reload(300)
 		}
 	)
 }
@@ -230,16 +230,90 @@ function refuseRequest(value){
 			else{
 				updateAlertModal('通知信息', '驳回失败！')				
 			}
-			location.reload()
+			location.reload(300)
 		}
 	)
 }
 
-$(".sortKind").click(function(){
-	if($(this).val() == 1)
-		$(".sortLink").attr('href',`/exportdoc?y=${new Date().getFullYear()}&m=${new Date().getMonth()+1}&sortby=1`)
-	else
-		$(".sortLink").attr('href',`/exportdoc?y=${new Date().getFullYear()}&m=${new Date().getMonth()+1}&sortby=2`)
+// 用户视图功能集
+// 用户排序
+$(".viewWorkingTableSortBtn").click(function(){
+	const choice1 = this.previousSibling.previousSibling.value,
+				choice2 = this.previousSibling.value,
+				allTr = $("#workingTable").children()
+	$("#workingTable").html('')
+	let choiceFun
+	// 按照教研室排序
+	if(choice1 == 1){
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			}
+		else
+			choiceFun = function(b, a){
+				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			}
+	}
+	// 按照工号排序
+	else{
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return a.firstChild.innerText-b.firstChild.innerText
+			}
+		else
+			choiceFun = function(b, a){
+				return a.firstChild.innerText-b.firstChild.innerText
+			}
+	}
+
+	allTr.sort(choiceFun)
+
+	$("#workingTable").html(allTr)
+})
+
+// 工资视图功能集
+// 工资排序
+$(".payTableSortBtn").click(function(){
+	const choice1 = this.previousSibling.previousSibling.value,
+		  choice2 = this.previousSibling.value,
+		  allTr = $("#payTable").children()
+	$("#payTable").html('')
+	let choiceFun
+	// 按照教研室排序
+	if(choice1 == 1){
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			}
+		else
+			choiceFun = function(b, a){
+				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			}
+	}
+	// 按照工号排序
+	else if(choice1 == 2){
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return a.firstChild.innerText-b.firstChild.innerText
+			}
+		else
+			choiceFun = function(b, a){
+				return a.firstChild.innerText-b.firstChild.innerText
+			}
+	}
+	// 按提交日期排序
+	else{
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return new Date(b.firstChild.nextSibling.nextSibling.innerText) - new Date(a.firstChild.nextSibling.nextSibling.innerText)
+			}
+		else
+			choiceFun = function(b, a){
+				return new Date(b.firstChild.nextSibling.nextSibling.innerText) - new Date(a.firstChild.nextSibling.nextSibling.innerText)
+			}
+	}
+	allTr.sort(choiceFun)
+	$("#payTable").html(allTr)
 })
 
 const getNewDate = ()=>{

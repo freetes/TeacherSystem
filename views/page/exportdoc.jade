@@ -9,29 +9,29 @@ block content
     -for(let i=0;i<pays.length;i++)
       -pays[i].idNumber = i+1
 
-    -for(let pay of pays){
+    -for(let pay of pays)
       -if(typeof(pay.name)=='undefined')
         -for(let user of users)
           -if(pay.id == user.id){
             -pay.name = user.name
             -pay.number = user.department.number
           -}
-    -}
-
-    -if(sortby == 1){
-      -pays.sort((a, b)=>a.number-b.number)
-    -}
-    -else if(sortby == 2){
-      -pays.sort((a, b)=>a.id-b.id)
-    -}
 
     .container
       h4(style="text-align:center") 武汉轻工大学数计学院 #{year}年#{month}月份 教师预发工资信息表
-      p 快捷操作：
+      form.form-inline 排序：
+        span.form-control-static 按照
+        select.form-control#sortSelect(onchange="sort(this)")
+          option(value="1", selected) 教研室
+          option(value="2") 工号
         button.btn.btn-primary(onclick="exportExcelFile()") 导出文件
-        a.btn.btn-default(href="/") 返回主页
+      br
 
-      table.table.table-bordered#excelTable
+      a.btn.btn-default(href="/") 返回主页
+
+      hr
+
+      table.table.table-bordered
         thead
           tr
             //- th 
@@ -60,12 +60,11 @@ block content
             td 兼课津贴
             td 奖励绩效预发
             td 兼课津贴
-        tbody
-
+        tbody#excelTable
           each pay in pays
             tr
-              //- td #{pay.idNumber}
-              //- td #{pay.number}
+              td.hidden #{pay.idNumber}
+              td.hidden #{pay.number}
               td #{pay.id}
               td #{pay.name}
               td #{pay.pay.last}
@@ -74,9 +73,8 @@ block content
               td #{pay.reward.change}
               td #{pay.pay.final}
               td #{pay.reward.final}
+        tfoot
           tr
-            td
-            td
             td(colspan="2") 合计
             td
             td

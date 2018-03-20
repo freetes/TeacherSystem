@@ -157,7 +157,6 @@ const Home = {
           pays: info.pays,
           year: req.query.y,
           month: req.query.m,
-          sortby: req.query.sortby
         })
       })
     })

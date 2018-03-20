@@ -15,53 +15,164 @@ body
         a.btn.btn-danger.btn-block(href="/signin") 退出
       
       .col-md-10
-        .col-md-3
-          h5 新增用户
-          
-          input.form-control.newUserId(type="text", placeholder="ID")
-          input.form-control.newUserName(type="text", placeholder="姓名")
-          input.form-control.newUserPassword(type="text", placeholder="密码")
-          select.form-control.newUserLevel
-            option 普通教职工
-            option 教学秘书
-            option 系统管理员
+        .row
+          .col-md-3
+            h5 新增用户
             
-          botton.btn.btn-primary.btn-block(onclick="addUser()") 录入
+            input.form-control.newUserId(type="text", placeholder="ID")
+            input.form-control.newUserName(type="text", placeholder="姓名")
+            input.form-control.newUserPassword(type="text", placeholder="密码")
+            select.form-control.newUserLevel
+              option 普通教职工
+              option 教学秘书
+              option 系统管理员
+              
+            botton.btn.btn-primary.btn-block(onclick="addUser()") 录入
 
-        .col-md-4
-          h5 反馈箱
-          table.table.table-bordered
-            thead
-              tr
-                td 工号
-                td 姓名
-                td IP
-                td 消息
-                td 日期
-            tbody
-              each item in feedback
+          .col-md-4
+            h5 反馈箱
+            table.table.table-bordered
+              thead
                 tr
-                  td #{item.id}
-                  td #{item.name}
-                  td #{item.ip}
-                  td #{item.message}
-                  td #{item.date}
+                  td 工号
+                  td 姓名
+                  td IP
+                  td 消息
+                  td 日期
+              tbody
+                each item in feedback
+                  tr
+                    td #{item.id}
+                    td #{item.name}
+                    td #{item.ip}
+                    td #{item.message}
+                    td #{item.date}
+        
+          .col-md-4
+            h5 消息箱
+            table.table.table-bordered
+              thead
+                tr
+                  td 发送日期
+                  td 发送者
+                  td 接收者
+                  td 消息
+                  td 等级
+                  td 操作
+              tbody
+                each item in message
+                  tr
+                    td #{item.date}
+                    td #{item.senderName}
+                    td #{item.receiver}
+                    td #{item.message}
+                    td #{item.level}
+                    td
+                      button.btn.btn-danger(value="#{item._id}", onclick='deleteNotice(this.value)') 删除
 
-        .col-md-4
-          h5 登录日志
-          table.table.table-bordered
-            thead
-              tr
-                td IP
-                td 日期
-                td ID
-                td 姓名
-                td 结果
-            tbody
-              each item in signinLog
+        hr
+        .row
+          .col-md-4
+            h5 用户
+            table.table.table-bordered
+              thead
                 tr
-                  td #{item.ip}
-                  td #{item.date}
-                  td #{item.id}
-                  td #{item.name}
-                  td #{item.result}
+                  td 工号
+                  td 姓名
+                  td 密码
+                  td 等级
+                  td 在职
+                  td 操作
+              tbody
+                each item in users
+                  tr
+                    td #{item.id}
+                    td #{item.name}
+                    td #{item.password}
+                    td #{item.level}
+                    td #{item.isWorking}
+                    td
+                      button.btn.btn-danger(value="#{item._id}", onclick='deleteUser(this.value)') 删除
+            
+
+        hr
+        .row
+          .col-md-8
+            //- 获取 name 和 教研室排名
+            -for(let pay of pays)
+              -if(typeof(pay.name)=='undefined')
+                -for(let user of users)
+                  -if(pay.id == user.id){
+                    -pay.name = user.name
+                    -pay.number = user.department.number
+                  -}
+            .form-inline
+              p.form-control-static 排序：
+              select.form-control
+                option(value="1", selected) 教研室
+                option(value="2") 工号
+                option(value="3") 提交日期
+              select.form-control 
+                option(value="1", selected) 升序
+                option(value="2") 降序
+              button.btn.btn-primary.payTableSortBtn 排序
+            br
+            .form-inline
+              p.form-control-static 快捷操作：          
+              button.btn.btn-primary(onclick="$('.passReqBtn').click()") 一键全部通过
+            br
+
+            hr
+
+            h4(style="text-align:center") 武汉轻工大学数计学院 #{`${new Date().getFullYear()}年${new Date().getMonth()+1}月份`} 教师预发工资信息表
+            table.table.table-bordered
+              thead
+                tr
+                  th 教师工号
+                  th 教研室排名
+                  th 提交日期
+                  th 申请月份
+                  th 教师姓名
+                  th 奖励绩效预发(元)
+                  th 兼课津贴(元)
+                  th 审核状态
+              tbody#payTable
+                each item in pays
+                  //- 当月工资项
+                  tr
+                    td #{item.id}
+                    td #{item.number}
+                    td #{item.applyDate}
+                    th #{item.applyMonth}
+                    td #{item.name}
+                    td #{item.pay.final}
+                    td #{item.reward.final}
+
+                    -if(item.isChecked == 2)
+                      td.text-success 已通过审核
+                        button.btn.btn-danger(value='#{item._id}', onclick="deleteRequest(this.value)") 删除
+                    -else
+                      td
+                        button.btn.btn-primary.passReqBtn(value='#{item._id}', onclick='passRequest(this.value)') 通过
+                        button.btn.btn-warning(value='#{item._id}', onclick="updateAlertModal('驳回申请', `<input class='form-control refuseInput' placeholder='请输入驳回原因'><br><button class='btn btn-warning btn-block' value='#{item._id}' onclick='refuseRequest(this.value)'>驳回</button>`)") 驳回
+                        button.btn.btn-danger(value='#{item._id}', onclick="deletePay(this.value)") 删除
+
+          .col-md-4
+            h5 登录日志
+            table.table.table-bordered
+              thead
+                tr
+                  td IP
+                  td 日期
+                  td ID
+                  td 姓名
+                  td 结果
+              tbody
+                each item in signinLog
+                  tr
+                    td #{item.ip}
+                    td #{item.date}
+                    td #{item.id}
+                    td #{item.name}
+                    td #{item.result}
+          

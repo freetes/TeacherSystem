@@ -28,9 +28,8 @@ const PaySchema = new Schema({
     final: Number
   },
   isChecked: Number,
-  // 0 to No submit&check
-  // 1 to Submited but no check
-  // 2 to Submited&checked
+  // 1 to no check
+  // 2 to checked
   applyMonth: String,
   applyDate: String
 });

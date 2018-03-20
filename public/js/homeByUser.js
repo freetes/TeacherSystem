@@ -1,48 +1,68 @@
 // 上传新的薪资
 function setNewPay(){
-  if($(".newPay").val() != '' && $(".applyMonthSelect").val() != '')
-    $.post('/users/newPay', 
+  const newPay = parseFloat($(".newPay").val()==''?0:$(".newPay").val())
+
+  if(newPay !=0 && $(".applyMonthSelect").val() != ''){
+    const lastPay = parseFloat($(".lastPay").val()==''?0:$(".lastPay").val()),
+          newPay = parseFloat($(".newPay").val()==''?0:$(".newPay").val()),
+          lastReward = parseFloat($(".lastReward").val()==''?0:$(".lastReward").val()),
+          newReward = parseFloat($(".newReward").val()==''?0:$(".newReward").val()),
+          pay = {
+            last: lastPay,
+            change: newPay - lastPay,
+            final: newPay,
+          },
+          reward = {
+            last: lastReward,
+            change: newReward - lastReward,
+            final: newReward,
+          }
+
+    $.post('/users/newPay',
       {
-        pay: {
-          last: $(".lastPay").val() == ''?0:$(".lastPay").val(),
-          change: $(".newPay").val() == ''?0:$(".newPay").val() - $(".lastPay").val() == ''?0:$(".lastPay").val(),
-          final: $(".newPay").val() == ''?0:$(".newPay").val(),
-        },
-        reward: {
-          last: $(".lastReward").val() == ''?0:$(".lastReward").val(),
-          change: $(".newReward").val() == ''?0:$(".newReward").val() - $(".lastReward").val() == ''?0:$(".lastReward").val(),
-          final: $(".newReward").val() == ''?0:$(".newReward").val(),
-        },
+        pay: pay,
+        reward: reward,
         applyMonth: $(".applyMonthSelect").val(),
         applyDate: getNewDate()
       },
       result=>{
         if(result){
-          updateAlertModal('通知信息', '上传成功！')
+          updateAlertModal('通知信息', '提交成功！')
         }
         else{
-          updateAlertModal('通知信息', '上传失败！')
+          updateAlertModal('通知信息', '提交失败！')
         }
-        location.reload()
+        location.reload(300)
       }
     )
+  }
 };
+
 // 修改薪资
 function changePay(value){
-  if($(".newPay").val() != '')
+  const newPay = parseFloat($(".newPay").val()==''?0:$(".newPay").val())
+
+  if(newPay !=0){
+    const lastPay = parseFloat($(".lastPay").val()==''?0:$(".lastPay").val()),
+          newPay = parseFloat($(".newPay").val()==''?0:$(".newPay").val()),
+          lastReward = parseFloat($(".lastReward").val()==''?0:$(".lastReward").val()),
+          newReward = parseFloat($(".newReward").val()==''?0:$(".newReward").val()),
+          pay = {
+            last: lastPay,
+            change: newPay - lastPay,
+            final: newPay,
+          },
+          reward = {
+            last: lastReward,
+            change: newReward - lastReward,
+            final: newReward,
+          }
+
     $.post('/users/changePay',
       {
         id: value,
-        pay: {
-          last: $(".lastPay").val() == ''?0:$(".lastPay").val(),
-          change: $(".newPay").val() == ''?0:$(".newPay").val() - $(".lastPay").val() == ''?0:$(".lastPay").val(),
-          final: $(".newPay").val() == ''?0:$(".newPay").val(),
-        },
-        reward: {
-          last: $(".lastReward").val() == ''?0:$(".lastReward").val(),
-          change: $(".newReward").val() == ''?0:$(".newReward").val() - $(".lastReward").val() == ''?0:$(".lastReward").val(),
-          final: $(".newReward").val() == ''?0:$(".newReward").val(),
-        },
+        pay: pay,
+        reward: reward,
         applyDate: getNewDate()
       },
       result=>{
@@ -52,28 +72,29 @@ function changePay(value){
         else{
           updateAlertModal('通知信息', '修改失败！')
         }
-        location.reload()
+        location.reload(300)
       }
     )
+  }
 };
 
 // 提交审核
-function checkPay(value){
-  $.post('/users/checkPay',
-    {
-      id: value,
-    },
-    result=>{
-      if(result){
-        updateAlertModal('通知信息', '提交审核成功！')
-      }
-      else{
-        updateAlertModal('通知信息', '提交审核失败！')
-      }
-      location.reload()
-    }
-  )
-}
+// function checkPay(value){
+//   $.post('/users/checkPay',
+//     {
+//       id: value,
+//     },
+//     result=>{
+//       if(result){
+//         updateAlertModal('通知信息', '提交审核成功！')
+//       }
+//       else{
+//         updateAlertModal('通知信息', '提交审核失败！')
+//       }
+//       location.reload(300)
+//     }
+//   )
+// }
 
 const getNewDate = ()=>{
   return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;

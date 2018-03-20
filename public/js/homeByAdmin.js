@@ -19,7 +19,104 @@ const addUser = ()=>{
   )
 }
 
-// excel
+// POST /secretary/deletePay
+function deletePay(value){
+	$.post('/admin/deletePay',
+		{
+			id: value,
+		},
+		result=>{
+			if(result){
+				updateAlertModal('通知信息', '删除成功！')				
+			}
+			else{
+				updateAlertModal('通知信息', '删除失败！')				
+			}
+			location.reload(300)
+		}
+	)
+}
+// POST /secretary/deleteNotice
+function deleteNotice(value){
+	$.post('/admin/deleteNotice',
+		{
+			id: value,
+		},
+		result=>{
+			if(result){
+				updateAlertModal('通知信息', '删除成功！')				
+			}
+			else{
+				updateAlertModal('通知信息', '删除失败！')				
+			}
+			location.reload(300)
+		}
+	)
+}
+// POST /secretary/deleteUser
+function deleteUser(value){
+	$.post('/admin/deleteUser',
+		{
+			id: value,
+		},
+		result=>{
+			if(result){
+				updateAlertModal('通知信息', '删除成功！')				
+			}
+			else{
+				updateAlertModal('通知信息', '删除失败！')				
+			}
+			location.reload(300)
+		}
+	)
+}
+
+// 工资视图功能集
+// 工资排序
+$(".payTableSortBtn").click(function(){
+	const choice1 = this.previousSibling.previousSibling.value,
+		  choice2 = this.previousSibling.value,
+		  allTr = $("#payTable").children()
+	$("#payTable").html('')
+	let choiceFun
+	// 按照教研室排序
+	if(choice1 == 1){
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			}
+		else
+			choiceFun = function(b, a){
+				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			}
+	}
+	// 按照工号排序
+	else if(choice1 == 2){
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return a.firstChild.innerText-b.firstChild.innerText
+			}
+		else
+			choiceFun = function(b, a){
+				return a.firstChild.innerText-b.firstChild.innerText
+			}
+	}
+	// 按提交日期排序
+	else{
+		if(choice2 == 1)
+			choiceFun = function(a, b){
+				return new Date(b.firstChild.nextSibling.nextSibling.innerText) - new Date(a.firstChild.nextSibling.nextSibling.innerText)
+			}
+		else
+			choiceFun = function(b, a){
+				return new Date(b.firstChild.nextSibling.nextSibling.innerText) - new Date(a.firstChild.nextSibling.nextSibling.innerText)
+			}
+	}
+	allTr.sort(choiceFun)
+	$("#payTable").html(allTr)
+})
+
+// 通过excel快速导入用户
 $("#excelInput").change(function () {
 	const file = this.files[0]
 	//文件格式不符合
@@ -48,7 +145,6 @@ $("#excelInput").change(function () {
 	}
 	$("#excelInput").val('');
 })
-
 function addNewUsersByExcel(nodes){
 	for(let item of nodes){
 		$.post('/secretary/addNewUser',

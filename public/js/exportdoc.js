@@ -1,3 +1,27 @@
+function sort(node){
+	const choice = node.value,
+				allTr = $("#excelTable").children()
+
+	$("#excelTable").html('')
+	let choiceFun
+	// 按照教研室排序
+	if(choice == 1){
+		choiceFun = function(a, b){
+		return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+		}
+	}
+	// 按照工号排序
+	else{
+		choiceFun = function(a, b){
+		return a.firstChild.innerText-b.firstChild.innerText
+		}
+	}
+
+	allTr.sort(choiceFun)
+
+	$("#excelTable").html(allTr)
+}
+
 // 导出相关
 function exportExcelFile(){
 	const wb = XLSX.utils.table_to_book(document.getElementById("excelTable"))
@@ -29,4 +53,3 @@ function saveAs(obj, fileName) {
 			URL.revokeObjectURL(obj);
 	}, 100);
 }
-

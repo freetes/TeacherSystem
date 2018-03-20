@@ -4,15 +4,21 @@ const Models = require('../model/dataModel');
 const User = {
   // POST /newPay
   newPay: (req, res)=>{
-    Models.PayModel({
-      id: req.session.userid,
-      pay: req.body.pay,
-      reward: req.body.reward,
-      isChecked: 0,
-      applyMonth: req.body.applyMonth,
-      applyDate: req.body.applyDate
-    }).save((err, result)=>{
-      return res.json(true);
+    Models.PayModel.find({'applyMonth': req.body.applyMonth, 'id': req.session.userid}, (err, result)=>{
+      if(result.length != 0)
+        return res.json(false)
+      Models.PayModel({
+        id: req.session.userid,
+        pay: req.body.pay,
+        reward: req.body.reward,
+        isChecked: 1,
+        applyMonth: req.body.applyMonth,
+        applyDate: req.body.applyDate
+      }).save((err, result)=>{
+        if(err)
+          return res.json(false)
+        return res.json(true);
+      })      
     })
   },
 
@@ -24,13 +30,13 @@ const User = {
     })
   },
   
-  // POST /checkPay
-  checkPay: (req, res)=>{
-    Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 1}, (err, result)=>{
-      if(err) return res.json(false);
-      return res.json(true);
-    })
-  },
+  // // POST /checkPay
+  // checkPay: (req, res)=>{
+  //   Models.PayModel.findByIdAndUpdate({_id: req.body.id}, {'isChecked': 1}, (err, result)=>{
+  //     if(err) return res.json(false);
+  //     return res.json(true);
+  //   })
+  // },
 
   // POST /newClass
   newClass: (req, res)=>{
