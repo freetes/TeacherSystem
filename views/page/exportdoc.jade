@@ -19,7 +19,7 @@ block content
 
     .container
       h4(style="text-align:center") 武汉轻工大学数计学院 #{year}年#{month}月份 教师预发工资信息表
-      form.form-inline 排序：
+      .form-inline 排序：
         span.form-control-static 按照
         select.form-control#sortSelect(onchange="sort(this)")
           option(value="1", selected) 教研室
@@ -31,7 +31,7 @@ block content
 
       hr
 
-      table.table.table-bordered
+      table.table.table-bordered#excelTable
         thead
           tr
             //- th 
@@ -60,11 +60,11 @@ block content
             td 兼课津贴
             td 奖励绩效预发
             td 兼课津贴
-        tbody#excelTable
+        tbody#excelTableBody
           each pay in pays
             tr
-              td.hidden #{pay.idNumber}
-              td.hidden #{pay.number}
+              span.hidden #{pay.idNumber}
+              span.hidden #{pay.number}
               td #{pay.id}
               td #{pay.name}
               td #{pay.pay.last}
