@@ -1,4 +1,4 @@
-const addUser = ()=>{
+function addUser(){
   $.post('/admin/addUser',
     {
       id: $(".newUserId").val(),

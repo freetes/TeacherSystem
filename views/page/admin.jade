@@ -150,7 +150,7 @@ body
 
                     -if(item.isChecked == 2)
                       td.text-success 已通过审核
-                        button.btn.btn-danger(value='#{item._id}', onclick="deleteRequest(this.value)") 删除
+                        button.btn.btn-danger(value='#{item._id}', onclick="deletePay(this.value)") 删除
                     -else
                       td
                         button.btn.btn-primary.passReqBtn(value='#{item._id}', onclick='passRequest(this.value)') 通过

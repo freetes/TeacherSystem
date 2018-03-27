@@ -15,6 +15,8 @@ var api = require('./routes/api');
 
 var app = express();
 
+app.disable('x-powered-by');
+
 // 连接数据库
 mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
     if(err)
