@@ -66,6 +66,25 @@ const NoticeSchema = new Schema({
   //  danger
 });
 
+// 课程模式
+const ClassSchema = new Schema({
+  id: String,
+  
+  name: String,
+  teacher: {      // 教师信息
+    id: String,
+    name: String,
+    telephone: String,
+    department: String,
+    
+  },
+  classroom: {    // 教室信息
+    id: String,
+    name: String,
+    kind: String
+  }
+})
+
 // 普通课程模式
 const NormalClassSchema = new Schema({
   id: String,               // 工号

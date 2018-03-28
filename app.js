@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 
 var home = require('./routes/home');
 var user = require('./routes/user');
@@ -16,14 +15,6 @@ var api = require('./routes/api');
 var app = express();
 
 app.disable('x-powered-by');
-
-// 连接数据库
-mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
-    if(err)
-        console.log("数据库连接失败，可能是服务未开启！");
-    else
-        console.log("数据库连接成功！");
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views/page'));
@@ -43,14 +34,6 @@ app.use(session({
 }))
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 日志 test
-// app.use(function(req, res, next) {
-//   console.log(`ip: ${(req.headers['x-forwarded-for'] || '').split(',')[0] || req.ip}`)
-//   console.log(req.body)
-//   next();
-// });
-
-
 app.use('/', home);
 app.use('/users', user);
 app.use('/secretary', secretary);
@@ -67,8 +50,8 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // res.locals.message = err.message;
+  // res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
