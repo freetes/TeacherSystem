@@ -5,13 +5,7 @@ const ctrlDB = {
   getAllInfoForUser: async id=>{
     let info = {
       pay: await Models.PayModel.find({'id': id}),
-      class: {
-      //   normalClass: await Models.NormalClassModel.find({'id': id}),
-      //   designClass: await Models.DesignClassSchema.find({'id': id}),
-      //   trainClass: await Models.TrainClassSchema.find({'id': id}),
-      //   produceClass: await Models.ProduceClassSchema.find({'id': id}),
-      //   graduateClass: await Models.GraduateClassSchema.find({'id': id})
-      },
+      course: await Models.CourseModel.find({'teacherInfo.id': id}),
       message: await Models.NoticeModel.find({$or: [{'receiver': id}, {'receiver': 'all'}] })
     };
     return info;
@@ -24,13 +18,7 @@ const ctrlDB = {
       users: await Models.UserModel.find({'level': 0}),
       pays: await Models.PayModel.find({$or: [{'applyMonth': `${year}-${month}`}, {'': `${month==1?year-1:year}-${month==1?12:month}`}]}),
       message: await Models.NoticeModel.find({'receiver': 'all'}),
-      class: {
-        // normalClass: await Models.NormalClassModel.find(),
-        // designClass: await Models.DesignClassSchema.find(),
-        // trainClass: await Models.TrainClassSchema.find(),
-        // produceClass: await Models.ProduceClassSchema.find(),
-        // graduateClass: await Models.GraduateClassSchema.find()
-      }
+      courses: await Models.CourseModel.find()
     }
     return info
   },
@@ -38,13 +26,7 @@ const ctrlDB = {
   getAllInfoForAdmin: async id=>{
     let info = {
       users: await Models.UserModel.find(),
-      class: {
-        normalClass: await Models.NormalClassModel.find(),
-        designClass: await Models.DesignClassSchema.find(),
-        trainClass: await Models.TrainClassSchema.find(),
-        produceClass: await Models.ProduceClassSchema.find(),
-        graduateClass: await Models.GraduateClassSchema.find()
-      },
+      courses: await Models.CourseModel.find(),
       pays: await Models.PayModel.find(),
       message: await Models.NoticeModel.find(),
       feedback: await Models.FeedbackModel.find(),
