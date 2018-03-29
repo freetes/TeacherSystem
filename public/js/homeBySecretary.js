@@ -54,7 +54,9 @@ $("#courseExcelInput").change(function () {
 	const reader = new FileReader();
 	reader.readAsArrayBuffer(file);
 	reader.onload = function (e) {
-		const workBook = XLSX.read(e.target.result, {type: 'array'});
+		const workBook = XLSX.read(e.target.result, {
+			type: 'array'
+		});
 		const data = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]]);
 		addNewCoursesByExcel(data)
 	}
@@ -62,8 +64,18 @@ $("#courseExcelInput").change(function () {
 })
 
 function addNewCoursesByExcel(nodes) {
-	for (let item of nodes) {
-		let courseInfo = {
+	$("body").prepend(`
+		<div id="progressdiv" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; background-color: skyblue; opacity: 0.5">
+			<div class="progress" style="position: absolute; top:50%; left: 0; z-index: 9999; width: 100%">
+				<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0">
+					<span class="sr-only">45% Complete</span>
+				</div>
+			</div>
+		</div>
+	`)
+	let courseInfo
+	nodes.forEach((item, index) => {
+		courseInfo = {
 			id: item['课程号'], // 课程号
 			name: item['课程名称'], // 课程名称
 			place: item['上课地点'], // 上课地点
@@ -110,13 +122,15 @@ function addNewCoursesByExcel(nodes) {
 				course: courseInfo
 			},
 			result => {
-				if(result) 
+				if (result) {
+					$(".progress-bar").css("width", (index+1)/nodes.length*100+'%')
 					console.log('导入成功')
-				else
+				} else
 					console.log('导入失败')
 			}
 		)
-	}
+
+	});
 }
 
 // 发布公告
