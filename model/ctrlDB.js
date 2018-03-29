@@ -5,7 +5,7 @@ const ctrlDB = {
   getAllInfoForUser: async id=>{
     let info = {
       pay: await Models.PayModel.find({'id': id}),
-      course: await Models.CourseModel.find({'teacherInfo.id': id}),
+      courses: await Models.CourseModel.find({'teacherInfo.id': id}),
       message: await Models.NoticeModel.find({$or: [{'receiver': id}, {'receiver': 'all'}] })
     };
     return info;

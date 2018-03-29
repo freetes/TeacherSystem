@@ -48,7 +48,7 @@ body
                         p.text-right #{item.senderName}
                 -if(selfMessageIsEmpty)
                   p 无消息
-          
+
         //- 工资管理
         .payCtrlDiv.homePageDiv(style="display: none")
           .panel.panel-primary
@@ -142,372 +142,97 @@ body
                             td.text-success 已通过审核
                           -else
                             td.text-info 等待审核中
-                    nav(aria-label='Page navigation')
 
-        //-                  
-          //- 授课查询
-          .allClassDiv(style="display: none")
-            .panel.panel-primary
-              .panel-heading
-                span.glyphicon.glyphicon-list(aria-hidden="true") 
-                span  授课总表
-              .panel-body
-                -if(classes.normalClass.length == 0)
-                  p.text-center 无普通课程
-                -else
-                  h4.text-center 普通课程类课程信息视图
-                  table.table.table-bordered
-                    tr.warning
-                      td 登记时间
-                      td 学期
-                      td 课程名称
-                      td 专业
-                      td 班级
-                      td 学生人数
-                      td 标准学时
-                      td 理论学时
-                      td 实验学时
-                      td 合班系数
-                      td 实际学时
-                      td 是否审核
-                    each item in classes.normalClass
-                      tr  
-                        td= item.date
-                        td= item.semester
-                        td= item.name
-                        td= item.faculty
-                        td= item.class
-                        td= item.studentAmount
-                        td= item.standardHours
-                        td= item.theoryHours
-                        td= item.experimentHours
-                        td= item.point
-                        td= item.finalHours
-                        -if(item.isChecked == true)
-                          td Yep
-                        -else
-                          td Nope
-                hr
-                -if(classes.designClass.length == 0)
-                  p.text-center 无课程设计课程
-                -else
-                  h4.text-center 课程设计类课程信息视图                      
-                  table.table.table-bordered
-                    tr.warning
-                      td 登记时间
-                      td 学期
-                      td 课程名称
-                      td 专业
-                      td 班级
-                      td 学生人数
-                      td 周数
-                      td 实验学时
-                      td 合班系数
-                      td 实际学时
-                      td 是否审核
-                    each item in classes.designClass                 
-                      tr
-                        td= item.date
-                        td= item.semester
-                        td= item.name
-                        td= item.faculty
-                        td= item.class
-                        td= item.studentAmount
-                        td= item.week
-                        td= item.experimentHours
-                        td= item.point
-                        td= item.finalHours
-                        -if(item.isChecked == true)
-                          td Yep
-                        -else
-                          td Nope
-                hr
-                -if(classes.trainClass.length == 0)
-                  p.text-center 无科研训练课程
-                -else
-                  h4.text-center 科研训练类课程信息视图                      
-                  table.table.table-bordered
-                    tr.warning
-                      td 登记时间
-                      td 学期
-                      td 课程名称
-                      td 专业
-                      td 班级
-                      td 学生人数
-                      td 单位学时
-                      td 合班系数
-                      td 实际学时
-                      td 是否审核
-                    each item in classes.trainClass
-                      tr  
-                        td= item.date
-                        td= item.semester
-                        td= item.name
-                        td= item.faculty
-                        td= item.class
-                        td= item.studentAmount
-                        td= item.unitHours
-                        td= item.point
-                        td= item.finalHours
-                        -if(item.isChecked == true)
-                          td Yep
-                        -else
-                          td Nope
-                hr
-                -if(classes.produceClass.length == 0)
-                  p.text-center 无生产实习课程
-                -else
-                  h4.text-center 生产实习类课程信息视图                      
-                  table.table.table-bordered
-                    tr.warning
-                      td 登记时间
-                      td 学期
-                      td 课程名称
-                      td 专业
-                      td 班级
-                      td 学生人数
-                      td 周数
-                      td 单位学时
-                      td 合班系数
-                      td 实际学时
-                      td 是否审核
-                    each item in classes.produceClass
-                      tr  
-                        td= item.date
-                        td= item.semester
-                        td= item.name
-                        td= item.faculty
-                        td= item.class
-                        td= item.studentAmount
-                        td= item.week
-                        td= item.unitHours
-                        td= item.point
-                        td= item.finalHours
-                        -if(item.isChecked == true)
-                          td Yep
-                        -else
-                          td Nope
-                hr
-                -if(classes.graduateClass.length == 0)
-                  p.text-center 无毕业实习课程
-                -else
-                  h4.text-center 毕业实习类课程信息视图
-                  table.table.table-bordered
-                    tr.warning
-                      td 登记时间
-                      td 学期
-                      td 课程名称
-                      td 专业
-                      td 班级
-                      td 学生人数
-                      td 周数
-                      td 单位学时
-                      td 合班系数
-                      td 实际学时
-                      td 是否审核
-                    each item in classes.graduateClass                  
-                      tr  
-                        td= item.date
-                        td= item.semester
-                        td= item.name
-                        td= item.faculty
-                        td= item.class
-                        td= item.studentAmount
-                        td= item.week
-                        td= item.experimentHours
-                        td= item.point
-                        td= item.finalHours
-                        -if(item.isChecked == true)
-                          td Yep
-                        -else
-                          td Nope
-          
-          //- 课程登记
-          .addClassDiv(style="display: none")
-            .panel.panel-primary
-              .panel-heading
-                span.glyphicon.glyphicon-list(aria-hidden="true")
-                span  课程登记
-              .panel-body
-                form.addNewClassForm(method="POST", action="/user/newClass")
-                  .input-group
-                    span.input-group-addon 登记日期
-                    input.form-control.classDateInput(type="text", name="date", readonly)
-                    script.
-                      $(".classDateInput").val(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`)
-                  .input-group
-                    span.input-group-addon 教学学期
-                    select.form-control.classSemesterSelect(name="semester")
-                    script.
-                        for(let i=new Date().getFullYear() + 1; i>=new Date().getFullYear() - 1; i--)
-                          for(let j=2; j>=1; j--){
-                            if(new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2` == `${i-1}-${i}-${j}`)
-                              $(".classSemesterSelect").append(`<option selected>${i-1}-${i}-${j}</option>`)
-                            else
-                              $(".classSemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
-                          }
-                  .input-group
-                    span.input-group-addon 课程类别
-                    select.form-control.classKindSelect(name="classKind")
-                      option(value="normal") 普通课程
-                      option(value="design") 课程设计
-                      option(value="train") 科研训练
-                      option(value="produce") 生产实习
-                      option(value="graduate") 毕业实习
-                  br
-                  .input-group
-                    span.input-group-addon 课程名称
-                    input.form-control.publicInput(type="text", name="name")
-                  .input-group
-                    span.input-group-addon 专业
-                    input.form-control.publicInput(type="text", name="faculty")
-                  .input-group
-                    span.input-group-addon 班级
-                    input.form-control.publicInput(type="text", name="class")
-                  .input-group
-                    span.input-group-addon 学生人数
-                    input.form-control.publicInput(type="text", name="studentAmount")
-                  br
-                  .classesInputGroup
-                    .input-group
-                      span.input-group-addon 标准学时
-                      input.form-control(type='text', name='standardHours')
-                    .input-group
-                      span.input-group-addon 理论学时
-                      input.form-control(type='text', name='theoryHours')
-                    .input-group
-                      span.input-group-addon 实验学时
-                      input.form-control(type='text', name='experimentHours')
-                    .input-group
-                      span.input-group-addon 合班系数
-                      input.form-control(type='text', name='point')
-                    .input-group
-                      span.input-group-addon 实际学时
-                      input.form-control(type='text', name='finalHours')
+        //- 授课查询
+        .allClassDiv.homePageDiv(style="display: none")
+          .panel.panel-primary
+            .panel-heading
+              span.glyphicon.glyphicon-list(aria-hidden="true") 
+              span  授课总表
+            .panel-body
+              -if(courses.length==0)
+                p 暂无课程
+              -else
+                h4 授课登记表:
+                table.table.table-bordered.table-hover
+                  thead
+                    tr: th 课程名称
+                        th 学期
+                        th 上课时间
+                        th 上课地点
+                  tbody
+                    each item in courses
+                      tr: td #{item.name}
+                          td #{item.dateInfo.year}-#{item.dateInfo.semester}
+                          td #{item.dateInfo.time}
+                          td #{item.place}
+              
+        //- 课程登记
+        .addClassDiv.homePageDiv(style="display: none")
+          .panel.panel-primary
+            .panel-heading
+              span.glyphicon.glyphicon-list(aria-hidden="true")
+              span  课程登记
+            .panel-body
+              //- form.addNewClassForm(method="POST", action="/user/newClass")
+              //-   .input-group
+              //-     span.input-group-addon 登记日期
+              //-     input.form-control.classDateInput(type="text", name="date", readonly)
+              //-     script.
+              //-       $(".classDateInput").val(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`)
+              //-   .input-group
+              //-     span.input-group-addon 教学学期
+              //-     select.form-control.classSemesterSelect(name="semester")
+              //-     script.
+              //-         for(let i=new Date().getFullYear() + 1; i>=new Date().getFullYear() - 1; i--)
+              //-           for(let j=2; j>=1; j--){
+              //-             if(new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2` == `${i-1}-${i}-${j}`)
+              //-               $(".classSemesterSelect").append(`<option selected>${i-1}-${i}-${j}</option>`)
+              //-             else
+              //-               $(".classSemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
+              //-           }
+              //-   .input-group
+              //-     span.input-group-addon 课程类别
+              //-     select.form-control.classKindSelect(name="classKind")
+              //-       option(value="normal") 普通课程
+              //-       option(value="design") 课程设计
+              //-       option(value="train") 科研训练
+              //-       option(value="produce") 生产实习
+              //-       option(value="graduate") 毕业实习
+              //-   br
+              //-   .input-group
+              //-     span.input-group-addon 课程名称
+              //-     input.form-control.publicInput(type="text", name="name")
+              //-   .input-group
+              //-     span.input-group-addon 专业
+              //-     input.form-control.publicInput(type="text", name="faculty")
+              //-   .input-group
+              //-     span.input-group-addon 班级
+              //-     input.form-control.publicInput(type="text", name="class")
+              //-   .input-group
+              //-     span.input-group-addon 学生人数
+              //-     input.form-control.publicInput(type="text", name="studentAmount")
+              //-   br
+              //-   .classesInputGroup
+              //-     .input-group
+              //-       span.input-group-addon 标准学时
+              //-       input.form-control(type='text', name='standardHours')
+              //-     .input-group
+              //-       span.input-group-addon 理论学时
+              //-       input.form-control(type='text', name='theoryHours')
+              //-     .input-group
+              //-       span.input-group-addon 实验学时
+              //-       input.form-control(type='text', name='experimentHours')
+              //-     .input-group
+              //-       span.input-group-addon 合班系数
+              //-       input.form-control(type='text', name='point')
+              //-     .input-group
+              //-       span.input-group-addon 实际学时
+              //-       input.form-control(type='text', name='finalHours')
 
-                br
-                p.text-right.text-danger.addNewClassMessage
-                button.btn.btn-primary.btn-block(onclick="addNewClass()") 录入
-                  
-                //- form.form-horizontal
-                  .form-group
-                    label.col-md-2.control-label 登记日期
-                    .col-md-10
-                      input.form-control.classDateInput(type="text", name="date", readonly)
-                      script.
-                        $(".classDateInput").val(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`)
-                  .form-group
-                    label.col-md-2.control-label 教学学期
-                    .col-md-10
-                      select.form-control.classSemesterSelect(name="semester")
-                      script.
-                          for(let i=new Date().getFullYear() + 1; i>=new Date().getFullYear() - 1; i--)
-                            for(let j=2; j>=1; j--){
-                              if(new Date().getMonth()>=0&&new Date().getMonth()>6?`${new Date().getFullYear()}-${new Date().getFullYear()+1}-1`:`${new Date().getFullYear()-1}-${new Date().getFullYear()}-2` == `${i-1}-${i}-${j}`)
-                                $(".classSemesterSelect").append(`<option selected>${i-1}-${i}-${j}</option>`)
-                              else
-                                $(".classSemesterSelect").append(`<option>${i-1}-${i}-${j}</option>`)
-                            }
-                  .form-group
-                    label.col-md-2.control-label 课程类别
-                    .col-md-10
-                      select.form-control.classKindSelect(name="classKind")
-                        option(value="normal") 普通课程
-                        option(value="design") 课程设计
-                        option(value="train") 科研训练
-                        option(value="produce") 生产实习
-                        option(value="graduate") 毕业实习
-                  .form-group
-                    label.col-md-2.control-label 课程名称
-                    .col-md-10
-                      input.form-control(type="text", name="className")
-                  .form-group
-                    label.col-md-2.control-label 专业
-                    .col-md-10
-                      input.form-control(type="text", name="classFaculty")
-                  .form-group
-                    label.col-md-2.control-label 班级
-                    .col-md-10
-                      input.form-control(type="text", name="classClass")
-                  .form-group
-                    label.col-md-2.control-label 学生人数
-                    .col-md-10
-                      input.form-control(type="text", name="classStudentAmount")
-                  
-                  .normalClass.classesInputGroup
-                    .form-group
-                      label.col-md-2.control-label 标准学时
-                      .col-md-10
-                        input.form-control(type="text", name="standardHours")
-                    .form-group
-                      label.col-md-2.control-label 理论学时
-                      .col-md-10
-                        input.form-control(type="text", name="theoryHours")
-                    .form-group
-                      label.col-md-2.control-label 实验学时
-                      .col-md-10
-                        input.form-control(type="text", name="experimentHours")
-                    .form-group
-                      label.col-md-2.control-label 合班系数
-                      .col-md-10
-                        input.form-control(type="text", name="point")
-                    .form-group
-                      label.col-md-2.control-label 实际学时
-                      .col-md-10
-                        input.form-control(type="text", name="finalHours")
-                  
-                  .designClass.classesInputGroup(style="display: none")
-                    .form-group
-                      label.col-md-2.control-label 周数
-                      .col-md-10
-                        input.form-control(type="text", name="week")
-                    .form-group
-                      label.col-md-2.control-label 实验学时
-                      .col-md-10
-                        input.form-control(type="text", name="experimentHours")
-                    .form-group
-                      label.col-md-2.control-label 合班系数
-                      .col-md-10
-                        input.form-control(type="text", name="point")
-                    .form-group
-                      label.col-md-2.control-label 实际学时
-                      .col-md-10
-                        input.form-control(type="text", name="finalHours")
-                  
-                  .trainClass.classesInputGroup(style="display: none")
-                    .form-group
-                      label.col-md-2.control-label 单位学时
-                      .col-md-10
-                        input.form-control(type="text", name="unitHours")
-                    .form-group
-                      label.col-md-2.control-label 合班系数
-                      .col-md-10
-                        input.form-control(type="text", name="point")
-                    .form-group
-                      label.col-md-2.control-label 实际学时
-                      .col-md-10
-                        input.form-control(type="text", name="finalHours")
-                  
-                  .otherClass.classesInputGroup(style="display: none")
-                    .form-group
-                      label.col-md-2.control-label 周数
-                      .col-md-10
-                        input.form-control(type="text", name="week")
-                    .form-group
-                      label.col-md-2.control-label 单位学时
-                      .col-md-10
-                        input.form-control(type="text", name="unitHours")
-                    .form-group
-                      label.col-md-2.control-label 合班系数
-                      .col-md-10
-                        input.form-control(type="text", name="point")
-                    .form-group
-                      label.col-md-2.control-label 实际学时
-                      .col-md-10
-                        input.form-control(type="text", name="finalHours")
-                  
-                  br
-                  button.btn.btn-primary.btn-block 录入
+              //- br
+              //- p.text-right.text-danger.addNewClassMessage
+              //- button.btn.btn-primary.btn-block(onclick="addNewClass()") 录入
 
       .col-md-3.col-md-pull-9.col-xs-12
         .panel.panel-primary
@@ -517,11 +242,11 @@ body
           .panel-body
             h3 #{user.name}老师，您好！
             p 教师工号：#{user.id}
-            
+
             button.btn.btn-block.btn-primary(onclick="mainDivClick()") 首页
             button.btn.btn-block.btn-primary(onclick="payDivClick()") 工资管理
-            button.btn.btn-block.btn-primary(disabled="disabled", onclick="addClassClick()") 课程登记
-            button.btn.btn-block.btn-primary(disabled="disabled", onclick="allClassClick()") 授课查询
+            button.btn.btn-block.btn-primary(disabled, onclick="addClassClick()") 课程登记
+            button.btn.btn-block.btn-primary(onclick="allClassClick()") 授课查询
             button.btn.btn-block.btn-default(data-toggle="modal", data-target="#changePasswdModal") 修改密码
             button.btn.btn-block.btn-default(onclick="updateAlertModal('反馈', `<textarea class='form-control' rows='3' placeholder='请输入您的意见' style='resize:none;'></textarea><br><button class='btn btn-block btn-primary' onclick='feedback($(this).siblings().first().val())'>提交</button>`)") 反馈
             a.btn.btn-block.btn-default(href="/signin") 退出

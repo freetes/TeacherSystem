@@ -13,4 +13,6 @@ router.post('/changeUser', secretary.changeUser);
 
 router.post('/resetPassword', secretary.resetPassword);
 
+router.post('/addNewCourse', secretary.addNewCourse);
+
 module.exports = router;

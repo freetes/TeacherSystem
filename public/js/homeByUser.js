@@ -78,80 +78,62 @@ function changePay(value){
   }
 };
 
-// 提交审核
-// function checkPay(value){
-//   $.post('/users/checkPay',
-//     {
-//       id: value,
-//     },
-//     result=>{
-//       if(result){
-//         updateAlertModal('通知信息', '提交审核成功！')
-//       }
-//       else{
-//         updateAlertModal('通知信息', '提交审核失败！')
-//       }
-//       location.reload(300)
-//     }
-//   )
-// }
-
 const getNewDate = ()=>{
   return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 }
 
 // 点击事件
-// const addNewClass = ()=>{
-//   $(".addNewClassMessage").text("")
-//   for(let item of $("input.publicInput")){
-//     if(item.value==''){
-//       $(".addNewClassMessage").text("必须全部填写")
-//       return 
-//     }
-//   }
-//   if($(".classKindSelect").val() == 'normal'){
-//     for(let item of $(".normalClass").find('input.form-control')){
-//       if(item.value==''){
-//         $(".addNewClassMessage").text("必须全部填写")
-//         return 
-//       }
-//     }
-//   }
-//   else if($(".classKindSelect").val() == 'design'){
-//     for(let item of $(".designClass").find('input.form-control')){
-//       if(item.value==''){
-//         $(".addNewClassMessage").text("必须全部填写")
-//         return 
-//       }
-//     }
-//   }
-//   else if($(".classKindSelect").val() == 'train'){
-//     for(let item of $(".trainClass").find('input.form-control')){
-//       if(item.value==''){
-//         $(".addNewClassMessage").text("必须全部填写")
-//         return 
-//       }
-//     }
-//   }
-//   else{
-//     for(let item of $(".otherClass").find('input.form-control')){
-//       if(item.value==''){
-//         $(".addNewClassMessage").text("必须全部填写")
-//         return 
-//       }
-//     }
-//   }
+const addNewClass = ()=>{
+  $(".addNewClassMessage").text("")
+  for(let item of $("input.publicInput")){
+    if(item.value==''){
+      $(".addNewClassMessage").text("必须全部填写")
+      return 
+    }
+  }
+  if($(".classKindSelect").val() == 'normal'){
+    for(let item of $(".normalClass").find('input.form-control')){
+      if(item.value==''){
+        $(".addNewClassMessage").text("必须全部填写")
+        return 
+      }
+    }
+  }
+  else if($(".classKindSelect").val() == 'design'){
+    for(let item of $(".designClass").find('input.form-control')){
+      if(item.value==''){
+        $(".addNewClassMessage").text("必须全部填写")
+        return 
+      }
+    }
+  }
+  else if($(".classKindSelect").val() == 'train'){
+    for(let item of $(".trainClass").find('input.form-control')){
+      if(item.value==''){
+        $(".addNewClassMessage").text("必须全部填写")
+        return 
+      }
+    }
+  }
+  else{
+    for(let item of $(".otherClass").find('input.form-control')){
+      if(item.value==''){
+        $(".addNewClassMessage").text("必须全部填写")
+        return 
+      }
+    }
+  }
   
-//   $(".addNewClassForm").submit()
-// }
-// const allClassClick = ()=>{
-//   $(".homePageDiv").css("display", "none")
-//   if($(".allClassDiv").css("display")=='none') $(".allClassDiv").slideToggle();
-// }
-// const addClassClick = ()=>{
-//   $(".homePageDiv").css("display", "none")
-//   if($(".addClassDiv").css("display")=='none') $(".addClassDiv").slideToggle();
-// }
+  $(".addNewClassForm").submit()
+}
+const allClassClick = ()=>{
+  $(".homePageDiv").css("display", "none")
+  if($(".allClassDiv").css("display")=='none') $(".allClassDiv").slideToggle();
+}
+const addClassClick = ()=>{
+  $(".homePageDiv").css("display", "none")
+  if($(".addClassDiv").css("display")=='none') $(".addClassDiv").slideToggle();
+}
 
 const mainDivClick = ()=>{
   $(".homePageDiv").css("display", "none")

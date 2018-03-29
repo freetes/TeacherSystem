@@ -7,15 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('we:server');
 var http = require('http');
-var mongoose = require('mongoose')
-
-// 连接数据库
-mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
-    if(err)
-        console.log("数据库连接失败，可能是服务未开启！");
-    else
-        console.log("数据库连接成功！");
-});
 
 /**
  * Get port from environment and store in Express.

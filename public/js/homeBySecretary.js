@@ -1,27 +1,24 @@
-$(function(){
+$(function () {
 	$(".navbar-nav").first().children().first().click()
 })
 
 // 顶部导航栏点击事件
-$(".navbar-nav").first().children().click(function(){
+$(".navbar-nav").first().children().click(function () {
 	$(".navbar-nav").first().children().removeClass('active')
 	this.className = 'active'
-	if(this.innerText.includes("首页")){
+	if (this.innerText.includes("首页")) {
 		$(".container-fluid").css("display", "none")
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[1].style.display = "block"
-	}
-	else if(this.innerText.includes("教师信息管理")){
+	} else if (this.innerText.includes("教师信息管理")) {
 		$(".container-fluid").css("display", "none")
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[2].style.display = "block"
-	}
-	else if(this.innerText.includes("工资管理")){
+	} else if (this.innerText.includes("工资管理")) {
 		$(".container-fluid").css("display", "none")
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[3].style.display = "block"
-	}
-	else if(this.innerText.includes("课程管理")){
+	} else if (this.innerText.includes("课程管理")) {
 		$(".container-fluid").css("display", "none")
 		$(".container-fluid")[0].style.display = "block"
 		$(".container-fluid")[4].style.display = "block"
@@ -29,38 +26,111 @@ $(".navbar-nav").first().children().click(function(){
 })
 
 // 功能按钮点击事件
-$(".userDiv").find("div.col-md-2").first().find("button").click(function(){
-	if(this.innerText.includes('教师信息一览表')){
+$(".userDiv").find("div.col-md-2").first().find("button").click(function () {
+	if (this.innerText.includes('教师信息一览表')) {
 		$(".userDiv").find("div.col-md-10").children()[1].style.display = "none"
-		$(".userDiv").find("div.col-md-10").children()[0].style.display = "block"	
-	}
-	else if(this.innerText.includes('不在岗教师一览表')){
+		$(".userDiv").find("div.col-md-10").children()[0].style.display = "block"
+	} else if (this.innerText.includes('不在岗教师一览表')) {
 		$(".userDiv").find("div.col-md-10").children()[0].style.display = "none"
 		$(".userDiv").find("div.col-md-10").children()[1].style.display = "block"
 	}
 })
 
-$(".sendMessageReceiverSelect").change(function(){
-	if(this.value=='one'){
+$(".sendMessageReceiverSelect").change(function () {
+	if (this.value == 'one') {
 		$(".sendMessageReceiverInput").slideToggle()
-	}
-	else
+	} else
 		$(".sendMessageReceiverInput").css("display", 'none')
 })
+
+// 通过excel快速导入课程
+$("#courseExcelInput").change(function () {
+	const file = this.files[0]
+	//文件格式不符合
+	if (file.name.split('.').pop() !== 'xlsx' && file.name.split('.').pop() !== 'xls') {
+		$("#courseExcelInput").val('');
+		return updateAlertModal('通知信息', '文件类型错误！')
+	}
+	const reader = new FileReader();
+	reader.readAsArrayBuffer(file);
+	reader.onload = function (e) {
+		const workBook = XLSX.read(e.target.result, {type: 'array'});
+		const data = XLSX.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames[0]]);
+		addNewCoursesByExcel(data)
+	}
+	$("#courseExcelInput").val('');
+})
+
+function addNewCoursesByExcel(nodes) {
+	for (let item of nodes) {
+		let courseInfo = {
+			id: item['课程号'], // 课程号
+			name: item['课程名称'], // 课程名称
+			place: item['上课地点'], // 上课地点
+			number: item['教学班人数'], // 教学班人数
+			kind: item['课程性质'], // 课程性质
+			dateInfo: {
+				year: item['学年'], // 学年
+				semester: item['学期'], // 学期
+				dayOfWeek: item['星期几'], // 星期几
+				beginWeek: item['起始周'], // 起始周
+				classTime: item['上课节次'], // 上课节次
+				time: item['上课时间'], // 上课时间
+			},
+			teacherInfo: { // 教师信息
+				id: item['教工号'], // 教工号
+				name: item['姓名'], // 姓名
+				telephone: item['教师联系电话'], // 教师联系电话
+				department: item['教师所属学院'], // 教师所属学院
+				gender: item['性别'], // 性别
+				education: item['最高学历'], // 最高学历
+				alias: item['职称名称'], // 职称名称
+			},
+			classroomInfo: { // 教室信息
+				id: item['场地编号'], // 场地编号
+				name: item['场地名称'], // 场地名称
+				building: item['教学楼'], // 教学楼
+				kind: item['场地类别名称'], // 场地类别名称
+				seats: item['座位数'], // 座位数
+				beginWeek: item['场地上课起始周'], // 场地上课起始周
+				classTime: item['场地上课节次'], // 场地上课节次
+				classComposition: item['教学班组成'], // 教学班组成
+				campus: item['校区'], // 校区
+			},
+			chooseInfo: { // 选课信息
+				id: item['选课课号'], // 选课课号
+				department: item['开课学院'], // 开课学院
+				credit: item['学分'], // 学分
+				hour: item['总学时'], // 总学时
+				number: item['选课人数'], // 选课人数
+				weekHour: item['周学时'] // 周学时
+			}
+		}
+		$.post('/secretary/addNewCourse', {
+				course: courseInfo
+			},
+			result => {
+				if(result) 
+					console.log('导入成功')
+				else
+					console.log('导入失败')
+			}
+		)
+	}
+}
+
 // 发布公告
-function sendMessage(){
-	$.post('/secretary/sendMessage',
-		{
+function sendMessage() {
+	$.post('/secretary/sendMessage', {
 			message: $(".sendMessageContent").val(),
-			receiver: $(".sendMessageReceiverSelect").val()=='all'?'all':$(".sendMessageReceiverInput").val(),
+			receiver: $(".sendMessageReceiverSelect").val() == 'all' ? 'all' : $(".sendMessageReceiverInput").val(),
 			level: $(".sendMessageLevel").val(),
 			date: getNewDate()
 		},
-		result=>{
-			if(result){
+		result => {
+			if (result) {
 				updateAlertModal('通知信息', '发布公告成功！')
-			}
-			else{
+			} else {
 				updateAlertModal('通知信息', '发布公告失败！')
 			}
 			location.reload(300)
@@ -91,30 +161,29 @@ function addNewUserModal() {
 	updateAlertModal('新增老师', addNewUserHtml)
 }
 
-function addNewUser(){
-	if($(".newUserIdInput").val() == undefined || $(".newUserNameInput").val() == undefined || $(".newUserPasswdInput").val() == undefined)
-		return ;
-	$.post('/secretary/addNewUser',
-		{
+function addNewUser() {
+	if ($(".newUserIdInput").val() == undefined || $(".newUserNameInput").val() == undefined || $(".newUserPasswdInput").val() == undefined)
+		return;
+	$.post('/secretary/addNewUser', {
 			id: $(".newUserIdInput").val(),
 			name: $(".newUserNameInput").val(),
 			password: $(".newUserPasswdInput").val()
 		},
-		result=>{
-			if(result)
+		result => {
+			if (result)
 				location.reload(300)
 		}
 	)
 }
 
-function resetPassword(node){
-	$.post('/secretary/resetPassword',
-		{_id: node.getAttribute('value')},
-		result=>{
-			if(result){
+function resetPassword(node) {
+	$.post('/secretary/resetPassword', {
+			_id: node.getAttribute('value')
+		},
+		result => {
+			if (result) {
 				updateAlertModal('通知信息', '重置成功！')
-			}
-			else{
+			} else {
 				updateAlertModal('通知信息', '重置失败！')
 			}
 			location.reload(300)
@@ -122,7 +191,7 @@ function resetPassword(node){
 	)
 }
 
-function changeUserBtn(node){
+function changeUserBtn(node) {
 	const changeUserHtml = `
 		<div class="input-group">
 			<span class="input-group-addon">工号</span>
@@ -150,20 +219,18 @@ function changeUserBtn(node){
 	updateAlertModal('修改用户', changeUserHtml)
 }
 
-function changeUser(node){
-	$.post('secretary/changeUser',
-		{
+function changeUser(node) {
+	$.post('secretary/changeUser', {
 			_id: node.getAttribute('value'),
 			id: $(".changeUserIdInput").val(),
 			name: $(".changeUserNameInput").val(),
 			kind: $(".changeUserKindInput").val(),
 			password: $(".changeUserPasswdInput").val()
 		},
-		result=>{
-			if(result){
+		result => {
+			if (result) {
 				updateAlertModal('通知信息', '修改成功！')
-			}
-			else{
+			} else {
 				updateAlertModal('通知信息', '修改失败！')
 			}
 			location.reload(300)
@@ -171,21 +238,19 @@ function changeUser(node){
 	)
 }
 
-function deleteUserBtn(node){
+function deleteUserBtn(node) {
 	const deleteUserHtml = `<button value="${node.getAttribute('value')}" class="btn btn-primary btn-block" onclick="deleteUser(this)">确定修改</button>`
 	updateAlertModal('删除用户', deleteUserHtml)
 }
 
-function deleteUser(node){
-	$.post('secretary/deleteUser',
-		{
+function deleteUser(node) {
+	$.post('secretary/deleteUser', {
 			_id: node.getAttribute('value')
 		},
-		result=>{
-			if(result){
+		result => {
+			if (result) {
 				updateAlertModal('通知信息', '删除成功！')
-			}
-			else{
+			} else {
 				updateAlertModal('通知信息', '删除失败！')
 			}
 			location.reload(300)
@@ -194,18 +259,16 @@ function deleteUser(node){
 }
 
 // POST /secretary/passRequest
-function passRequest(value){
-	$.post('/secretary/passRequest',
-		{
+function passRequest(value) {
+	$.post('/secretary/passRequest', {
 			id: value,
 			applyDate: getNewDate()
 		},
-		result=>{
-			if(result){
+		result => {
+			if (result) {
 				updateAlertModal('通知信息', '通过审核成功！')
-			}
-			else{
-				updateAlertModal('通知信息', '通过审核失败！')				
+			} else {
+				updateAlertModal('通知信息', '通过审核失败！')
 			}
 			location.reload(300)
 		}
@@ -213,22 +276,20 @@ function passRequest(value){
 }
 
 // POST /secretary/refuseRequest
-function refuseRequest(value){
-	if($(".refuseInput").val()==''){
+function refuseRequest(value) {
+	if ($(".refuseInput").val() == '') {
 		return $(".alertMessage").html("请输入驳回信息！");
 	}
-	$.post('/secretary/refuseRequest',
-		{
+	$.post('/secretary/refuseRequest', {
 			id: value,
 			message: $(".refuseInput").val(),
 			date: getNewDate()
 		},
-		result=>{
-			if(result){
-				updateAlertModal('通知信息', '驳回成功！')				
-			}
-			else{
-				updateAlertModal('通知信息', '驳回失败！')				
+		result => {
+			if (result) {
+				updateAlertModal('通知信息', '驳回成功！')
+			} else {
+				updateAlertModal('通知信息', '驳回失败！')
 			}
 			location.reload(300)
 		}
@@ -237,32 +298,32 @@ function refuseRequest(value){
 
 // 用户视图功能集
 // 用户排序
-$(".viewWorkingTableSortBtn").click(function(){
+$(".viewWorkingTableSortBtn").click(function () {
 	const choice1 = this.previousSibling.previousSibling.value,
-				choice2 = this.previousSibling.value,
-				allTr = $("#workingTable").children()
+		choice2 = this.previousSibling.value,
+		allTr = $("#workingTable").children()
 	$("#workingTable").html('')
 	let choiceFun
 	// 按照教研室排序
-	if(choice1 == 1){
-		if(choice2 == 1)
-			choiceFun = function(a, b){
-				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+	if (choice1 == 1) {
+		if (choice2 == 1)
+			choiceFun = function (a, b) {
+				return a.firstChild.nextSibling.innerText - b.firstChild.nextSibling.innerText
 			}
 		else
-			choiceFun = function(b, a){
-				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			choiceFun = function (b, a) {
+				return a.firstChild.nextSibling.innerText - b.firstChild.nextSibling.innerText
 			}
 	}
 	// 按照工号排序
-	else{
-		if(choice2 == 1)
-			choiceFun = function(a, b){
-				return a.firstChild.innerText-b.firstChild.innerText
+	else {
+		if (choice2 == 1)
+			choiceFun = function (a, b) {
+				return a.firstChild.innerText - b.firstChild.innerText
 			}
 		else
-			choiceFun = function(b, a){
-				return a.firstChild.innerText-b.firstChild.innerText
+			choiceFun = function (b, a) {
+				return a.firstChild.innerText - b.firstChild.innerText
 			}
 	}
 
@@ -273,42 +334,42 @@ $(".viewWorkingTableSortBtn").click(function(){
 
 // 工资视图功能集
 // 工资排序
-$(".payTableSortBtn").click(function(){
+$(".payTableSortBtn").click(function () {
 	const choice1 = this.previousSibling.previousSibling.value,
-		  choice2 = this.previousSibling.value,
-		  allTr = $("#payTable").children()
+		choice2 = this.previousSibling.value,
+		allTr = $("#payTable").children()
 	$("#payTable").html('')
 	let choiceFun
 	// 按照教研室排序
-	if(choice1 == 1){
-		if(choice2 == 1)
-			choiceFun = function(a, b){
-				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+	if (choice1 == 1) {
+		if (choice2 == 1)
+			choiceFun = function (a, b) {
+				return a.firstChild.nextSibling.innerText - b.firstChild.nextSibling.innerText
 			}
 		else
-			choiceFun = function(b, a){
-				return a.firstChild.nextSibling.innerText-b.firstChild.nextSibling.innerText
+			choiceFun = function (b, a) {
+				return a.firstChild.nextSibling.innerText - b.firstChild.nextSibling.innerText
 			}
 	}
 	// 按照工号排序
-	else if(choice1 == 2){
-		if(choice2 == 1)
-			choiceFun = function(a, b){
-				return a.firstChild.innerText-b.firstChild.innerText
+	else if (choice1 == 2) {
+		if (choice2 == 1)
+			choiceFun = function (a, b) {
+				return a.firstChild.innerText - b.firstChild.innerText
 			}
 		else
-			choiceFun = function(b, a){
-				return a.firstChild.innerText-b.firstChild.innerText
+			choiceFun = function (b, a) {
+				return a.firstChild.innerText - b.firstChild.innerText
 			}
 	}
 	// 按提交日期排序
-	else{
-		if(choice2 == 1)
-			choiceFun = function(a, b){
+	else {
+		if (choice2 == 1)
+			choiceFun = function (a, b) {
 				return new Date(b.firstChild.nextSibling.nextSibling.innerText) - new Date(a.firstChild.nextSibling.nextSibling.innerText)
 			}
 		else
-			choiceFun = function(b, a){
+			choiceFun = function (b, a) {
 				return new Date(b.firstChild.nextSibling.nextSibling.innerText) - new Date(a.firstChild.nextSibling.nextSibling.innerText)
 			}
 	}
@@ -316,6 +377,6 @@ $(".payTableSortBtn").click(function(){
 	$("#payTable").html(allTr)
 })
 
-const getNewDate = ()=>{
-  return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
+const getNewDate = () => {
+	return `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 }

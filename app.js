@@ -5,6 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose')
+
+// 连接数据库
+mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
+    if(err)
+        console.log("数据库连接失败，可能是服务未开启！");
+    else
+        console.log("数据库连接成功！");
+});
 
 var home = require('./routes/home');
 var user = require('./routes/user');
@@ -50,8 +59,8 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  // res.locals.message = err.message;
-  // res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);

@@ -117,11 +117,11 @@ $(".payTableSortBtn").click(function(){
 })
 
 // 通过excel快速导入用户
-$("#excelInput").change(function () {
+$("#userExcelInput").change(function () {
 	const file = this.files[0]
 	//文件格式不符合
   if(file.name.split('.').pop()!=='xlsx' && file.name.split('.').pop()!=='xls'){
-		$("#excelInput").val('');
+		$("#userExcelInput").val('');
 		updateAlertModal('通知信息', '文件类型错误！')
     return
   }
@@ -143,7 +143,7 @@ $("#excelInput").change(function () {
 		excelTableHtml = `<button class="btn btn-block btn-primary" onclick="addNewUsersByExcel($(this).next().find('tbody').find('tr'))">一键导入</button><table class="table table-bordered"><thead><tr><th>工号</th><th>姓名</th><th>教研室排行</th></tr></thead><tbody>${excelTableHtml}</tbody></table>`
 		updateAlertModal('新增教师', excelTableHtml)
 	}
-	$("#excelInput").val('');
+	$("#userExcelInput").val('');
 })
 function addNewUsersByExcel(nodes){
 	for(let item of nodes){

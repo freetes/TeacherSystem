@@ -6,12 +6,14 @@ const UserSchema = new Schema({
   id: String,
   name: String,
   password: String,
+  email: String,
+  telephone: String,
   level: Number,
-  department: {       // 所属教研室
+  department: { // 所属教研室
     name: String,
     number: Number
   },
-  isWorking: Boolean  // is working?
+  isWorking: Boolean // is working?
 });
 
 // 薪酬数据模式
@@ -68,124 +70,48 @@ const NoticeSchema = new Schema({
 
 // 课程模式
 const CourseSchema = new Schema({
-  id: String,   // 课程号
+  id: String, // 课程号
   name: String, // 课程名称
-  time: String, // 上课时间
-  place: String,// 上课地点
-  number: Number, // 班级人数
+  place: String, // 上课地点
+  number: Number, // 人数
   kind: String, // 课程种类
   dateInfo: {
-    year: String,     // 学年
+    year: String, // 学年
     semester: Number, // 学期
-    dayOfWeek: Number,// 星期几
-    beginWeek: String,// 起始周
-    classTime: String // 上课节次
-  },
-  teacherInfo: {      // 教师信息
-    id: String,
-    name: String,
-    telephone: String,
-    department: String,
-    gender: String,
-    education: String,
-    department: String
-  },
-  classroomInfo: {    // 教室信息
-    id: String,       // 场地编号
-    name: String,     // 场地名称
-    kind: String,     // 教学楼
-    seats: Number, // 总座位数
-    beginWeek: String,// 起始周
+    dayOfWeek: Number, // 星期几
+    beginWeek: String, // 起始周
     classTime: String, // 上课节次
-    classComposition: String, // 教学班组成
-    campus: String     // 校区
+    time: String, // 上课时间
   },
-  chooseInfo: {       // 选课信息
-    id: String,
-    department: String,
-    credit: Number,
-    hour: Number,
-    number: Number,
+  teacherInfo: { // 教师信息
+    id: String, // 教工号
+    name: String, // 姓名
+    telephone: String, // 教师联系电话
+    department: String, // 教师所属学院
+    gender: String, // 性别
+    education: String, // 最高学历
+    alias: String, // 职称名称
+  },
+  classroomInfo: { // 教室信息
+    id: String, // 场地编号
+    name: String, // 场地名称
+    building: String, // 教学楼
+    kind: String, // 场地类别名称
+    seats: Number, // 座位数
+    beginWeek: String, // 场地上课起始周
+    classTime: String, // 场地上课节次
+    classComposition: String, // 教学班组成
+    campus: String // 校区
+  },
+  chooseInfo: { // 选课信息
+    id: String, // 选课课号
+    department: String, // 开课学院
+    credit: Number, // 学分
+    hour: Number, // 总学时
+    number: Number, // 选课人数
+    weekHour: String // 周学时
   }
 })
-
-/*
-  // 普通课程模式
-  const NormalClassSchema = new Schema({
-    id: String,               // 工号
-    semester: String,         // 学期
-    name: String,             // 课程名
-    faculty: String,          // 专业
-    class: String,            // 班级
-    studentAmount: Number,    // 人数
-    standardHours: Number,    // 标准学时
-    theoryHours: Number,      // 理论学时
-    experimentHours: Number,  // 实验学时
-    finalHours: Number,       // 实际学时
-    date: String,             // 添加/修改日期
-    point: Number,            // 课程权重
-    isChecked: Boolean        // 是否审核
-  });
-  // 课程设计模式
-  const DesignClassSchema = new Schema({
-    id: String,               // 工号
-    semester: String,         // 学期
-    name: String,             // 课程名：课程设计
-    faculty: String,
-    class: String,
-    studentAmount: Number,
-    week: Number,             // 周数
-    experimentHours: Number,  // 实验学时
-    finalHours: Number,        // 实际学时
-    date: String,             // 添加/修改日期
-    point: Number,            // 课程权重
-    isChecked: Boolean        // 是否审核
-  });
-  // 科研训练模式
-  const TrainClassSchema = new Schema({
-    id: String,
-    semester: String, 
-    name: String,
-    faculty: String,
-    class: String,
-    studentAmount: Number,
-    unitHours: Number,        // 单位学时
-    finalHours: Number,       // 实际学时
-    date: String,             // 添加/修改日期
-    point: Number,            // 课程权重
-    isChecked: Boolean        // 是否审核
-  });
-  // 生产实习模式
-  const ProduceClassSchema = new Schema({
-    id: String,
-    semester: String, 
-    name: String,
-    faculty: String,
-    class: String,
-    studentAmount: Number,
-    week: Number,             // 周数
-    unitHours: Number,        // 单位学时
-    finalHours: Number,       // 实际学时
-    date: String,             // 添加/修改日期
-    point: Number,            // 课程权重
-    isChecked: Boolean        // 是否审核
-  });
-  // 毕业实习模式
-  const GraduateClassSchema = new Schema({
-    id: String,
-    semester: String, 
-    name: String,
-    faculty: String,
-    class: String,
-    studentAmount: Number,
-    week: Number,
-    unitHours: Number,
-    finalHours: Number,
-    date: String,             // 添加/修改日期
-    point: Number,            // 课程权重
-    isChecked: Boolean        // 是否审核
-  });
-*/
 
 //数据模型
 const Models = {

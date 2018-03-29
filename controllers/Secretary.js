@@ -71,7 +71,8 @@ const Secretary = {
       },
       level: 0,
       isWorking: true
-    }).save(result=>{
+    }).save((err, result)=>{
+      if(err) return res.json(false)
       return res.json(true)
     })
   },
@@ -112,6 +113,15 @@ const Secretary = {
         return res.json(true)
       }
     )
+  },
+  // POST /secretary/addNewCourse
+  addNewCourse: (req, res)=>{
+    if(req.session.userid == undefined || req.session.userid == null)
+      return res.json(false);
+    Models.CourseModel(req.body.course).save((err, result)=>{
+      if(err) return res.json(false)
+      return res.json(true)
+    })
   },
 };
 

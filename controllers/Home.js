@@ -14,7 +14,7 @@ const Home = {
           return res.render('index',{
             title: '教学工作量管理系统',
             user: user,
-            classes: info.class,
+            courses: info.courses,
             pay: info.pay,
             message: info.message
           });
@@ -29,7 +29,7 @@ const Home = {
             users: info.users,
             pays: info.pays,
             message: info.message,
-            classes: info.class
+            courses: info.courses
           });
         });
       }
@@ -40,7 +40,7 @@ const Home = {
             title: '系统管理员主页',
             user: user,
             users: info.users,
-            class: info.class,
+            courses: info.courses,
             pays: info.pays,
             message: info.message,
             feedback: info.feedback,
