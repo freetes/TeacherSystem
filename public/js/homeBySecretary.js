@@ -64,16 +64,15 @@ $("#courseExcelInput").change(function () {
 })
 
 function addNewCoursesByExcel(nodes) {
-	$("body").prepend(`
-		<div id="progressdiv" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; background-color: skyblue; opacity: 0.5">
-			<div class="progress" style="position: absolute; top:50%; left: 0; z-index: 9999; width: 100%">
-				<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0">
-					<span class="sr-only">45% Complete</span>
-				</div>
+	let courseInfo
+	
+	updateAlertModal('导入中', `
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0">
+				<span class="sr-only">45% Complete</span>
 			</div>
 		</div>
 	`)
-	let courseInfo
 	nodes.forEach((item, index) => {
 		courseInfo = {
 			id: item['课程号'], // 课程号
@@ -123,8 +122,13 @@ function addNewCoursesByExcel(nodes) {
 			},
 			result => {
 				if (result) {
+					$(".progress-bar").attr("aria-valuenow", (index+1)/nodes.length*100)
 					$(".progress-bar").css("width", (index+1)/nodes.length*100+'%')
-					console.log('导入成功')
+					if($(".progress-bar").attr("aria-valuenow") == 100){
+						setTimeout(() => {
+							updateAlertModal('通知', '全部导入完成！')
+						}, 1000);
+					}
 				} else
 					console.log('导入失败')
 			}

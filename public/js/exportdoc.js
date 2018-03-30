@@ -25,6 +25,7 @@ function sort(node) {
 // 导出相关
 function exportExcelFile() {
 	const wb = XLSX.utils.table_to_book(document.getElementById("excelTable"))
+	const date = window.location.search.substring(1).split('&')
 	// 配置下载的文件格式
 	const wopts = {
 		bookType: 'xlsx',
@@ -34,7 +35,7 @@ function exportExcelFile() {
 	}
 	saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
 		type: "application/octet-stream"
-	}), "下载的文件" + '.' + (wopts.bookType == "biff2" ? "xls" : wopts.bookType));
+	}), date[0].substr(2) + '-' + date[1].substr(2) + '教师预发工资信息表' + '.' + wopts.bookType);
 }
 
 function s2ab(s) {
