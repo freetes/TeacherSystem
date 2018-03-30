@@ -153,20 +153,72 @@ body
               -if(courses.length==0)
                 p 暂无课程
               -else
-                h4 授课登记表:
-                table.table.table-bordered.table-hover
-                  thead
-                    tr: th 课程名称
-                        th 学期
-                        th 上课时间
-                        th 上课地点
-                  tbody
-                    each item in courses
-                      tr: td #{item.name}
-                          td #{item.dateInfo.year}-#{item.dateInfo.semester}
-                          td #{item.dateInfo.time}
-                          td #{item.place}
-              
+                -const nowDate = new Date()
+                -let nowYear
+                -let nowNumber
+                -let nowSemester
+
+                -if(nowDate.getMonth()>=2 && nowDate.getMonth()<9){
+                  -nowNumber = 2
+                  -nowYear = nowDate.getFullYear()
+                -}
+                -else if(nowDate.getMonth()<2){
+                  -nowNumber = 1
+                  -nowYear = nowDate.getFullYear()
+                -}
+                -else{
+                  -nowNumber = 1
+                  -nowYear = nowDate.getFullYear()-1
+                -}
+                -nowSemester = (nowYear - 1) + '-' + nowYear + '-' + nowNumber
+
+                h4 授课信息表:
+                -for(let i=0; i<4; i++){
+                  -let hasCourse = false
+                  -for(let item of courses)
+                    -if(item.dateInfo.year+'-'+item.dateInfo.semester === nowSemester){
+                      -hasCourse = true
+                      -break
+                    -}
+                  -if(hasCourse)
+                    p 学期：#{nowSemester}
+                    table.table.table-bordered.table-hover
+                      thead
+                        tr: th 序号
+                            th 课程代号
+                            th 课程名称
+                            th 课程性质
+                            th 教学班级
+                            th 学生人数
+                            th 总学分
+                            th 总学时
+                            th 实验学时
+                            th 合班系数
+                            th 实际学时
+                      tbody
+                        each item,index in courses
+                          -if(item.dateInfo.year+'-'+item.dateInfo.semester === nowSemester)
+                            tr: td #{index+1}
+                                td #{item.id}
+                                td #{item.name}
+                                td #{item.kind}
+                                td #{item.classroomInfo.classComposition}
+                                td #{item.number}
+                                td #{item.chooseInfo.credit}
+                                td #{item.chooseInfo.hour}
+                                td
+                                td
+                                td
+
+                  -if(nowNumber == 2)
+                    -nowNumber = 1
+                  -else{
+                    -nowNumber = 2
+                    -nowYear-=1
+                  -}
+                  -nowSemester = (nowYear - 1) + '-' + nowYear + '-' + nowNumber
+                -}
+
         //- 课程登记
         .addClassDiv.homePageDiv(style="display: none")
           .panel.panel-primary
