@@ -67,7 +67,7 @@ const Secretary = {
       password: req.body.password,
       department: {
         name: req.body.departName !== undefined ? req.body.departName : '未填写',
-        number: req.body.departRank !== undefined ? req.body.departRank : -1
+        number: req.body.departRank !== undefined ? req.body.departRank : 9999
       },
       level: 0,
       isWorking: true
