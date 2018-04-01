@@ -11,7 +11,7 @@ block content
     script(src="/js/homeByUser.js")
 
   -else if(user.level == 1)
-    script(src="/libs/js-xlsx/dist/xlsx.full.min.js")
+    script(src="https://cdn.bootcss.com/xlsx/0.12.6/xlsx.full.min.js")
     link(rel='stylesheet', href='/css/secretaryPage.css')  
     include secretary
     include ../public/changePasswdModal
@@ -20,7 +20,7 @@ block content
     
 
   -else
-    script(src="/libs/js-xlsx/dist/xlsx.full.min.js")
+    script(src="https://cdn.bootcss.com/xlsx/0.12.6/xlsx.full.min.js")
     link(rel='stylesheet', href='/css/adminPage.css')
     include admin
     include ../public/alertInfoModal
