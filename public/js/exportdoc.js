@@ -24,6 +24,11 @@ function sort(node) {
 
 // 导出相关
 function exportExcelFile() {
+	const alltr = $("#excelTableBody").children()
+	for(let tr of alltr){
+		$(tr.firstChild.nextSibling).remove();
+		$(tr.firstChild).remove();
+	}
 	const wb = XLSX.utils.table_to_book(document.getElementById("excelTable"))
 	const date = window.location.search.substring(1).split('&')
 	// 配置下载的文件格式
@@ -36,6 +41,7 @@ function exportExcelFile() {
 	saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], {
 		type: "application/octet-stream"
 	}), date[0].substr(2) + '-' + date[1].substr(2) + '教师预发工资信息表' + '.' + wopts.bookType);
+	setTimeout(function(){location.reload()}, 1500)
 }
 
 function s2ab(s) {

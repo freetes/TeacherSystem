@@ -40,6 +40,9 @@ const updateAlertModal = (title='', context='')=>{
   $("#alertInfoModal").find(".modal-title").html(title)
   $("#alertInfoModal").find(".alertMessage").html(context)
   $("#alertInfoModal").modal('show')
+  setTimeout(function () {
+    $("#alertInfoModal").modal('hide')
+  }, 1500)
 }
 
 // 反馈
