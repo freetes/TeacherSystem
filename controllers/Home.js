@@ -1,6 +1,18 @@
 const Models = require('../model/dataModel');
 const CtrlDB = require('../model/ctrlDB');
 
+Models.UserModel.find({}, (err, users)=>{
+  if(users.length == 0)
+    Models.UserModel({
+      id: 'admin',
+      name: 'Admin',
+      password: '1',
+      level: 3,
+      isWorking: true
+    }).save()
+})
+
+
 // 处理主页的请求
 const Home = {
   // GET /
