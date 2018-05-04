@@ -15,21 +15,6 @@ mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
         console.log("数据库连接成功！");
 });
 
-const Models = require('./model/dataModel');
-const bcrypt = require('bcrypt');
-
-Models.UserModel.find({}, (err, users)=>{
-  for(let user of users){
-    bcrypt.genSalt(10, (err, salt)=>{
-      bcrypt.hash(user.password, salt, function(err, hash) {
-        Models.UserModel.findOneAndUpdate({id: user.id}, {password: hash}, (err, result)=>{
-          console.log(user.name)
-        })
-      })
-    })
-  }
-})
-
 var home = require('./routes/home');
 var user = require('./routes/user');
 var secretary = require('./routes/secretary');
