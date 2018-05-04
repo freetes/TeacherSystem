@@ -1,17 +1,6 @@
 const Models = require('../model/dataModel');
 const CtrlDB = require('../model/ctrlDB');
-
-Models.UserModel.find({}, (err, users)=>{
-  if(users.length == 0)
-    Models.UserModel({
-      id: 'admin',
-      name: 'Admin',
-      password: '1',
-      level: 3,
-      isWorking: true
-    }).save()
-})
-
+const bcrypt = require('bcrypt');
 
 // 处理主页的请求
 const Home = {
@@ -112,32 +101,35 @@ const Home = {
           message: '账号已被注销！'
         });
       }
-      if(user[0].password !== req.body.password){
-        Models.SigninLogModel({
-          id: user[0].id,
-          name: user[0].name,
-          ip: getIP(req),
-          date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-          result: '登录失败，密码错误！'
-        }).save()
-        return res.render('signin',{
-          title: '教师工作量管理系统',
-          verifyCodeExpression: req.session.verifyExpression,
-          message: '密码错误，请重新输入！'
-        });
-      }
-
-      Models.SigninLogModel({
-        id: user[0].id,
-        name: user[0].name,
-        ip: getIP(req),
-        date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-        result: '登录成功！'
-      }).save()
-      req.session.userid = user[0].id;
-      delete req.session.verifyExpression
-      delete req.session.verifyResult
-      return res.redirect(303, '/');
+      bcrypt.compare(req.body.password, user[0].password, (err, result)=>{
+        if(result){
+          Models.SigninLogModel({
+            id: user[0].id,
+            name: user[0].name,
+            ip: getIP(req),
+            date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+            result: '登录成功！'
+          }).save()
+          req.session.userid = user[0].id;
+          delete req.session.verifyExpression
+          delete req.session.verifyResult
+          return res.redirect(303, '/');
+        }
+        else{
+          Models.SigninLogModel({
+            id: user[0].id,
+            name: user[0].name,
+            ip: getIP(req),
+            date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+            result: '登录失败，密码错误！'
+          }).save()
+          return res.render('signin',{
+            title: '教师工作量管理系统',
+            verifyCodeExpression: req.session.verifyExpression,
+            message: '密码错误，请重新输入！'
+          });
+        }
+      })
     });
   },
 

@@ -1,5 +1,6 @@
 const Models = require('../model/dataModel');
 const CtrlDB = require('../model/ctrlDB');
+const bcrypt = require('bcrypt');
 
 // 处理AJAX
 const Api = {
@@ -7,17 +8,25 @@ const Api = {
   changePasswd: (req, res)=>{
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
-    Models.UserModel.update({'id': req.session.userid}, {'password': req.body.newPasswd}, (err, result)=>{
-      delete req.session.userid;
-      return res.json(true);
+    bcrypt.genSalt(10, (err, salt)=>{
+      bcrypt.hash(req.body.newPasswd, salt, function(err, hash) {
+        Models.UserModel.update({'id': req.session.userid}, {'password': hash}, (err, result)=>{
+          delete req.session.userid;
+          return res.json(true);
+        })
+      })
     })
   },
   // POST /confirmPasswd
   confirmPasswd: (req, res)=>{
     if(req.session.userid == undefined || req.session.userid == null)
       return res.json(false);
-    Models.UserModel.find({'id': req.session.userid, 'password': req.body.oldPasswd}, (err, users)=>{
-      return users.length==0 ? res.json(false) : res.json(true);
+    
+    Models.UserModel.find({'id': req.session.userid}, (err, user)=>{
+      bcrypt.compare(req.body.oldPasswd, user[0].password, (err, result)=>{
+          return result ? res.json(true) : res.json(false);
+        }
+      );
     })
   },
   // POST /feedback
