@@ -32,7 +32,7 @@ function setNewPay(){
         else{
           updateAlertModal('通知信息', '提交失败！')
         }
-        location.reload(300)
+        location.reload(1000)
       }
     )
   }
@@ -72,7 +72,7 @@ function changePay(value){
         else{
           updateAlertModal('通知信息', '修改失败！')
         }
-        location.reload(300)
+        location.reload(1000)
       }
     )
   }
