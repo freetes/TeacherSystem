@@ -86,12 +86,12 @@ body
                       label.col-md-2.control-label(for="") 奖励绩效预发(元)
                       .col-md-5
                         input.form-control.lastPay(style="display: none", type="text", value="#{nowPay.pay.last}")
-                        input.form-control.newPay(type="text", value="#{nowPay.pay.final}")
+                        input.form-control.newPay(type="number", value="#{nowPay.pay.final}")
                     .form-group.hidden
                       label.col-md-2.control-label(for="") 兼课津贴(元)
                       .col-md-5
                         input.form-control.lastReward(style="display: none", type="text", value="#{nowPay.reward.last}")
-                        input.form-control.newReward(type="text", value="#{nowPay.reward.final}")                    
+                        input.form-control.newReward(type="number", value="#{nowPay.reward.final}")                    
                     .form-group
                       .col-md-5.col-md-offset-2
                         button.btn.btn-block.btn-default(value="#{nowPay._id}", onclick="changePay(this.getAttribute('value'))") 修改
@@ -107,17 +107,17 @@ body
                   .form-group
                     label.col-md-2.control-label(for="") 月份
                     .col-md-5
-                      input.form-control.applyMonthSelect(type="text", value="#{nowMonth}", readonly)
+                      input.form-control.applyMonthSelect(type="number", value="#{nowMonth}", readonly)
                   .form-group
                     label.col-md-2.control-label(for="") 奖励绩效预发(元)
                     .col-md-5
                       input.form-control.lastPay(style="display: none", type="text", value="#{typeof(lastPay)=='undefined'?0:lastPay.pay.final}")
-                      input.form-control.newPay(type="text", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.pay.final}元`}")
+                      input.form-control.newPay(type="number", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.pay.final}元`}")
                   .form-group.hidden
                     label.col-md-2.control-label(for="") 兼课津贴(元)
                     .col-md-5
                         input.form-control.lastReward(style="display: none", type="text", value="#{typeof(lastPay)=='undefined'?0:lastPay.reward.final}")
-                        input.form-control.newReward(type="text", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.reward.final}元`}")
+                        input.form-control.newReward(type="number", placeholder="#{typeof(lastPay)=='undefined'?'上个月未填':`上个月为${lastPay.reward.final}元`}")
                   .form-group
                     .col-md-5.col-md-offset-2
                       button.btn.btn-block.btn-primary(type="button", onclick="setNewPay()") 提交
