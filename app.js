@@ -23,7 +23,7 @@ Models.UserModel.find({}, (err, users)=>{
     bcrypt.genSalt(10, (err, salt)=>{
       bcrypt.hash(user.password, salt, function(err, hash) {
         Models.UserModel.findOneAndUpdate({id: user.id}, {password: hash}, (err, result)=>{
-          // console.log(result)
+          console.log(user.name)
         })
       })
     })
