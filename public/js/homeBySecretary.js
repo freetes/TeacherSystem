@@ -151,7 +151,9 @@ function sendMessage() {
 			} else {
 				updateAlertModal('通知信息', '发布公告失败！')
 			}
-			location.reload(1000)
+			setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
@@ -189,7 +191,9 @@ function addNewUser() {
 		},
 		result => {
 			if (result)
-				location.reload(1000)
+				setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
@@ -204,7 +208,9 @@ function resetPassword(node) {
 			} else {
 				updateAlertModal('通知信息', '重置失败！')
 			}
-			location.reload(1000)
+			setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
@@ -251,7 +257,9 @@ function changeUser(node) {
 			} else {
 				updateAlertModal('通知信息', '修改失败！')
 			}
-			location.reload(1000)
+			setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
@@ -271,7 +279,9 @@ function deleteUser(node) {
 			} else {
 				updateAlertModal('通知信息', '删除失败！')
 			}
-			location.reload(1000)
+			setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
@@ -288,7 +298,9 @@ function passRequest(value) {
 			} else {
 				updateAlertModal('通知信息', '通过审核失败！')
 			}
-			location.reload(1000)
+			setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
@@ -309,7 +321,9 @@ function refuseRequest(value) {
 			} else {
 				updateAlertModal('通知信息', '驳回失败！')
 			}
-			location.reload(1000)
+			setTimeout(function(){
+				location.reload()
+			}, 1000)
 		}
 	)
 }
