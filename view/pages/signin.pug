@@ -1,0 +1,37 @@
+extends ../layout
+//- 登录界面
+block main
+  link(rel="stylesheet", href="/css/signinStyle.css")
+
+  body
+    h1.text-center 武汉轻工大学
+    br
+    .col-xs-12.col-md-3(style="background-color: white")
+      form.signinForm(action='/signin', method='POST')
+        .input-group
+          .input-group-addon
+            span.glyphicon.glyphicon-user(aria-hidden="true")
+          input.form-control.userIdInput(type='email', name='email', placeholder="邮箱", required)
+        br
+        .input-group
+          .input-group-addon
+            span.glyphicon.glyphicon-lock(aria-hidden="true")
+          input.form-control.userPasswordInput(type='password', name='password', placeholder="密码", required)
+        .buttons
+          .checkbox
+            label
+              input(type="checkbox", name="remember") 
+              |  记住账号
+          a(onclick="alertModal('提示', '<p>忘记密码请和管理员联系!</p>')") 忘记密码
+
+        p.text-right.text-danger= message
+        script.
+          setTimeout(function () {
+            $(".text-danger").css('display', 'hidden')
+          }, 1500)
+        
+        .form-group
+          button.btn.btn-block.signinBtn 登录
+
+    a(href="https://shimo.im/docs/E5xqEHULtWw6TIlG", style="position: absolute; height: 50px; bottom: 0; left: 50%; line-height: 50px; width: 100px; margin-left: -50px;text-align: center;") 产品介绍
+    script(src="/js/signin.js")

@@ -1,0 +1,277 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="css/workerChangeStyle.css")
+  -Date.prototype.format = function (format) {let o = {"M+": this.getMonth() + 1,"d+": this.getDate(),"h+": this.getHours(),"m+": this.getMinutes(),"s+": this.getSeconds(),"q+": Math.floor((this.getMonth() + 3) / 3),"S": this.getMilliseconds()};if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));for (let k in o)if (new RegExp("(" + k + ")").test(format)) format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));return format;}
+
+  .container-fluid
+    .title
+      h3 招聘管理
+
+    .tools(style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;")
+      .left
+        button.btn(onclick="toggleTable(this, '.offerJobTable')", style="background-color: white !important; color: #4A90E2 !important; border: 1px solid #4A90E2; padding: 5px 20px;") 招聘职位
+        button.channelBtn.btn(onclick="toggleTable(this, '.channelTable')") 渠道
+        button.suggestBtn.btn(onclick="toggleTable(this, '.suggestTable')") 候选
+        button.interviewBtn.btn(onclick="toggleTable(this, '.interviewTable')") 面试
+        button.offerBtn.btn(onclick="toggleTable(this, '.offerTable')") Offer
+      .right
+        button.btn(style="background-color: #4A90E2 !important; color: white !important", onclick="showNewChannelModal()") + 新增渠道
+        button.btn(style="background-color: #4A90E2 !important; color: white !important", onclick="showNewOfferJobModal()") + 创建职位
+        button.btn(style="background-color: #4A90E2 !important; color: white !important", onclick="showNewSuggestModal()") + 新增候选人
+
+    .tablesDiv
+      .suggestTable.tableDiv
+        form.filterDiv.suggestFilter
+          div
+            p 
+              span 推荐结果
+              span.glyphicon.glyphicon-menu-down 
+            ul 
+              li
+                label(for="status1")
+                  input(id="status1", type="radio", name="status", value="已通过")
+                  | 已通过
+              li
+                label(for="status2")
+                  input(id="status2", type="radio", name="status", value="填写结果")
+                  | 待审核
+              li
+                label(for="status3")
+                  input(id="status3", type="radio", name="status", value="未通过")
+                  | 未通过
+          div
+            p
+              span 职位
+              span.glyphicon.glyphicon-menu-down 
+            ul
+              each item in offerJobs
+                li
+                label(for='s'+item.name)
+                  input(id='s'+item.name, type="radio", name="offerJob.id", value=item._id)
+                  | #{item.name}(#{item.department})
+          div
+            p
+              span 顾问
+              span.glyphicon.glyphicon-menu-down 
+            ul 
+              each item in users
+                li
+                  label(for='s'+item.email)
+                    input(id='s'+item.email, type="radio", name="operator", value=item.name)
+                    | #{item.name}
+          //- div
+            p
+              label(for="start") 开始日期:
+              input(id='start', style="", type="datetime-local", name="start")
+              
+              span 
+          //- div
+            p
+              label(for="end") 截止日期:
+              input(id='end', style="", type="datetime-local", name="start")
+              span 
+          input.suggestNameSearcher(type="text", name="", placeholder="请输入招聘人姓名")
+          div
+            span(style="line-height: 30px; color: gray", onclick="clearAllRadio('.suggestFilter')") 清除条件
+            
+        table.table.table-hover
+          thead
+            tr
+              th 姓名
+              th 职务
+              th 需求来源部门
+              th 推荐顾问
+              th 推荐日期
+              th 推荐结果
+              th 面试安排
+          tbody.suggestTbody
+            -suggests.sort((a, b)=>(new Date(b.date) - (new Date(a.date))))
+            each item in suggests
+              tr(onclick="showAllInfo('"+ item._id +"')")
+                td= item.name
+                td(data=item.offerJob.id)= item.offerJob.name
+                td= item.offerJob.department
+                td= item.operator
+                td= (new Date(item.date)).format('yyyy-MM-dd hh:mm')
+                td
+                  -if(item.status == 0)
+                    span.btn-ing(onclick="showChangeSuggestModal('"+item._id+"')") 填写结果
+                  -else if(item.status == -1)
+                    span.text-fail 未通过
+                  -else
+                    span.text-success 已通过
+                td
+                  -if(item.status == 1 && item.interviewStatus == 0)
+                    span.btn-ing(onclick="showNewInterviewModal('"+ item._id +"', '"+ item.name +"')") 安排面试
+                  -else if(item.status == 2)
+                    a.btn-full(onclick="window.event.stopPropagation()" href='/hire?suggest='+item._id+'#interview') 查看面试
+
+      .interviewTable.tableDiv
+        form.filterDiv.interviewFilter
+          div
+            p 
+              span 面试结果
+              span.glyphicon.glyphicon-menu-down 
+            ul 
+              li
+                label(for="istatus1")
+                  input(id="istatus1", type="radio", name="status", value="已通过")
+                  | 已通过
+              li
+                label(for="istatus2")
+                  input(id="istatus2", type="radio", name="status", value="填写结果")
+                  | 待审核
+              li
+                label(for="istatus3")
+                  input(id="istatus3", type="radio", name="status", value="未通过")
+                  | 未通过
+              li
+                label(for="istatus3")
+                  input(id="istatus3", type="radio", name="status", value="未到面")
+                  | 未到面
+          div
+            p
+              span 职位
+              span.glyphicon.glyphicon-menu-down 
+            ul 
+              each item in offerJobs
+                li
+                label(for='i'+item.name)
+                  input(id='i'+item.name, type="radio", name="offerJob.id", value=item._id)
+                  | #{item.name}(#{item.department})
+          div
+            p
+              span 顾问
+              span.glyphicon.glyphicon-menu-down 
+            ul 
+              each item in users
+                li
+                  label(for='i'+item.email)
+                    input(id='i'+item.email, type="radio", name="operator", value=item.name)
+                    | #{item.name}
+
+          input.interviewNameSearcher(type="text", name="", placeholder="请输入招聘人姓名")
+
+          div
+            span(style="line-height: 30px; color: gray", onclick="clearAllRadio('.interviewFilter')") 清除条件
+        table.table.table-hover
+          thead
+            tr
+              th 姓名
+              th 职务
+              th 推荐顾问
+              th 面试日期
+              th 第几轮
+              th 面试结果
+              th 是否有下轮面试
+              th 下轮面试安排
+
+          tbody.interviewTbody
+            each item in suggests
+              -if(item.status == 2 && item.interviewStatus != 1)
+                tr(onclick="showAllInfo('"+ item._id +"')")
+                  td= item.name
+                  td= item.offerJob.name
+                  td= item.operator
+                  td= item.rounds.length==0? '': (new Date(item.rounds[item.rounds.length-1].date)).format('yyyy-MM-dd hh:mm')
+                  td 第#{item.rounds.length}轮
+                  td
+                    -if(item.rounds.length==0)
+                      p -
+                    -else if(item.rounds[item.rounds.length-1].status == 0)
+                      span.btn-ing(onclick="showChangeInterviewModal('"+ item._id +"')") 填写结果
+                    -else if(item.rounds[item.rounds.length-1].status == 1)
+                      p.text-success 已通过
+                    -else if(item.rounds[item.rounds.length-1].status == -2)
+                      p 未到面
+                    -else
+                      p.text-fail 未通过
+                  td
+                    -if(item.rounds.length != 0 && item.rounds[item.rounds.length-1].status !=0 && item.interviewStatus != 0)
+                      p.text-fail 无
+                    -else if(item.rounds.length != 0 && item.rounds[item.rounds.length-1].status == 1 && item.interviewStatus == 0)
+                      p.text-success 有
+                    -else
+                      p 
+                  td
+                    -if(item.rounds.length==0)
+                      p 
+                    -else if(item.rounds[item.rounds.length-1].status == 1 && item.interviewStatus == 0)
+                      span.btn-ing(onclick="showAddRoundModal('"+ item._id +"', '"+ item.name +"', " +item.rounds.length+ ")") 安排面试
+                    -else if(item.rounds[item.rounds.length-1].status == 1 && item.interviewStatus == 1 && (item.offer == undefined||item.offer=='') )
+                      span.btn-ing(onclick="showAddOfferModal('"+ item._id +"')") 填写Offer
+                    -else if(item.rounds[item.rounds.length-1].status == 1 && item.interviewStatus == 1 && item.offer != '' && item.offer != undefined)
+                      span.btn-full(onclick="showOfferModal('"+ item._id +"')") 查看Offer
+                    -else
+                      p 
+
+      .offerTable.tableDiv
+        table.table.table-hover
+          thead
+            tr
+              th 姓名
+              th 职务
+              th 推荐顾问
+              th 面试日期
+              th Offer
+
+          tbody.offerTbody
+            each item in suggests
+              -if(item.status == 2 && item.interviewStatus == 1)
+                tr(onclick="showAllInfo('"+ item._id +"')")
+                  td= item.name
+                  td= item.offerJob.name
+                  td= item.operator
+                  td= item.rounds.length==0? '': (new Date(item.rounds[item.rounds.length-1].date)).format('yyyy-MM-dd hh:mm')
+                  td
+                    -if(item.rounds[item.rounds.length-1].status == 1 && item.interviewStatus == 1 && (item.offer == undefined||item.offer=='') )
+                      span.btn-ing(onclick="showAddOfferModal('"+ item._id +"')") 填写Offer
+                    -else if(item.rounds[item.rounds.length-1].status == 1 && item.interviewStatus == 1 && item.offer != '' && item.offer != undefined)
+                      span.btn-full(onclick="showOfferModal('"+ item._id +"')") 查看Offer
+         
+      .offerJobTable.tableDiv
+        table.table.table-hover
+          thead
+            tr
+              th 职称
+              th 部门
+              th 招聘HR
+              th 员工类型
+              th 招聘人数
+              th 到岗日期
+              th 职位状态
+
+          tbody
+            -offerJobs.reverse()
+            //- -interviews.sort((a, b)=>(new Date(b.date) - (new Date(a.date))))
+            each item in offerJobs
+              tr(onclick=`showOfferJob('${item._id}')`, style="max-height: 200px; overflow: hidden")
+                td= item.name
+                td= item.department
+                td= item.leader
+                td= item.employeeKind
+                td= item.number
+                td= (new Date(item.date)).format('yyyy-MM-dd hh:mm')
+                td= (item.status == -1?'招聘暂停':(item.status == 1?'已完成':'招聘中'))
+
+      .channelTable.tableDiv
+        table.table.table-hover
+          thead
+            tr
+              th 渠道
+              th 创建日期
+              th 样图
+
+          tbody
+            -channels.reverse()
+            each item in channels
+              tr(onclick=`showChannel('${item._id}')`, style="max-height: 200px; overflow: hidden")
+                td= item.name
+                td= (new Date(item.date)).format('yyyy-MM-dd hh:mm')
+                td
+                  a(href=item.file.path, target="view_window") 预览
+                  span(style="margin: 0 10px;") |
+                  a(href=item.file.path, download=item.file.name) 下载
+  
+  script(src="js/hire.js")

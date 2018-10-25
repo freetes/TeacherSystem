@@ -1,0 +1,77 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="css/companyStyle.css")
+
+  .container-fluid
+    .title
+      h3 企业故事
+
+    .info
+      div.titleAndButton
+        h4= company.name
+        .tools
+          button.btn(onclick="editCompanyInfo()", style="padding: 5px 20px;") 编辑
+      div.infoAndLogo
+        div(style="display: flex; flex-direction: column; justify-content: space-around")
+          p(style='margin: 0; padding-top: 15px')
+            label 公司简称：
+            span= company.subName
+          p(style='margin: 0; padding-top: 15px')
+            label 所属行业：
+            span= company.industry
+          p(style='margin: 0; padding-top: 15px')
+            label 公司地址：
+            span !{!!company.location?company.location.split(`\n`).join('<br>'):''}
+        div(style="display: flex; flex-direction: row;")
+          each item in company.logo
+            div.logoImg
+              a(href=item.path, target="_blank")
+                img(src=item.path)
+              a.link(href=item.path, download) #{item.name}
+          div.logoImg
+            a(href='', target="_blank")
+              img(src='', alt='二维码')
+      div
+        label 公司简介：
+        div(style='margin-left: 80px; margin-top: -25px; margin-bottom: 10px') !{!!company.introduction?company.introduction.split(`\n`).join('<br>'):''}
+      div
+        label 公司福利：
+        div(style='margin-left: 80px; margin-top: -25px; margin-bottom: 10px') !{!!company.welfare?company.welfare.split(`\n`).join('<br>'):''}
+      div.goodImgsDiv
+        label 风采展示：
+        -if(company.img.length > 3)
+          span.left(onclick="moveImgsDiv(-1, #{company.img.length-3})") ＜
+        .imgsDiv
+          each item in company.img
+            div.imgDiv
+              a(href=item.path, target="_blank")
+                img(src=item.path)
+              a.link(href=item.path, download) #{item.name}
+        -if(company.img.length > 3)
+          span.right(onclick="moveImgsDiv(1, #{company.img.length-3})") ＞
+
+    .news
+      div.titleAndButton
+        h4.newsTitle 企业新闻
+        .tools
+          button.btn(onclick="createCompanyNews()") 新增企业新闻
+      
+      -news.sort((a, b)=>(new Date(b.date)) - (new Date(a.date)))
+      each item in news
+        .new
+          p
+            //- span.tag #{item.operator}
+            a(href=item.link) #{item.title}
+          p.introduction= item.introduction
+          .tags
+            span.time(style="background-color: white; color: gray; font-size: 12px; margin-right: 10px") #{(new Date(item.date)).format('yyyy-MM-dd hh:mm')}
+
+            span.small 标签：
+            -if(item.tag && item.tag.length!=0)
+              each tag in item.tag
+                span.tag(onclick="countAddOne('"+ item._id +"', '"+tag.name+"')") #{tag.name} x#{tag.count} 
+
+            span.tag(style="background-color: lightgray; color: white", onclick="addTags('"+ item._id +"')") +
+
+  script(src="/js/company.js")

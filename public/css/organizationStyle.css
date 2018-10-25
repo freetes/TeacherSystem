@@ -1,0 +1,80 @@
+
+#content .container-fluid{
+  display: flex;
+  flex-direction: row
+}
+
+#content > .container-fluid > *{
+  box-shadow: 1px 1px 3px rgba(174, 174, 174, 0.35);
+}
+
+.departmentDetail{
+  display: flex;
+  flex: 2 2 auto;
+  flex-direction: column;
+}
+
+.title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-shadow: 0px 0px 3px rgba(174, 174, 174, 0.35);
+}
+
+.tools{
+  margin-left: 10px;
+}
+
+.departmentList{
+  width: 190px;
+  height: auto;
+}
+
+.departmentList > div{
+  margin-top: 10px;
+}
+
+.departmentList h3 {
+  box-shadow: 1px 1px 3px rgba(174, 174, 174, 0.35);
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.departmentList ul li, .departmentList li{
+  margin: 2px 0;
+  padding-left: 5px;
+  line-height: 30px;
+  height: 30px;
+}
+.departmentList ul{
+  margin: 2px 0;
+  margin-left: 10px;
+}
+.departmentList span{
+  cursor: pointer;
+}
+.glyphicon{
+  width:15px;
+}
+
+.departmentList li.selected{
+  background-color: #4A90E2;
+  color: white;
+}
+
+.departmentList li.selected > span{
+  color: white
+}
+
+.numberSpan{
+  height: 30px;
+  width: 40px;
+  text-align: right;
+  line-height: 30px;
+  float: right;
+  padding-right: 5px;
+  font-size: 14px;
+  font-weight: lighter;
+  color: black
+}

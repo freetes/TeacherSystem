@@ -1,0 +1,33 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+html{
+  background-color: white !important;
+}
+body{
+  position: absolute;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white !important;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a{
+  cursor: pointer;
+}
+
+.btn{
+  outline: 0;
+  border: none;
+}

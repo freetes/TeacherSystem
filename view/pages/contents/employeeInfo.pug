@@ -1,0 +1,561 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="/css/employeeInfoStyle.css")
+
+  .container-fluid
+
+    //- 新增
+    -if(!employee)
+      .title
+        h2(style="margin-left: 10%;") #{title}
+      .infoDetail
+        .infoMenu
+          li: a(href="#基本信息") 基本信息
+          li: a(href="#联系方式") 联系方式
+          li: a(href="#工作信息") 工作信息
+          li: a(href="#工资卡信息") 工资卡信息
+          li: a(href="#学历信息") 学历信息
+          li: a(href="#合同信息") 合同信息
+
+        form.form.form-horizontal
+          h3
+            a(name="基本信息") 基本信息
+          div
+            div
+              label(for='') *姓名:
+              input(type='text', name="personalInfo.name", required)
+            div
+              label(for='') 出生日期:
+              input(type='date', name="personalInfo.birthday")
+            div
+              label(for='') 性别:
+              select(name="personalInfo.gender")
+                option(value="") 请选择
+                option(value='0') 男
+                option(value='1') 女
+            div
+              label(for='') 民族:
+              select.groupSelect(name="personalInfo.group")
+                option(value="") 请选择
+              script.
+                $.get('/json/groups.json').done(data=>{
+                  for(let item of data.data){
+                    $(".groupSelect").append($(`<option value="${item.name}"></option>`).text(item.name))
+                  }
+                })
+            div
+              label(for='') 政治面貌:
+              input(type='text', name="personalInfo.politicalStatus")
+            div
+              label(for='') 婚姻状况:
+              select(name="personalInfo.marital")
+                option(value="") 请选择
+                option(value='未婚') 未婚
+                option(value='已婚') 已婚
+                option(value='离异') 离异
+                option(value='保密') 保密
+            div
+              label(for='') 生育情况:
+              select(name="personalInfo.hadChild")
+                option(value="") 请选择
+                option(value='未育') 未育
+                option(value='已育') 已育
+            div
+              label(for='') 户籍类型:
+              select(name="personalInfo.householdKind")
+                option(value="") 请选择
+                option(value='中心城区非农业户口') 中心城区非农业户口
+                option(value='中心城区农业户口') 中心城区农业户口
+                option(value='非中心城区非农业户口') 非中心城区非农业户口
+                option(value='非中心城区农业户口') 非中心城区农业户口
+                option(value='港澳台人员') 港澳台人员
+                option(value='外籍人员') 外籍人员
+                option(value='现役军人') 现役军人
+            div
+              label(for='') 户籍地址:
+              input(type='text', name="personalInfo.householdLocation")
+            div
+              label(for='') 现居地址:
+              input(type='text', name="personalInfo.nowLocation")
+            div
+              label(for='') 证件类型:
+              select(name="personalInfo.idcard.kind")
+                option(value="") 请选择
+                option(value='身份证') 身份证
+                option(value='护照') 护照
+            div
+              label(for='') 证件号码:
+              input(type='text', name="personalInfo.idcard.number")
+            div
+              label(for='') 证件有效期:
+              input(type='date', name="personalInfo.idcard.validDate.begin")
+              span 至
+              input(type='date', name="personalInfo.idcard.validDate.end")
+
+          br
+          h3
+            a(name="联系方式") 联系方式
+          div
+            div
+              label(for='') *手机号码:
+              input(type='text', name="contactInfo.telephone", required)
+            div
+              label(for='') 个人邮箱:
+              input(type='text', name="contactInfo.email")
+            div
+              label(for='') 微信:
+              input(type='text', name="contactInfo.wechat")
+            div
+              label(for='') QQ:
+              input(type='text', name="contactInfo.qq")
+            div
+              label(for='') 紧急联系人:
+              input(type='text', name="contactInfo.emergencyContact.name")
+            div
+              label(for='') 紧急联系人关系:
+              input(type='text', name="contactInfo.emergencyContact.relationship")
+            div
+              label(for='') 紧急联系人电话:
+              input(type='text', name="contactInfo.emergencyContact.number")
+            
+          br
+          h3
+            a(name="工作信息") 工作信息
+          div
+            div
+              label(for='') *部门:
+              select.employeeType(name="companyInfo.department", required)
+                option(value="") 请选择
+                each item in company.department
+                  option(value=item.name) #{item.name}
+                  -if(item.subDepartment.length!=0)
+                    each subItem in item.subDepartment
+                      option(value=item.name+'-'+subItem.name) #{item.name}-#{subItem.name}
+            div
+              label(for='') *职务:
+              input(type='text', name="companyInfo.job", required)
+            div
+              label(for='') *工号:
+              input(type='text', name="companyInfo.employeeID", required)
+            div
+              label(for='') *入职日期:
+              input(type='date', name="statusChange.entry.date", value=(new Date(Date.now()).format('yyyy-MM-dd')), required)
+            div
+              label(for='') *员工类型:
+              select.employeeType(name="companyInfo.employeeType", required)
+                option(value="") 请选择
+                option(value="全职") 全职
+                option(value="实习") 实习
+                option(value="兼职") 兼职
+            script.
+              $(".employeeType").change(function(){
+                if($(this).val() != '全职'){
+                  $(".employeeTypeMore").css('display','none')
+                }
+                else{
+                  $(".employeeTypeMore").css('display','block')
+                }
+              })
+            div.employeeTypeMore(style="display: none")
+              label(for='') *试用期:
+              select(name="entry.hasTryTime")
+                option(value='0') 无试用期
+                option(value='1') 1个月
+                option(value='2') 2个月
+                option(value='3') 3个月
+                option(value='4') 4个月
+                option(value='5') 5个月
+                option(value='6') 6个月
+            //- div.employeeTypeMore(style="display: none")
+            //-   label(for='') 转正日期:
+            //-   input(type='date', name="entry.turnTime")
+            div
+              label(for='') 公司邮箱:
+              input(type='text', name="companyInfo.companyEmail")
+            
+          br
+          h3
+            a(name="工资卡信息") 工资卡信息
+          div
+            div
+              label(for='') 开户行:
+              input(type='text', name="bankCard.bank")
+            div
+              label(for='') 开户支行地址:
+              input(type='text', name="bankCard.address")
+            div
+              label(for='') 银行卡号:
+              input(type='text', name="bankCard.number")
+          
+          br
+          h3
+            a(name="学历信息") 学历信息
+          div
+            div.educationDiv
+              label(for='') 第1学历
+              div
+                label(for='') 学历:
+                select(name="educationInfo.level")
+                  option(value="") 请选择
+                  option(value="本科") 本科
+                  option(value="硕士") 硕士
+                  option(value="博士") 博士
+                  option(value="博士以上") 博士以上
+                  option(value="专科") 专科
+                  option(value="专科以下") 专科以下
+                div
+                  label(for='') 毕业院校:
+                  input(type='text', name="educationInfo.school")
+                div
+                  label(for='') 专业:
+                  input(type='text', name="educationInfo.major")
+                div
+                  label(for='') 就读日期:
+                  input(type='date', name="educationInfo.time.begin")
+                  span 至
+                  input(type='date', name="educationInfo.time.end")
+
+          .btnsDiv
+            span.btn.btn-default(onclick="addEducationDiv()") 新增学历
+            span.btn.btn-danger.deleteEducationDivBtn(style="display: none", onclick="deleteEducationDiv()") 删除
+
+          br
+          h3
+            a(name="合同信息") 合同信息
+          div
+            div
+              label(for='') 合同开始日期:
+              input(type='date', value=(new Date(Date.now()).format('yyyy-MM-dd')), name="contract.begin")
+            div
+              label(for='') 合同结束日期:
+              input(type='date', name="contract.end")
+          
+          br
+          .btnsDiv
+            button.btn.btn-primary.addEmployeeBtn 确定入职
+            button.btn.btn-default 取消
+
+    -else
+      .title
+        h2(style="font-weight: lighter !important; margin-left: 10%;")
+          a(href="/employee") #{title} 
+          |   / #{employee.personalInfo.name}-#{employee.companyInfo.employeeID}
+        .tools
+          a.btn(onclick="javascript :history.back(-1);") 返回
+          -if(employee.companyInfo.employeeType != '全职')
+            a.btn(href="/employee/hire/" + employee.companyInfo.employeeID) 录用
+          -if(employee.companyInfo.status == '试用')
+            a.btn(href="/employee/turnPositive/" + employee.companyInfo.employeeID) 转正
+          a.btn(href="/employee/change/" + employee.companyInfo.employeeID) 调动
+          .btn-group
+            button.btn.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              span.glyphicon.glyphicon-option-horizontal
+            ul.dropdown-menu
+              li
+                a(href="/employee/resignation/" + employee.companyInfo.employeeID) 离职
+              li
+                a.deleteBtn(onclick="deleteEmployee('"+employee.companyInfo.employeeID+"')") 删除
+
+      .infoDetail
+        .infoMenu
+          li: a(href="#基本信息") 基本信息
+          li: a(href="#联系方式") 联系方式
+          li: a(href="#工作信息") 工作信息
+          li: a(href="#工资卡信息") 工资卡信息
+          li: a(href="#学历信息") 学历信息
+          li: a(href="#合同信息") 合同信息
+          li: a(href="#个人简历") 个人简历
+          li: a(href="#里程碑") 里程碑
+        
+        form.form.form-horizontal
+          h3
+            a(name="基本信息") 基本信息
+            span.editButton.small 编辑
+          div
+            div
+              label(for='') *姓名:
+              span.displaySpan= employee.personalInfo.name
+              input.newInput(type='text', name="personalInfo.name", value=employee.personalInfo.name)
+            div
+              label(for='') 出生日期:
+              span.displaySpan= (new Date(employee.personalInfo.birthday)).format('yyyy-MM-dd')
+              input.newInput(type='date', name="personalInfo.birthday", value=(new Date(employee.personalInfo.birthday)).format('yyyy-MM-dd'))
+            div
+              label(for='') 性别:
+              span.displaySpan= employee.personalInfo.gender=='0'?'男':'女'
+              select.newInput(name="personalInfo.gender")
+                  option(value='0', selected=employee.personalInfo.gender==0) 男
+                  option(value='1', selected=employee.personalInfo.gender==1) 女
+            div
+              label(for='') 民族:
+              span.displaySpan= employee.personalInfo.group
+              select.newInput.groupSelect(name="personalInfo.group", value=employee.personalInfo.group)
+              script.
+                $.get('/json/groups.json').done(data=>{
+                  for(let item of data.data){
+                    if($(".groupSelect").attr('value') == item.name)
+                      $(".groupSelect").append($(`<option value="${item.name}" selected></option>`).text(item.name))
+                    else $(".groupSelect").append($(`<option value="${item.name}"></option>`).text(item.name))
+                  }
+                })
+            div
+              label(for='') 政治面貌:
+              span.displaySpan= employee.personalInfo.politicalStatus
+              input.newInput(type='text', name="personalInfo.politicalStatus", value=employee.personalInfo.politicalStatus)
+            div
+              label(for='') 婚姻状况:
+              span.displaySpan= employee.personalInfo.marital
+              select.newInput(name="personalInfo.marital", value=employee.personalInfo.marital)
+                option(value='未婚', selected=employee.personalInfo.marital=='未婚') 未婚
+                option(value='已婚', selected=employee.personalInfo.marital=='已婚') 已婚
+                option(value='离异', selected=employee.personalInfo.marital=='离异') 离异
+                option(value='保密', selected=employee.personalInfo.marital=='保密') 保密
+            div
+              label(for='') 生育情况:
+              span.displaySpan= employee.personalInfo.hadChild
+              select.newInput(name="personalInfo.hadChild")
+                option(value='未育', selected=employee.personalInfo.hadChild=='未育') 未育
+                option(value='已育', selected=employee.personalInfo.hadChild=='已育') 已育
+            div
+              label(for='') 户籍类型:
+              span.displaySpan= employee.personalInfo.householdKind
+              select.newInput(name="personalInfo.householdKind")
+                option(value='中心城区非农业户口', selected=employee.personalInfo.householdKind=='中心城区非农业户口') 中心城区非农业户口
+                option(value='中心城区农业户口', selected=employee.personalInfo.householdKind=='中心城区农业户口') 中心城区农业户口
+                option(value='非中心城区非农业户口', selected=employee.personalInfo.householdKind=='非中心城区非农业户口') 非中心城区非农业户口
+                option(value='非中心城区农业户口', selected=employee.personalInfo.householdKind=='非中心城区农业户口') 非中心城区农业户口
+                option(value='港澳台人员', selected=employee.personalInfo.householdKind=='港澳台人员') 港澳台人员
+                option(value='外籍人员', selected=employee.personalInfo.householdKind=='外籍人员') 外籍人员
+                option(value='现役军人', selected=employee.personalInfo.householdKind=='现役军人') 现役军人
+            div
+              label(for='') 户籍地址:
+              span.displaySpan= employee.personalInfo.householdLocation
+              input.newInput(type='text', name="personalInfo.householdLocation", value=employee.personalInfo.householdLocation)
+
+            div
+              label(for='') 现居地址:
+              span.displaySpan= employee.personalInfo.nowLocation
+              input.newInput(type='text', name="personalInfo.nowLocation", value=employee.personalInfo.nowLocation)
+
+            div
+              label(for='') 证件类型:
+              span.displaySpan= employee.personalInfo.idcard.kind
+              select.newInput(name="personalInfo.idcard.kind")
+                option(value='身份证', selected=employee.personalInfo.idcard.kind=='身份证') 身份证
+                option(value='护照', selected=employee.personalInfo.idcard.kind=='护照') 护照
+            div
+              label(for='') 证件号码:
+              span.displaySpan= employee.personalInfo.idcard.number
+              input.newInput(type='text', name="personalInfo.idcard.number", value=employee.personalInfo.idcard.number)
+
+            div
+              label(for='') 证件有效期:
+              span.displaySpan= employee.personalInfo.idcard.validDate.begin == undefined ? '未填':(new Date(employee.personalInfo.idcard.validDate.begin)).format('yyyy-MM-dd')
+              input.newInput(type='date', name="personalInfo.idcard.validDate.begin", value=(new Date(employee.personalInfo.idcard.validDate.begin)).format('yyyy-MM-dd'))
+              span 至
+              span.displaySpan= employee.personalInfo.idcard.validDate.end == undefined ? '未填':(new Date(employee.personalInfo.idcard.validDate.end)).format('yyyy-MM-dd')
+              input.newInput(type='date', name="personalInfo.idcard.validDate.end", value=(new Date(employee.personalInfo.idcard.validDate.end)).format('yyyy-MM-dd'))
+          br
+
+          h3
+            a(name="联系方式") 联系方式
+          div
+            div
+              label(for='') *手机号码:
+              span.displaySpan= employee.contactInfo.telephone
+              input.newInput(type='text', name="contactInfo.telephone", value=employee.contactInfo.telephone)
+            div
+              label(for='') 个人邮箱:
+              span.displaySpan= employee.contactInfo.email
+              input.newInput(type='text', name="contactInfo.email", value=employee.contactInfo.email)
+            div
+              label(for='') 微信:
+              span.displaySpan= employee.contactInfo.wechat
+              input.newInput(type='text', name="contactInfo.wechat", value=employee.contactInfo.wechat)
+            div
+              label(for='') QQ:
+              span.displaySpan= employee.contactInfo.qq
+              input.newInput(type='text', name="contactInfo.qq", value=employee.contactInfo.qq)
+            div
+              label(for='') 紧急联系人:
+              span.displaySpan= employee.contactInfo.emergencyContact.name
+              input.newInput(type='text', name="contactInfo.emergencyContact.name", value=employee.contactInfo.emergencyContact.name)
+            div
+              label(for='') 紧急联系人关系:
+              span.displaySpan= employee.contactInfo.emergencyContact.relationship
+              input.newInput(type='text', name="contactInfo.emergencyContact.relationship", value=employee.contactInfo.emergencyContact.relationship)
+            div
+              label(for='') 紧急联系人电话:
+              span.displaySpan= employee.contactInfo.emergencyContact.number
+              input.newInput(type='text', name="contactInfo.emergencyContact.number", value=employee.contactInfo.emergencyContact.number)
+
+          br
+
+          h3
+            a(name="工作信息") 工作信息
+            span.small
+          div
+            div
+              label(for='') *部门:
+              span.displaySpan= employee.companyInfo.department
+              input.newInput(type="text", value=employee.companyInfo.department, readonly)
+              
+            div
+              label(for='') *职务:
+              span.displaySpan= employee.companyInfo.job
+              input.newInput(type='text', name="companyInfo.job", value=employee.companyInfo.job, readonly)
+            div
+              label(for='') *工号:
+              span.displaySpan= employee.companyInfo.employeeID
+              input.newInput(type='text', name="companyInfo.employeeID", value=employee.companyInfo.employeeID)
+            div
+              label(for='') *员工类型:
+              span.displaySpan= employee.companyInfo.employeeType
+              input.newInput.employeeType(name="companyInfo.employeeType", value=employee.companyInfo.employeeType, readonly)
+            div
+              label(for='') *员工状态:
+              span.displaySpan= employee.companyInfo.status
+              input.newInput.employeeType(name="companyInfo.employeeType", value=employee.companyInfo.status, readonly)
+            div
+              label(for='') *入职日期:
+              span.displaySpan= ((new Date(employee.statusChange.entry.date)).format('yyyy-MM-dd'))
+              input.newInput(type='date', name="statusChange.entry.date", value=((new Date(employee.statusChange.entry.date)).format('yyyy-MM-dd')))
+            div
+              label(for='') 公司邮箱:
+              span.displaySpan= employee.companyInfo.companyEmail
+              input.newInput(type='text', name="companyInfo.companyEmail", value=employee.companyInfo.companyEmail)
+            
+            //- -if(employee.companyInfo.status == '正式')
+            //-   div
+            //-     label(for='') *转正日期:
+            //-     span.displaySpan= (new Date(employee.statusChange.turnPositive.date).format('yyyy-MM-dd'))
+            //-     input.newInput(type='date', name="statusChange.turnPositive.date", value=(new Date(employee.statusChange.turnPositive.date).format('yyyy-MM-dd')), readonly)
+            
+            //- -if(employee.companyInfo.status == '正式')
+            //-   div
+            //-     label(for='') 转正类型:
+            //-     span.displaySpan= employee.statusChange.turnPositive.kind
+            //-     input.newInput(type='text', name="statusChange.turnPositive.kind", value=employee.statusChange.turnPositive.kind, readonly)
+
+            div
+              label(for='') 工龄:
+              span #{Math.ceil((new Date(Date.now())-new Date(employee.statusChange.entry.date))/(1000 * 60 * 60 * 24))}天
+          br
+
+          h3
+            a(name="工资卡信息") 工资卡信息
+          div
+            div
+              label(for='') 开户行:
+              span.displaySpan= employee.bankCard.bank
+              input.newInput(type='text', name="bankCard.bank", value=employee.bankCard.bank)
+            div
+              label(for='') 开户支行地址:
+              span.displaySpan= employee.bankCard.address
+              input.newInput(type='text', name="bankCard.address", value=employee.bankCard.address)
+            div
+              label(for='') 银行卡号:
+              span.displaySpan= employee.bankCard.number
+              input.newInput(type='text', name="bankCard.number", value=employee.bankCard.number)
+          br
+
+          h3
+            a(name="学历信息") 学历信息
+          div
+            -if(employee.educationInfo.length == 0)
+              div.educationDiv
+                label(for='') 无学历信息
+
+            -else
+              -let count = 0
+              each item in employee.educationInfo
+                div.educationDiv
+                  label(for='') 第#{++count}学历
+                  div
+                    label(for='') 学历:
+                    span.displaySpan= item.level
+                    input.newInput(name="educationInfo.level", value=item.level)
+                  div
+                    label(for='') 毕业院校:
+                    span.displaySpan= item.school
+                    input.newInput(type='text', name="educationInfo.school", value=item.school)
+                  div
+                    label(for='') 专业:
+                    span.displaySpan= item.major
+                    input.newInput(type='text', name="educationInfo.major", value=item.major)
+                  div
+                    label(for='') 就读日期:
+                    span.displaySpan= (new Date(item.time.begin)).format('yyyy-MM-dd')
+                    input.newInput(type='date', name="educationInfo.time.begin", value=(new Date(item.time.begin)).format('yyyy-MM-dd'))
+                    span 至
+                    span.displaySpan= (new Date(item.time.end)).format('yyyy-MM-dd')
+                    input.newInput(type='date', name="educationInfo.time.end", value=(new Date(item.time.end)).format('yyyy-MM-dd'))
+
+            .btnsDiv(style="display: none")
+              a.btn(onclick="addEducationDiv()") 新增学历
+              a.btn.btn-danger.deleteEducationDivBtn(style="display: none", onclick="deleteEducationDiv()") 删除
+          br
+
+          h3
+            a(name="个人简历") 个人简历
+          div
+            -if((typeof employee.personalInfo.resume.name) == 'undefined')
+              .btnsDiv
+                a.btn(onclick=`addResume('${employee.companyInfo.employeeID}')`, style="background-color: white !important; color: black; border: 2px dashed #4A90E2") 添加个人简历
+            -else
+              div.resumeDiv
+                label(for="") 简历文件：
+                span.displaySpan #{employee.personalInfo.resume.name}
+                a(target="view_window", style="color: #4A90E2; display: none", href=`${employee.personalInfo.resume.path}`) 预览
+                a(target="download", style="color: #4A90E2; display: none", href=`${employee.personalInfo.resume.path}`) 下载
+                a(style="color: #4A90E2; display: none", onclick=`addResume('${employee.companyInfo.employeeID}')`) 重新上传
+                a(style="color: #4A90E2; display: none", onclick=`deleteResumeModal('${employee.companyInfo.employeeID}')`) 删除
+
+              .btnsDiv
+          br
+
+          h3
+            a(name="合同信息") 合同信息
+          div
+            div
+              label(for='') 合同开始日期:
+              span.displaySpan= (new Date(employee.contract.begin).format('yyyy-MM-dd'))
+              input.newInput(type='date', name="contract.begin", value=(new Date(employee.contract.begin).format('yyyy-MM-dd')))
+            div
+              label(for='') 合同结束日期:
+              span.displaySpan= (new Date(employee.contract.end).format('yyyy-MM-dd'))
+              input.newInput(type='date', name="contract.end", value=(new Date(employee.contract.end).format('yyyy-MM-dd')))
+          br
+
+          .btnsDiv
+            button.btn.btn-primary.addEmployeeBtn(style="display: none") 保存
+          
+          //- Done
+          h3
+            a(name="里程碑") 里程碑
+          div
+            -if(employee.statusChange.resignation.date)
+              div
+                label(for='') #{(new Date(employee.statusChange.resignation.date)).format('yyyy-MM-dd')}:
+                span #{employee.personalInfo.name}离开了公司
+            -if(employee.statusChange.change.length!=0)
+              -employee.statusChange.change.sort((a, b)=>new Date(b.date) - new Date(a.date))
+              each item in employee.statusChange.change
+                div
+                  label(for='') #{(new Date(item.date)).format('yyyy-MM-dd')}:
+                  span 从#{item.lastDepartment}的#{item.lastJob}#{item.kind}为#{item.nowDepartment}的#{item.nowJob}
+            -if(employee.statusChange.turnPositive.date)
+              div
+                label(for='') #{(new Date(employee.statusChange.turnPositive.date)).format('yyyy-MM-dd')}:
+                span #{employee.personalInfo.name} 转正了，转正类型为#{employee.statusChange.turnPositive.kind}
+            div
+              label(for='') #{(new Date(employee.statusChange.entry.date)).format('yyyy-MM-dd')}:
+              span #{employee.personalInfo.name}作为#{employee.companyInfo.employeeType}加入#{company.name}，在#{employee.companyInfo.department}担任#{employee.companyInfo.job}一职
+            
+            p(style="margin-bottom: 100px")
+  script(src="/js/ctrlEmployeeInfo.js")
+  script.
+    $(".resumeDiv").hover(function(){
+      $(this).find('a').toggle()
+    })

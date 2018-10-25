@@ -1,0 +1,226 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="/css/home.css")
+
+  .container-fluid
+    p hello, world
+  //- .container-fluid
+    .tools(style="display: flex; flex-direction: row; justify-content: space-between")
+      .left
+        span.suggestBtn.btn(onclick="togglePage(this, '.employeePage')") 员工
+        span.interviewBtn.btn(onclick="togglePage(this, '.hirePage')") 招聘
+
+    .pagesDiv
+      .employeePage.pageDiv
+        .contentDiv
+          span.title 整体概况
+          .employeeStatus
+            div
+              span 员工总数
+              h3= employees.length
+            div
+              span 男女比例
+              div#boyGirlDiv
+            div
+              span 员工状态
+              div#employeeStatusDiv
+            div
+              span 员工类型
+              div#employeeTypeDiv
+
+        .contentDiv
+          span.title 周期情况
+          .btns
+            span(onclick="toggleChangeInfo(this, 'today')") 今日
+            span(onclick="toggleChangeInfo(this, 'week')") 本周
+            span(onclick="toggleChangeInfo(this, 'month')") 本月
+          .changeInfoDiv
+            div
+              span 入职
+              h3.entry
+            div
+              span 转正
+              h3.turnPositive
+            div
+              span 调动
+              h3.change
+            div
+              span 离职
+              h3.resignation
+
+        .contentDiv
+          span.title 长期趋势
+          #futureDiv
+
+      .hirePage.pageDiv
+        //- 处理数据
+        -let offerJobKind = {ing: 0, done: 0, pause: 0}
+        -let offerJobAll = {waiter: 0, interview: 0, comer: 0, offer: 0}
+        -let offerJobAllToday = {waiter: 0, interview: 0, comer: 0, offer: 0}
+        -let offerJobAllWeek = {waiter: 0, interview: 0, comer: 0, offer: 0}
+        -let offerJobAllMonth = {waiter: 0, interview: 0, comer: 0, offer: 0}
+
+        -for(let item of offerJobs){
+          -item.today = {waiter: 0, interview: 0, comer: 0, offer: 0}
+          -item.week = {waiter: 0, interview: 0, comer: 0, offer: 0}
+          -item.month = {waiter: 0, interview: 0, comer: 0, offer: 0}
+          
+          -if(item.status == -1)
+            -offerJobKind.pause += 1
+          -else if(item.status == 1)
+            -offerJobKind.done += 1
+          -else
+            -offerJobKind.ing += 1
+
+          -item.waiter = 0
+          -item.interview = 0
+          -item.comer = 0
+          -item.offer = 0
+          -for(let suggest of suggests){
+            -if(suggest.offerJob.id == item._id){
+              -let date = new Date(suggest.date)
+              -let isToday = date.getYear() == new Date().getYear() && date.getMonth() == new Date().getMonth() && date.getDate() == new Date().getDate()
+              -let isWeek = date.getYear() == new Date().getYear() && date.getMonth() == new Date().getMonth() && date.getDate() == new Date().getDate()
+              -let isMonth = date.getYear() == new Date().getYear() && date.getMonth() == new Date().getMonth()
+              
+              -if(suggest.status != -1){
+                -item.waiter += 1
+                -offerJobAll.waiter += 1
+                -if(isToday){item.today.waiter += 1; offerJobAllToday.waiter += 1}
+                -if(isWeek){item.week.waiter += 1; offerJobAllWeek.waiter += 1}
+                -if(isMonth){item.month.waiter += 1; offerJobAllMonth.waiter += 1}
+              -}
+              -if(suggest.interviewStatus != undefined){
+                -item.interview += 1
+                -offerJobAll.interview += 1
+                -if(isToday){item.today.interview += 1; offerJobAllToday.interview += 1}
+                -if(isWeek){item.week.interview += 1; offerJobAllWeek.interview += 1}
+                -if(isMonth){item.month.interview += 1; offerJobAllMonth.interview += 1}
+              -}
+              -if(suggest.rounds.length != 0)
+                -if(suggest.rounds[0].status != -2){
+                  -item.comer += 1
+                  -offerJobAll.comer += 1
+                  -if(isToday){item.today.comer += 1; offerJobAllToday.comer += 1}
+                  -if(isWeek){item.week.comer += 1; offerJobAllWeek.comer += 1}
+                  -if(isMonth){item.month.comer += 1; offerJobAllMonth.comer += 1}
+                -}
+              -if(suggest.offer != undefined){
+                -item.offer += 1
+                -offerJobAll.offer += 1
+                -if(isToday){item.today.offer += 1; offerJobAllToday.offer += 1}
+                -if(isWeek){item.week.offer += 1; offerJobAllWeek.offer += 1}
+                -if(isMonth){item.month.offer += 1; offerJobAllMonth.offer += 1}
+              -}
+            -}
+          -}
+        -}
+
+        .contentDiv
+          span.title 整体概况
+          div.offerJobStatus
+            div
+              span 招聘中
+              h3= offerJobKind.ing
+            div
+              span 招聘暂停
+              h3= offerJobKind.pause
+            div
+              span 招聘完成
+              h3= offerJobKind.done
+          div
+            table.table.table-hover
+              thead
+                tr
+                  th 在招职位
+                  th 所有候选人
+                  th 约面
+                  th 面试到访
+                  th Offer
+                  th 招聘负责人
+                  th 期望到岗日期
+                  th 开始日期
+              tbody
+                each item in offerJobs
+                  tr
+                    td= item.name
+                    td= item.waiter
+                    td= item.interview
+                    td= item.comer
+                    td= item.offer
+                    td= item.leader
+                    td= (item.date != null?(new Date(item.date)).format('yyyy-MM-dd'):'')
+                    td= (item.beginDate != null?(new Date(item.beginDate)).format('yyyy-MM-dd'):'')
+
+                tr
+                  td 合计
+                  td= offerJobAll.waiter
+                  td= offerJobAll.interview
+                  td= offerJobAll.comer
+                  td= offerJobAll.offer
+                  td
+                  td
+                  td
+
+        .contentDiv
+          span.title 周期情况
+          .btns
+            span(onclick="toggleTbody(this, '.todayTbody')") 今日
+            span(onclick="toggleTbody(this, '.weekTbody')") 本周
+            span(onclick="toggleTbody(this, '.monthTbody')") 本月
+          
+          .tablesDiv
+            table.table.table-hover
+              thead
+                tr
+                  th 在招职位
+                  th 新增候选人
+                  th 约面
+                  th 面试到访
+                  th Offer
+              tbody.todayTbody(style="display: none")
+                each item in offerJobs
+                  tr
+                    td= item.name
+                    td= item.today.waiter
+                    td= item.today.interview
+                    td= item.today.comer
+                    td= item.today.offer
+                tr
+                  td 合计
+                  td= offerJobAllToday.waiter
+                  td= offerJobAllToday.interview
+                  td= offerJobAllToday.comer
+                  td= offerJobAllToday.offer
+              tbody.weekTbody(style="display: none")
+                each item in offerJobs
+                  tr
+                    td= item.name
+                    td= item.week.waiter
+                    td= item.week.interview
+                    td= item.week.comer
+                    td= item.week.offer
+                tr
+                  td 合计
+                  td= offerJobAllWeek.waiter
+                  td= offerJobAllWeek.interview
+                  td= offerJobAllWeek.comer
+                  td= offerJobAllWeek.offer
+              tbody.monthTbody(style="display: none")
+                each item in offerJobs
+                  tr
+                    td= item.name
+                    td= item.month.waiter
+                    td= item.month.interview
+                    td= item.month.comer
+                    td= item.month.offer
+                tr
+                  td 合计
+                  td= offerJobAllMonth.waiter
+                  td= offerJobAllMonth.interview
+                  td= offerJobAllMonth.comer
+                  td= offerJobAllMonth.offer
+        
+  script(src="/js/home.js")
+  

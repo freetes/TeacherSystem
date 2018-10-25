@@ -1,0 +1,178 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+nav{
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  width: 94%;
+  margin: 0 3%;
+  background-color: white;
+  box-shadow: 1px 1px 3px rgba(174, 174, 174, 0.35);
+  margin-bottom: 10px;
+}
+
+nav > a{
+  font-size: 18px;
+  color: #003138;
+}
+
+nav > li.dropdown a{
+  font-size: 12px;
+}
+
+nav > *{
+  margin: 0 10px;
+  background-color: white !important;
+}
+
+#container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 3%;
+}
+
+#container > *{
+  /* box-shadow: 1px 1px 3px rgba(174, 174, 174, 0.35); */
+}
+
+#menu{
+  position: fixed;
+  left: 3%;
+  top: 60px;
+  width: 140px;
+  display: flex;
+  flex-direction: row;
+  
+}
+#menu > ul{
+  box-shadow: 1px 1px 3px rgba(174, 174, 174, 0.35);
+}
+#menu li{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  width: 120px;
+  height: 40px;
+  background-color: white;
+}
+
+#menu li a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  cursor: pointer;
+}
+#menu li a > *{
+  margin: 0 3px;
+}
+a{
+  color: black;
+  cursor: pointer;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+#menu li.selected{
+  background-color: #4A90E2;
+}
+
+#menu li.selected > a{
+  color: white
+}
+
+.hiddenBtn{
+  border: none;
+  display: flex;
+  align-self: flex-start;
+  padding: 0 5px;
+  width: 20px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+  outline: none;
+}
+.hiddenBtn:hover{
+  background-color: #4A90E2;
+  color: white;
+}
+
+#content{
+  margin-top: 60px;
+  margin-left: 140px;
+  flex: 2 2 auto;
+}
+#content .container-fluid{
+  margin: 0;
+  padding: 0;
+}
+#content .container-fluid > *{
+  margin-left: 15px;
+  background-color: white;
+}
+
+li{
+  list-style: none;
+}
+#menu img{
+  width: 20px;
+  height: 20px;
+}
+
+.none{
+  display: none
+}
+
+.modal-body table{
+  text-align: left;
+}
+
+.modal-body form{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.modal-body form > div{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-body form > div > label{
+  width: 25%;
+  text-align: right;
+}
+
+.modal-body form > div > input,
+.modal-body form > div > select,
+.modal-body form > div > textarea{
+  margin: 0 !important;
+  padding: 5px 10px;
+  width: 65%;
+  /* text-align: right; */
+}
+.modal-body form > button{
+  align-self: center;
+}
+#alertInfoModal{
+  z-index: 9999;
+}

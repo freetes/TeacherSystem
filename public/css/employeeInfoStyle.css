@@ -1,0 +1,108 @@
+#content .container-fluid{
+  display: flex;
+  flex-direction: column;
+}
+
+.title{
+  padding-top: 20px;
+}
+label{
+  font-weight: normal !important;
+  color: gray;
+  padding-right: 0px !important;
+}
+
+.infoDetialNav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoDetail{
+  display: flex;
+  flex-direction: row;
+}
+
+.infoDetail > form > div > * {
+  margin: 5px
+}
+.infoDetail > form > div > div > * {
+  margin: 0 5px
+}
+.infoMenu{
+  position: fixed;
+  display: block;
+  padding-left: 20px
+}
+
+.infoMenu li a{
+  display: block;
+  padding: 3px 3px;
+  color: gray;
+  border-right: 2px solid #BCBCBC;
+}
+
+form.form{
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+  flex: 2 2 auto;
+}
+
+form.form > div{
+  width: 100%;
+}
+
+.form label{
+  width: 20%;
+  text-align: right
+}
+
+.form > h3{
+  margin-left: 10%;
+}
+
+
+.form input, .form select {
+  width: 250px;
+  margin: 5px 10px
+}
+
+.form .btnsDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 20%;
+}
+
+.container-fluid > .title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center
+}
+.container-fluid > .title > *{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+input{
+  height: 34px;
+  padding: 0 4px
+}
+
+a.select{
+  /* font-size: 16px; */
+  color: black !important;
+  border-right: 2px solid black !important;
+}
+
+span.small{
+  margin-left: 10px;
+}
+
+.newInput{
+  display: none
+}

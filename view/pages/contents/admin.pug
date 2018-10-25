@@ -1,0 +1,29 @@
+extends ../index.pug
+
+block content
+  .container-fluid
+    .title
+      h3 账号管理
+
+    .btnsDiv
+      button.btn(onclick="addUserBtn()") 新建
+    div
+      table.table.table-hover
+        thead
+          tr
+            th 登录邮箱
+            th 姓名
+            th 密码
+            th 操作
+        tbody
+          each item in users
+            tr
+              td= item.email
+              td= item.name
+              td= item.password
+              td
+                span(style="background-color: #4A90E2; color: white; padding: 5px 10px", onclick="resetPassword('"+ item.email+ "')") 重置密码
+                span(style="margin-left: 20px; color: gray", onclick=`showDeleteModal("${item.email}")`) 删除
+
+  script(src='/js/admin.js')
+    

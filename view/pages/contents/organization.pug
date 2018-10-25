@@ -1,0 +1,86 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="css/organizationStyle.css")
+  
+  //- 处理部门人数
+  -let number = {}
+  -for(let employee of employees){
+    -if(!number[`${employee.companyInfo.department}`]){
+      -number[`${employee.companyInfo.department}`] = 1
+    -}
+    -else{
+      -number[`${employee.companyInfo.department}`]++
+    -}
+  -}
+  .container-fluid
+    .departmentList
+      h3 #{title.split('-')[1]}
+      div
+        li
+          span.glyphicon.glyphicon-menu-down
+          span.companySubName #{company.subName}
+          span.numberSpan= employees.length
+        ul
+          -if(company.department.length == 0){
+            p 无部门
+          -}
+          -else{
+            each item in company.department
+              -if(item.subDepartment && item.subDepartment.length == 0){
+                li 
+                  span.glyphicon
+                  span.departmentName(value=item.name) #{item.name}
+                  span.numberSpan= number[`${item.name}`]
+              -}
+              -else{
+                li 
+                  span.glyphicon.glyphicon-menu-down
+                  span.hasSubDepartmentSpan.departmentName(value=item.name) #{item.name}
+                  span.numberSpan= number[`${item.name}`]
+                ul
+                  each subItem in item.subDepartment
+                    li 
+                      span.glyphicon
+                      span.departmentName(value=item.name+'-'+subItem.name) #{subItem.name}
+                      span.numberSpan= number[`${item.name}-${subItem.name}`]
+              -}
+          -}
+    .departmentDetail
+      .title
+        h3.selectedDepartment
+        .tools
+          .btn-group
+            button.btn.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', style="line-height: 14px;")
+              |  操作
+              span.caret
+            ul.dropdown-menu
+              li
+                a(onclick="changeDepartmentName()") 修改部门名
+              li
+                a(onclick="addSubDepartment()") 新建子部门
+              li
+                a(onclick="deleteDepartment()") 删除本部门
+        
+      table.table.table-hover
+        thead
+          tr
+            th 工号
+            th 姓名
+            th 部门
+            th 职位
+            th 手机号
+            th 入职日期
+            th 员工类型
+        tbody.employeeList
+          each employee in employees
+            tr(onclick=`location.href='/employee/${employee.companyInfo.employeeID}'`)
+              td= employee.companyInfo.employeeID
+              td= employee.personalInfo.name
+              td= employee.companyInfo.department
+              td= employee.companyInfo.job
+              td= employee.contactInfo.telephone
+              td= (new Date(employee.statusChange.entry.date)).format('yyyy-MM-dd')
+              td= employee.companyInfo.employeeType
+
+  script(src="js/ctrlOrganization.js")

@@ -1,0 +1,230 @@
+.container-fluid{
+  background-color: rgba(0, 0, 0, 0) !important
+}
+
+.container-fluid > *{
+  background-color: rgba(0, 0, 0, 0) !important
+}
+
+.canvas{
+  max-width: 100%;
+  height: 100%;
+  overflow-x: scroll;
+}
+.lists{
+  width: 400%;
+  padding: 10px 0;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar{
+  display:none;
+}
+
+.list{
+  float: left;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px !important;
+  margin-bottom: 20px;
+}
+
+.list>.tools{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center
+}
+.list>.items{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.item{
+  background-color: #fff !important;
+  border: 1px solid lightgray;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px 0;
+  width: 100%;
+  height: auto;
+}
+.item > *{
+  margin: 5px 10px;
+  max-width: 280px;
+  word-break:break-all;
+  white-space: pre-wrap;
+  font-size: 16px;
+  font-weight: lighter !important;
+}
+.item > span.small{
+  color: gray;
+  padding-left: 10px;
+}
+
+.addOneList{
+  height: 40px;
+  padding: 0;
+  background-color: lightgray !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.item.addOneList{
+  background-color: #fff !important;
+  color: #777
+}
+
+.infoDiv{
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  right: 0%;
+  width: 600px;
+  background-color: white !important;
+  box-shadow: -5px -5px 5px rgba(174, 174, 174, 0.35);
+  height: 800px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.infoDiv > .header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  height: 50px;
+}
+.infoDiv > .header > .left{
+  width: 500px;
+  height: 50px;
+  line-height: 50px;
+}
+.infoDiv > .header > .left > *{
+  display: block;
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  width: 50px;
+}
+.infoDiv > .header > .right{
+  width: 100px;
+}
+.infoDiv > .header .name{
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 50px;
+  width: 450px;
+  text-overflow: ellipsis;
+}
+
+.infoDiv > .mainInfo{
+  display: flex;
+  max-height: 150px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0 20px;
+  border-bottom: 1px solid lightgray
+}
+
+.infoDiv > .mainInfo > div:last-child{
+  display: flex;
+  flex-direction: row;
+}
+
+.description{
+  background-color: #fff;
+  border: none;
+  max-height: 120px;
+  overflow: auto;
+  width: 500px;
+  white-space: pre-wrap;
+  margin-left: 10px;
+  margin-top: 0px;
+  padding: 0;
+}
+
+.infoDiv > .content{
+  height: 380px;
+  max-height: 50%;
+  overflow-y: scroll;
+  margin: 2% 20px;
+}
+
+.infoDiv > .input{
+  z-index: 9999;
+  position: absolute;
+  background-color: #fff;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  max-height: 25%;
+  overflow-y: auto;
+  border-top: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+}
+
+.input > .inputDiv{
+  margin-top: 40px;
+  width: 100%;
+}
+.input > .tools{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  /* padding: 5px 5px; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 1px solid lightgray
+}
+
+.dropdown-menu{
+  z-index: 9999
+}
+#editor ol > li, .w-e-text ol > li, .content ol > li, .description ol > li{
+  margin-left: 20px;
+  list-style-type: decimal
+}
+#editor ul > li, .w-e-text ul > li, .content ul > li, .description ul > li{
+  list-style-type: disc
+}
+
+.remark{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: 5px 10px;
+}
+
+.remark li{
+  margin-left: 20px;
+}
+
+.remark > div:last-child{
+  align-self: flex-end
+}
+
+.deleteRemarkBtn{
+  cursor: pointer;
+  color: gray;
+}

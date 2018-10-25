@@ -1,58 +1,46 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-// var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose')
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const bodyParser = require('body-parser');
 
-// 连接数据库
-mongoose.connect('mongodb://localhost/TeacherSystem', err=>{
-    if(err)
-        console.log("数据库连接失败，可能是服务未开启！");
-    else
-        console.log("数据库连接成功！");
-});
+const home = require('./router/home');
+const account = require('./router/account');
+const employee = require('./router/employee');
+const api = require('./router/api');
 
-var home = require('./routes/home');
-var user = require('./routes/user');
-var secretary = require('./routes/secretary');
-var admin = require('./routes/admin');
-var api = require('./routes/api');
-
-var app = express();
+const app = express();
 
 app.disable('x-powered-by');
 
 // view engine setup
-app.set('view cache', true)
-app.set('views', path.join(__dirname, 'views/page'));
-app.set('view engine', 'jade');
+// app.set('view cache', true);
+app.set('views', path.join(__dirname, 'view/pages'));
+app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// 日志
-// app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(cookieParser()); 
 app.use(session({
-  resave: true,
-  saveUninitialized: false,
-  secret: 'freetes'
+  resave: false,
+  saveUninitialized: true,
+  secret: 'freetes',
+  key: 'sessionid'
 }))
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', home);
-app.use('/users', user);
-app.use('/secretary', secretary);
-app.use('/admin', admin)
+app.use('/signin', account);
+app.use('/employee', employee);
 app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

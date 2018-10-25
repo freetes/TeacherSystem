@@ -1,0 +1,100 @@
+#content .container-fluid{
+  display: flex;
+  flex-direction: column
+}
+#content .container-fluid > *{
+  background-color: #fff !important;
+}
+
+.allData > .tools{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.allData > .tools >  div > *{
+}
+
+.tools > button.btn{
+  background-color: white;
+  color: black;
+  outline: none !important;
+  padding: 5px 15px;
+}
+
+.tools > button.btn.select{
+  border-bottom: 2px solid black;
+  outline: none !important;
+}
+.tools > button.btn:hover{
+  color: #4A90E2 !important;
+  outline: none !important;
+  background-color: white !important;
+}
+.tools > button.btn:focus{
+  outline: none;
+  color: black !important;
+  outline: none !important;
+
+}
+.tools > button.btn:active{
+  outline: none;
+  color: #4A90E2 !important;
+  outline: none !important;
+}
+
+.filterForm{
+  display: none;
+  margin: 10px 0;
+  margin-left: 15px;
+}
+.filterForm > *{
+  padding: 0 10px
+}
+.filterForm button{
+  border: none
+}
+.filterForm input[type='radio']{
+  display: none
+}
+.displayFilter{
+  display: flex; 
+  flex-direction: row;
+  margin-left: 15px;
+  padding: 8px 0;
+  align-items: center;
+  display: none;
+}
+.displayFilter > span{
+  margin: 5px 5px;
+  background-color: #4A90E2;
+  color: white;
+  padding: 0 5px
+}
+.filterForm > li{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px 0;
+}
+.filterForm label{
+  padding: 0 5px !important;
+  margin-left: 10px !important;
+}
+.filterForm label:hover{
+  color: #4A90E2
+}
+.allData{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.choosed{
+  background-color: #4A90E2;
+  color: white !important
+}
+
+.div{
+  margin: 0 15px !important;
+}
+

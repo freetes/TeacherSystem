@@ -1,0 +1,274 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="css/employeeStyle.css")
+
+  .container-fluid
+
+    .title
+      h3 员工信息
+
+    .tools
+      button.btn(onclick="toggleTable(this, '.allData')") 所有员工
+      button.btn(onclick="toggleTable(this, '.entryTable')") 入职
+      button.btn(onclick="toggleTable(this, '.resignationTable')") 离职
+      button.btn(onclick="toggleTable(this, '.turnPositiveTable')") 转正
+      button.btn(onclick="toggleTable(this, '.changeTable')") 调动
+
+    .tableDiv(style="padding-top: 10px")
+      table.entryTable.div.table.table-hover
+        thead
+          tr
+            th 工号
+            th 姓名
+            th 部门
+            th 职位
+            th 入职日期
+            th 员工类型
+            th 试用期时长
+            th 预计转正日期
+        tbody
+          -if(!workerData.entry || workerData.entry.length == 0)
+            td 暂无数据
+          -else
+            //- -count=0
+            each item in workerData.entry
+              tr(onclick=`location.href='/employee/${item.employeeID}'`)
+                //- td #{++count}
+                td #{item.employeeID}
+                td #{item.name}
+                td #{item.department}
+                td #{item.job}
+                td #{(new Date(item.entryTime)).format('yyyy-MM-dd')}
+                td #{item.employeeType}
+                td #{item.hasTryTime?item.tryTime+'个月':'-'}
+                td #{(new Date(item.turnTime)).format('yyyy-MM-dd')}
+
+      table.resignationTable.div.table.table-hover
+        thead
+          tr
+            th 工号
+            th 姓名
+            th 部门
+            th 职位
+            th 员工类型
+            th 员工状态
+            th 离职日期
+            th 离职类型
+            th 离职原因
+            th 离职去向
+            th 离职备注
+        tbody
+          -if(!workerData.resignation || workerData.resignation.length == 0)
+            td 暂无数据
+          -else
+            //- -count=0
+            each item in workerData.resignation
+              tr(onclick=`location.href='/employee/${item.employeeID}'`)
+                //- td #{++count}
+                td #{item.employeeID}
+                td #{item.name}
+                td #{item.lastDepartment}
+                td #{item.lastJob}
+                td #{item.employeeType}
+                td #{item.employeeStatus}
+                td #{(new Date(item.date)).format('yyyy-MM-dd')}
+                td #{item.kind}
+                td #{item.reason}
+                td #{item.where}
+                td #{item.words}
+      
+      table.turnPositiveTable.div.table.table-hover
+        thead
+          tr
+            th 工号
+            th 姓名
+            th 部门
+            th 职务
+            th 转正日期
+            th 转正类型
+            th 转正评价
+        tbody
+          -if(!workerData.turnPositive || workerData.turnPositive.length == 0)
+            td 暂无数据
+          -else
+            //- -count=0
+            each item in workerData.turnPositive
+              tr(onclick=`location.href='/employee/${item.employeeID}'`)
+                //- td #{++count}
+                td #{item.employeeID}
+                td #{item.name}
+                td #{item.department}
+                td #{item.job}
+                td #{(new Date(item.date)).format('yyyy-MM-dd')}
+                td #{item.kind}
+                td #{item.assess}
+      
+      table.changeTable.div.table.table-hover
+        thead
+          tr
+            th 工号
+            th 姓名
+            th 员工类型
+            th 员工状态
+            th 调动前部门
+            th 调动前职位
+            th 调动后部门
+            th 调动后职位
+            th 调动日期
+            th 调动类型
+            th 调动原因
+        tbody
+          -if(!workerData.change || workerData.change.length == 0)
+            td 暂无数据
+          -else
+            //- -count=0
+            each item in workerData.change
+              tr(onclick=`location.href='/employee/${item.employeeID}'`)
+                //- td #{++count}
+                td #{item.employeeID}
+                td #{item.name}
+                td #{item.employeeType}
+                td #{item.employeeStatus}
+                td #{item.lastDepartment}
+                td #{item.lastJob}
+                td #{item.nowDepartment}
+                td #{item.nowJob}
+                td #{(new Date(item.date)).format('yyyy-MM-dd')}
+                td #{item.kind}
+                td #{item.reason}
+
+      div.allData.div
+        .tools
+          .leftDiv
+            button.btn(onclick="$('.filterForm').toggle()")
+              |  筛选
+              span.glyphicon.glyphicon-option-vertical
+            input.searchInput(type="text", style="margin-right: 0", name="search", placeholder="请输入搜索内容", onchange="searchEmployeeFunc")
+
+          .rightDiv
+            a.btn(href="/employee/new") 添加员工
+            button.btn(onclick="showModal('选择文件', `<input class='form-control' accept='.xls, .xlsx' type='file' onchange='handleFile(this.files[0])'/><a class='btn' href='/libs/data.xlsx'>下载模板</a>`)") 从excel批量导入
+            //- button.btn
+            //-   span.glyphicon.glyphicon-cog
+
+        .displayFilter
+
+        form.filterForm
+          li 
+            span 员工类型:
+            label.radio-inline 
+              input.hidden(type='checkbox', name='companyInfo.employeeType', value='全职')
+              |  全职
+            label.radio-inline
+              input.hidden(type='checkbox', name='companyInfo.employeeType', value='实习')
+              |  实习
+            label.radio-inline
+              input.hidden(type='checkbox', name='companyInfo.employeeType', value='兼职')
+              |  兼职
+
+          li 
+            span 员工状态:
+            label.radio-inline
+              input.hidden(type='checkbox', name='companyInfo.status', value='实习')
+              |  实习
+            label.radio-inline
+              input.hidden(type='checkbox', name='companyInfo.status', value='试用')
+              |  试用
+            label.radio-inline
+              input.hidden(type='checkbox', name='companyInfo.status', value='正式')
+              |  正式
+            label.radio-inline
+              input.hidden(type='checkbox', name='companyInfo.status', value='兼职')
+              |  兼职
+
+          li 
+            span 部门:
+            each item in company.department
+              -if(item.subDepartment && item.subDepartment.length == 0){
+                label.radio-inline
+                  input.hidden(type='checkbox', name='companyInfo.department', value=item.name)
+                  |  #{item.name}
+              -}
+              -else{
+                label.radio-inline
+                  input.hidden(type='checkbox', name='companyInfo.department', value=item.name)
+                  |  #{item.name}
+                each subItem in item.subDepartment
+                  label.radio-inline
+                    input.hidden(type='checkbox', name='companyInfo.department', value=item.name+'-'+subItem.name)
+                    |  #{item.name+'-'+subItem.name}
+              -}
+          
+          li  
+            span 学历:
+            label.radio-inline
+              input.hidden(type='checkbox', name='educationInfo.level', value='专科以下')
+              |  专科以下
+            label.radio-inline
+              input.hidden(type='checkbox', name='educationInfo.level', value='专科')
+              |  专科
+            label.radio-inline
+              input.hidden(type='checkbox', name='educationInfo.level', value='本科')
+              |  本科
+            label.radio-inline
+              input.hidden(type='checkbox', name='educationInfo.level', value='硕士')
+              |  硕士
+            label.radio-inline
+              input.hidden(type='checkbox', name='educationInfo.level', value='博士')
+              |  博士
+            label.radio-inline
+              input.hidden(type='checkbox', name='educationInfo.level', value='博士以上')
+              |  博士以上
+
+          li  
+            span 性别:
+            label.radio-inline
+              input.hidden(type='checkbox', name='personalInfo.gender', value='0')
+              |  男
+            label.radio-inline
+              input.hidden(type='checkbox', name='personalInfo.gender', value='1')
+              |  女
+
+        div
+          table.table.table-hover
+            thead
+              tr
+                th 工号
+                th 姓名
+                th 部门
+                th 岗位
+                th 手机号
+                th 邮箱
+                th 入职日期
+                th 员工类型
+            tbody.employeeList
+              -if(data.length == 0)
+                td 暂无数据
+              -else
+                -let count = 0
+                each item in data
+                  -if(item.companyInfo.status != '离职')
+                    -const date = item.statusChange.entry.date.getFullYear() + '/' + (item.statusChange.entry.date.getMonth()+1) + '/' + item.statusChange.entry.date.getDate()
+                    tr(onclick=`location.href='/employee/${item.companyInfo.employeeID}'`)
+                      td #{item.companyInfo.employeeID}
+                      td #{item.personalInfo.name}
+                      td #{item.companyInfo.department}
+                      td #{item.companyInfo.job}
+                      td #{item.contactInfo.telephone}
+                      td #{item.contactInfo.email}
+                      td #{date}
+                      td #{item.companyInfo.employeeType}
+
+    script.
+      $(".div").css("display", "none")
+      function toggleTable(node, table){
+        $("button").removeClass('select')
+        $(node).addClass('select')
+        $(".div").css("display", "none")
+        $(table).toggle()
+      }
+      $(".btn").first().click()
+
+  script(src="/libs/xlsx.full.min.js")
+  script(src="/js/ctrlEmployee.js")

@@ -1,0 +1,42 @@
+extends ../index.pug
+
+block content
+  link(rel="stylesheet", href="css/affairStyle.css")
+  -Date.prototype.format = function (format) {var o = {"M+": this.getMonth() + 1,"d+": this.getDate(),"h+": this.getHours(),"m+": this.getMinutes(),"s+": this.getSeconds(),"q+": Math.floor((this.getMonth() + 3) / 3),"S": this.getMilliseconds()};if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));for (var k in o)if (new RegExp("(" + k + ")").test(format)) format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));return format;}
+
+  .container-fluid
+    each item in affairs
+      .affair
+        h3(onclick=`location.href='/affair/${item._id}'`)= item.name
+        p
+          span(style="color: #999999") 创建人：#{item.user}
+          button.btn.btn-delete(style="background-color: white; color: lightgray", onclick="showModal('确定删除', `<button class='btn' onclick=\"deleteAffair('"+ item._id +"')\">确定删除</button>`)") 删除
+
+    .affair.addDiv
+      span(onclick="addOne()")
+        img(src="/img/icon/增加.png", width="40px", height="40px")
+
+  script.
+    function addOne(){
+      showModal('新增事务', `
+        <form action="/api/createAffair" method="post">
+          <div>
+            <label for="" style="width: 30%; text-align: right">事务标题：</label>
+            <input type="text" style="width: 60%" name="name" placeholder="请输入事务标题" required>
+          </div>
+          <br>
+
+          <button type="submit" class="btn btn-primary">确定</button>
+        </form>
+      `, 'sm')
+    }
+
+    function deleteAffair(id){
+      $.post("/api/deleteAffair", {id}).done(res=>{
+        location.href='/affair'
+      })
+    }
+
+    $(".affair").hover(function(){
+      $(this).find("button").toggle()
+    })
